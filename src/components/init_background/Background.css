@@ -1,0 +1,20 @@
+.back_main {
+	background-image: url('../../assets/images/Background.png');
+	background-repeat: no-repeat;
+	background-size: cover;
+	height: 100vh;
+	position: relative;
+	inset: 0;
+}
+
+.back_main_gradient {
+	height: 100%;
+	width: 100%;
+	opacity: 0.8;
+	background: rgb(0, 0, 0);
+	background: linear-gradient(
+		90deg,
+		rgba(0, 0, 0, 1) 0%,
+		rgba(55, 47, 47, 1) 81%
+	);
+}

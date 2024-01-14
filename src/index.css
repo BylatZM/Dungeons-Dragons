@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@tailwind variants;
+@import url('https://fonts.googleapis.com/css2?family=Alice&display=swap');
+
+* {
+	font-family: 'Alice', sans-serif;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+@layer utilities {
+	*::-webkit-scrollbar {
+		width: 5px;
+		background: #cccccc;
+	}
+
+	*::-webkit-scrollbar-thumb {
+		background: #898989;
+	}
+	* {
+		scrollbar-color: #898989 #cccccc;
+	}
+}
+
+html,
+body {
+	@apply overflow-x-hidden w-screen min-h-screen;
+}
+
+.errorText {
+	@apply text-red-500 text-sm ml-4;
+}
