@@ -1,55 +1,41 @@
 import './Authentication.css'
 import { Background } from '../init_background/Background'
-import { InputBackground } from '../../assets/svg'
-import { ButtonBackground } from '../../assets/svg'
+import { clsx } from 'clsx'
+import { useEffect, useState } from 'react'
+import { Buttons } from './components/Buttons'
+import { Inputs } from './components/Inputs'
 
 export const Authentication = () => {
+	const [IsAnimationActive, changeIsAnimationActive] = useState(false)
+
+	useEffect(() => {
+		if (!IsAnimationActive) changeIsAnimationActive(true)
+	}, [IsAnimationActive])
+
 	return (
 		<Background>
 			<div className='auth_main text-white z-20 p-4 flex items-center'>
-				<div className='flex flex-col justify-between h-5/6'>
-					<div className='text-center'>
-						<span className='text-3xl'>Character Craft</span>
+				<div className='relative inset-0 w-full h-5/6 '>
+					<span
+						className={clsx(
+							'transitionGeneral text-3xl absolute top-0 inset-x-0 text-center',
+							IsAnimationActive
+								? 'opacity-100 translate-x-0'
+								: 'opacity-0 translate-x-[-25%]'
+						)}
+					>
+						Character Craft
+					</span>
+					<div className='absolute top-1/2 translate-y-[-60%]'>
+						<Inputs IsAnimationActive={IsAnimationActive} />
 					</div>
-					<div>
-						<div className='mb-5'>
-							<span className='ml-4 mb-2 text-lg'>Почта</span>
-							<div className='relative'>
-								<InputBackground />
-								<input
-									className='absolute inset-x-8 bottom-2 bg-transparent outline-none'
-									placeholder='укажите почту...'
-								/>
-							</div>
-							{true && <span className='errorText'>Error</span>}
-						</div>
-						<div>
-							<span className='ml-4 mb-2 text-lg'>Пароль</span>
-							<div className='relative'>
-								<InputBackground />
-								<input
-									className='absolute inset-x-8 bottom-2 bg-transparent outline-none'
-									placeholder='укажите пароль...'
-								/>
-							</div>
-							{false && <span className='errorText'>Error</span>}
-						</div>
-					</div>
-					<div className='flex justify-end'>
-						<div className='flex gap-x-4'>
-							<div className='relative w-min'>
-								<ButtonBackground />
-								<div className='absolute inset-x-0 text-center inset-y-2'>
-									Авторизация
-								</div>
-							</div>
-							<div className='relative w-[160px]'>
-								<ButtonBackground />
-								<span className='absolute inset-x-0 text-center inset-y-2'>
-									Регистрация
-								</span>
-							</div>
-						</div>
+					<div
+						className={clsx(
+							'transitionGeneral absolute inline bottom-0 right-0',
+							IsAnimationActive ? 'opacity-100' : 'opacity-0'
+						)}
+					>
+						<Buttons />
 					</div>
 				</div>
 			</div>

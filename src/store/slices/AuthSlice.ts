@@ -1,27 +1,32 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
-import { IError, IAuthState } from '../../types/StatesTypes'
+import { IError, IAuthState, ILoadingForm } from '../../types/StatesTypes'
+
+const loadingInit: ILoadingForm = ''
 
 const initialState: IAuthState = {
 	email: '',
 	access: '',
 	password: '',
-	errors: null,
-	isLoading: false
+	errors: [],
+	loading: loadingInit
 }
 
 export const AuthSlice = createSlice({
 	name: 'AuthSlice',
 	initialState,
 	reducers: {
-		AuthLoading: (state, { payload }: PayloadAction<boolean>) => {
-			return { ...state, isLoading: payload }
+		AuthLoading: (
+			state,
+			{ payload }: PayloadAction<ILoadingForm>
+		): IAuthState => {
+			return { ...state, loading: payload }
 		},
 		AuthToken: (state, { payload }: PayloadAction<string>): IAuthState => {
 			return {
 				...state,
 				access: payload,
-				isLoading: false
+				loading: loadingInit
 			}
 		},
 		AuthEmail: (state, { payload }: PayloadAction<string>): IAuthState => {
@@ -39,7 +44,7 @@ export const AuthSlice = createSlice({
 		AuthError: (state, { payload }: PayloadAction<IError[]>): IAuthState => {
 			return {
 				...state,
-				isLoading: false,
+				loading: loadingInit,
 				errors: payload
 			}
 		},

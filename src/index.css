@@ -33,3 +33,7 @@ body {
 .errorText {
 	@apply text-red-500 text-sm ml-4;
 }
+
+.transitionGeneral {
+	transition: all 1s ease-in-out;
+}
