@@ -37,3 +37,15 @@ body {
 .transitionGeneral {
 	transition: all 1s ease-in-out;
 }
+
+.bg-main {
+	background: #242426;
+}
+
+.bg-gradient-main {
+	background: linear-gradient(
+		90deg,
+		rgba(23, 28, 69, 1) 0%,
+		rgba(0, 0, 0, 1) 100%
+	);
+}

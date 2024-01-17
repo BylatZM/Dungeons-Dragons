@@ -14,7 +14,7 @@ export const Authentication = () => {
 
 	return (
 		<Background>
-			<div className='auth_main text-white z-20 p-4 flex items-center'>
+			<div className='auth_main text-white z-20 p-4 flex items-center bg-gradient-main'>
 				<div className='relative inset-0 w-full h-5/6 '>
 					<span
 						className={clsx(

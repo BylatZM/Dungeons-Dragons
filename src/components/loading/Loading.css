@@ -1,0 +1,12 @@
+.logo {
+	stroke-width: 4;
+	stroke-dasharray: 2300;
+	stroke-dashoffset: 2300;
+	animation: draw 2s linear infinite;
+}
+
+@keyframes draw {
+	100% {
+		stroke-dashoffset: 0;
+	}
+}
