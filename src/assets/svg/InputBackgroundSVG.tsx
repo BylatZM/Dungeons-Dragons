@@ -1,4 +1,4 @@
-export const InputBackground = () => {
+export const InputBackgroundSVG = () => {
 	return (
 		<svg
 			width='450'

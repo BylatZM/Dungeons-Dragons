@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { BackgroundForButton } from '../../../assets/svg'
+import { ButtonBackgroundSVG } from '../../../assets/svg'
 
 interface IProps {
 	text: string
@@ -9,7 +9,7 @@ interface IProps {
 export const ButtonSkeleton: FC<IProps> = ({ color, text }) => {
 	return (
 		<>
-			<BackgroundForButton color={color} />
+			<ButtonBackgroundSVG color={color} />
 			<span className='absolute inset-0 pt-2' style={{ color: color }}>
 				{text}
 			</span>

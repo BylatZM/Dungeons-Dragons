@@ -1,6 +1,6 @@
 import { FC } from 'react'
 
-export const Spinner: FC<{ color: string }> = ({ color }) => {
+export const SpinnerSVG: FC<{ color: string }> = ({ color }) => {
 	return (
 		<svg
 			className='animate-spin inline-block'

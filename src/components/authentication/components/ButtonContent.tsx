@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { BackgroundForButton, Spinner } from '../../../assets/svg'
+import { ButtonBackgroundSVG, SpinnerSVG } from '../../../assets/svg'
 
 interface IButtonContentProps {
 	text: string
@@ -14,12 +14,12 @@ export const ButtonContent: FC<IButtonContentProps> = ({
 }) => {
 	return (
 		<>
-			<BackgroundForButton color={color} />
+			<ButtonBackgroundSVG color={color} />
 			<span className='absolute inset-0 pt-2' style={{ color: color }}>
 				{!isLoading && text}
 				{isLoading && (
 					<div>
-						<Spinner color={color} />
+						<SpinnerSVG color={color} />
 						<span className='ml-2'>Загрузка</span>
 					</div>
 				)}

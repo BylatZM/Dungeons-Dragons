@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 import { FC } from 'react'
-import { InputBackground } from '../../../assets/svg'
+import { InputBackgroundSVG } from '../../../assets/svg'
 import { useTypedSelector } from '../../hooks/useTypedSelection'
 import { useActions } from '../../hooks/useActions'
 
@@ -30,7 +30,7 @@ export const Inputs: FC<InputsProps> = ({ IsAnimationActive }) => {
 						IsAnimationActive ? 'w-full' : 'w-0'
 					)}
 				>
-					<InputBackground />
+					<InputBackgroundSVG />
 					<input
 						className='absolute inset-x-8 bottom-2 bg-transparent outline-none'
 						placeholder='укажите почту...'
@@ -62,7 +62,7 @@ export const Inputs: FC<InputsProps> = ({ IsAnimationActive }) => {
 						IsAnimationActive ? 'w-full' : 'w-0'
 					)}
 				>
-					<InputBackground />
+					<InputBackgroundSVG />
 					<input
 						className='absolute inset-x-8 bottom-2 bg-transparent outline-none'
 						placeholder='укажите пароль...'

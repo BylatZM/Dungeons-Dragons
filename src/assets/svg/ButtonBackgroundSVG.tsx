@@ -4,7 +4,7 @@ interface IBackgroundForButtonProps {
 	color: string
 }
 
-export const BackgroundForButton: FC<IBackgroundForButtonProps> = ({
+export const ButtonBackgroundSVG: FC<IBackgroundForButtonProps> = ({
 	color
 }) => {
 	return (
