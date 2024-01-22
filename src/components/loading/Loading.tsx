@@ -1,6 +1,14 @@
+import { useEffect } from 'react'
 import './Loading.css'
+import { useNavigate } from 'react-router-dom'
 
 export const Loading = () => {
+	const navigate = useNavigate()
+	useEffect(() => {
+		setTimeout(() => {
+			navigate('/account')
+		}, 6000)
+	}, [])
 	return (
 		<div className='fixed inset-0 bg-gradient-main'>
 			<svg

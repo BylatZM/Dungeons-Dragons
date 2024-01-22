@@ -1,5 +1,5 @@
 import './Authentication.css'
-import { Background } from '../init_background/Background'
+import { Background } from '../background/Background'
 import { clsx } from 'clsx'
 import { useEffect, useState } from 'react'
 import { Buttons } from './components/Buttons'

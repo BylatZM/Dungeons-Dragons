@@ -1,26 +1,35 @@
 import { useActions } from '../../hooks/useActions'
 import { useTypedSelector } from '../../hooks/useTypedSelection'
 import { ButtonContent } from './ButtonContent'
+import { useNavigate } from 'react-router-dom'
 
 export const Buttons = () => {
 	const { AuthLoading, AuthError } = useActions()
+	const navigate = useNavigate()
+	const { email, password } = useTypedSelector(state => state.AuthReducer)
 	const { loading } = useTypedSelector(state => state.AuthReducer)
 
 	const authRequest = () => {
 		AuthLoading('auth')
+		if (email === '1111' && password === '1111') {
+			setTimeout(() => {
+				AuthError([
+					{
+						type: 'login',
+						error: 'Не верно указана почта'
+					},
+					{
+						type: 'password',
+						error: 'Не верно указан пароль'
+					}
+				])
+				AuthLoading('')
+			}, 2000)
+		}
 		setTimeout(() => {
-			AuthError([
-				{
-					type: 'login',
-					error: 'Не верно указана почта'
-				},
-				{
-					type: 'password',
-					error: 'Не верно указан пароль'
-				}
-			])
 			AuthLoading('')
-		}, 4000)
+			navigate('/loading')
+		}, 2000)
 	}
 
 	const regRequest = () => {

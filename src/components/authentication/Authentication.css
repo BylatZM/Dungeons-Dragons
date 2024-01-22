@@ -6,7 +6,3 @@
 	height: 500px;
 	margin: auto;
 }
-
-.button:hover .passive {
-	opacity: 0 !important;
-}

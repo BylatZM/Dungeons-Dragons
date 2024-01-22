@@ -2,6 +2,7 @@ import React from 'react'
 import { Routes, Route } from 'react-router-dom'
 import { Authentication } from './components/authentication/Authentication'
 import { Loading } from './components/loading/Loading'
+import { Account } from './components/personal_account/Account'
 
 function App() {
 	return (
@@ -9,6 +10,7 @@ function App() {
 			<Routes>
 				<Route path='/' element={<Authentication />} />
 				<Route path='/loading' element={<Loading />} />
+				<Route path='/account' element={<Account />} />
 			</Routes>
 		</div>
 	)
