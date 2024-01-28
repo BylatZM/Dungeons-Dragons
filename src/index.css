@@ -38,6 +38,10 @@ body {
 	transition: all 1s ease-in-out;
 }
 
+.transitionFast {
+	transition: all 0.3s ease-in-out;
+}
+
 .bg-main {
 	background: #242426;
 }
@@ -52,4 +56,14 @@ body {
 
 .button:hover .passive {
 	opacity: 0 !important;
+}
+
+.image_load_curtain {
+	transition: all 0.5s ease-in-out;
+	opacity: 0;
+}
+
+.imageBlock:hover .image_load_curtain {
+	transition: all 0.5s ease-in-out;
+	opacity: 1;
 }

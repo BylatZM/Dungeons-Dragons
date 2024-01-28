@@ -2,11 +2,18 @@ import { FC } from 'react'
 
 interface IProps {
 	children: React.ReactNode
+	dimension: string
 }
 
-export const ContentBackgroundSVG: FC<IProps> = ({ children }) => {
+export const ContentBackgroundSVG: FC<IProps> = ({ children, dimension }) => {
 	return (
-		<div className='w-[180px] h-[180px] relative text-center text-white'>
+		<div
+			className='relative text-white'
+			style={{
+				width: `${dimension}px`,
+				height: `${dimension}px`
+			}}
+		>
 			<svg
 				className='absolute inset-0'
 				viewBox='0 0 182 169'

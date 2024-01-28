@@ -1,7 +1,7 @@
-import { CharacterSVG } from '../../../assets/svg'
+import { CharacterSVG } from '../../assets/svg'
 import { clsx } from 'clsx'
 import { useState } from 'react'
-import { ButtonSkeleton } from '../components/ButtonSkeleton'
+import { ButtonSkeleton } from '../personal_account/components/ButtonSkeleton'
 import { useNavigate } from 'react-router-dom'
 
 export const Header = () => {
@@ -9,7 +9,7 @@ export const Header = () => {
 	const [isMenuActive, changeIsMenuActive] = useState(false)
 	return (
 		<>
-			<div className='flex fixed inset-x-0 top-0 justify-between bg-main w-full px-20 py-5 z-10'>
+			<div className='flex fixed inset-x-0 top-0 justify-between bg-main w-full px-20 py-5 z-[15] border-0 border-b-2 border-b-white'>
 				<span className='text-4xl text-white'>Character Forge</span>
 				<button
 					className='relative bg-none outline-none border-none button w-[40px] rounded-full overflow-hidden'

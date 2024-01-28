@@ -1,10 +1,9 @@
 import { GradientBackground } from '../background/GradientBackground'
 import { ButtonSkeleton } from './components/ButtonSkeleton'
 import { CharacterCard } from './components/characterCard.tsx/CharacterCard'
-import { Header } from './header/Header'
+import { Header } from '../header/Header'
 import Herald from '../../assets/images/Herald.png'
 import Tris from '../../assets/images/Tris.png'
-import { Curtain } from '../Curtain'
 import { useState } from 'react'
 import { CreatingCharacter } from './components/creatingCharacter/CreatingCharacter'
 
@@ -12,7 +11,6 @@ export const Account = () => {
 	const [needShowFrame, changeNeedShowFrame] = useState(false)
 	return (
 		<>
-			<Curtain needToShow={needShowFrame} />
 			<CreatingCharacter
 				needToShow={needShowFrame}
 				changeNeedShowFrame={changeNeedShowFrame}
