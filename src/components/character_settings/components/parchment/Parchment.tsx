@@ -104,7 +104,7 @@ export const Parchment: FC<IProps> = ({
 		res.sum_line = res.sum_line.trim().replace(/ /g, ' + ')
 		res.cube_line = res.cube_line.trim().replace(/ /g, ' + ')
 		changeResult(res)
-	}, [needShow])
+	}, [needShow, clickCount, result])
 
 	return (
 		<button
