@@ -8,7 +8,7 @@ export const Loading = () => {
 		setTimeout(() => {
 			navigate('/account')
 		}, 6000)
-	}, [])
+	}, [navigate])
 	return (
 		<div className='fixed inset-0 bg-gradient-main'>
 			<svg
