@@ -1,6 +1,7 @@
 import { FC } from 'react'
 import { CharacterCardSVG } from '../../../../assets/svg/CharacterCardSVG'
 import { ButtonSkeleton } from '../ButtonSkeleton'
+import { useNavigate } from 'react-router-dom'
 
 interface IProps {
 	image: string
@@ -10,6 +11,7 @@ interface IProps {
 }
 
 export const CharacterCard: FC<IProps> = ({ image, grade, species, name }) => {
+	const navigate = useNavigate()
 	return (
 		<div className='relative w-[400px] h-[280px]'>
 			<CharacterCardSVG />
@@ -27,10 +29,16 @@ export const CharacterCard: FC<IProps> = ({ image, grade, species, name }) => {
 					</div>
 				</div>
 				<button className='relative mt-4 bg-none border-none outline-none w-[180px] h-[40px] button'>
-					<div className='absolute inset-0 w-full h-full'>
+					<div
+						className='absolute inset-0 w-full h-full'
+						onClick={() => navigate('/character_settings')}
+					>
 						<ButtonSkeleton text='Править' color='#3b82f6' />
 					</div>
-					<div className='transitionGeneral absolute  inset-0 w-full h-full passive'>
+					<div
+						className='transitionGeneral absolute  inset-0 w-full h-full passive'
+						onClick={() => navigate('/character_settings')}
+					>
 						<ButtonSkeleton text='Править' color='#fff' />
 					</div>
 				</button>

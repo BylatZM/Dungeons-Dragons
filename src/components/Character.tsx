@@ -42,7 +42,7 @@ export const Character: FC<IProps> = ({
 	}, [])
 
 	return (
-		<div className='w-full'>
+		<div className='w-full flex flex-col'>
 			<div
 				className='flex justify-center relative w-full'
 				style={{ marginBottom: `${gap}px` }}
@@ -52,7 +52,7 @@ export const Character: FC<IProps> = ({
 						width: `${imageDimension}px`,
 						height: `${imageDimension}px`
 					}}
-					className='relative inset-0 flex justify-center items-center overflow-hidden imageBlock'
+					className='relative inset-0 flex justify-center items-center rounded-full overflow-hidden imageBlock'
 				>
 					<input
 						type='file'

@@ -25,11 +25,12 @@ export const Buttons = () => {
 				])
 				AuthLoading('')
 			}, 2000)
+		} else {
+			setTimeout(() => {
+				AuthLoading('')
+				navigate('/loading')
+			}, 2000)
 		}
-		setTimeout(() => {
-			AuthLoading('')
-			navigate('/loading')
-		}, 2000)
 	}
 
 	const regRequest = () => {
