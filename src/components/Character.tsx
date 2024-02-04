@@ -91,10 +91,10 @@ export const Character: FC<IProps> = ({
 							<img
 								src={imageSrc}
 								style={{
-									width: `${imageDimension}px`,
-									height: `${imageDimension}px`
+									maxWidth: `100%`,
+									height: `auto`
 								}}
-								className='rounded-full'
+								className='h-auto rounded-full'
 								alt='фотография персонажа'
 							/>
 						</button>

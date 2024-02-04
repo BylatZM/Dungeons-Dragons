@@ -23,10 +23,15 @@
 	* {
 		scrollbar-color: #898989 #cccccc;
 	}
+	*::-webkit-scrollbar-track {
+		background: #242426;
+	}
 }
 
 html,
 body {
+	scrollbar-color: #242426 #fff;
+	scrollbar-width: thin;
 	@apply overflow-x-hidden w-screen min-h-screen;
 }
 

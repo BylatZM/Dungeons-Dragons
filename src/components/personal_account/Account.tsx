@@ -2,8 +2,15 @@ import { GradientBackground } from '../background/GradientBackground'
 import { ButtonSkeleton } from './components/ButtonSkeleton'
 import { CharacterCard } from './components/characterCard.tsx/CharacterCard'
 import { Header } from '../header/Header'
-import Herald from '../../assets/images/Herald.png'
-import Tris from '../../assets/images/Tris.png'
+import Person1 from '../../assets/images/Person1.png'
+import Person2 from '../../assets/images/Person2.png'
+import Person3 from '../../assets/images/Person3.png'
+import Person4 from '../../assets/images/Person4.png'
+import Person5 from '../../assets/images/Person5.png'
+import Person6 from '../../assets/images/Person6.png'
+import Person7 from '../../assets/images/Person7.png'
+import Person8 from '../../assets/images/Person8.png'
+import Person9 from '../../assets/images/Person9.png'
 import { useState } from 'react'
 import { CreatingCharacter } from './components/creatingCharacter/CreatingCharacter'
 
@@ -32,20 +39,69 @@ export const Account = () => {
 							</div>
 						</button>
 					</div>
-					<div className='mt-4 flex flex-wrap justify-between gap-y-4'>
+					<div className='mt-12 w-fit flex flex-wrap gap-y-8 justify-around'>
 						<CharacterCard
 							key={1}
-							image={Tris}
+							image={Person1}
 							grade='Маг'
 							species='Человек'
 							name='Трис'
 						/>
 						<CharacterCard
 							key={2}
-							image={Herald}
-							grade='Мечник'
+							image={Person2}
+							grade='Маг'
 							species='Человек'
-							name='Геральд'
+							name='Трис'
+						/>
+						<CharacterCard
+							key={3}
+							image={Person3}
+							grade='Маг'
+							species='Человек'
+							name='Трис'
+						/>
+						<CharacterCard
+							key={4}
+							image={Person4}
+							grade='Маг'
+							species='Человек'
+							name='Трис'
+						/>
+						<CharacterCard
+							key={5}
+							image={Person5}
+							grade='Маг'
+							species='Человек'
+							name='Трис'
+						/>
+						<CharacterCard
+							key={6}
+							image={Person6}
+							grade='Маг'
+							species='Человек'
+							name='Трис'
+						/>
+						<CharacterCard
+							key={7}
+							image={Person7}
+							grade='Маг'
+							species='Человек'
+							name='Трис'
+						/>
+						<CharacterCard
+							key={8}
+							image={Person8}
+							grade='Маг'
+							species='Человек'
+							name='Трис'
+						/>
+						<CharacterCard
+							key={9}
+							image={Person9}
+							grade='Маг'
+							species='Человек'
+							name='Трис'
 						/>
 					</div>
 				</GradientBackground>
