@@ -2,6 +2,7 @@ import { CharacterSVG } from '../../assets/svg'
 import { clsx } from 'clsx'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import Background from '../../assets/images/SkillBackground.png'
 
 export const Header = () => {
 	const navigate = useNavigate()
@@ -31,9 +32,14 @@ export const Header = () => {
 				)}
 			>
 				<button
-					className='bg-inherit border-white border-2 rounded-md outline-none w-[180px] h-[40px]'
+					className='bg-inherit relative border-none outline-none w-[180px] h-[50px] overflow-hidden'
 					onClick={() => navigate('/')}
 				>
+					<img
+						alt=''
+						src={Background}
+						className='absolute inset-0 pointer-events-none w-full h-[50px]'
+					/>
 					Выйти
 				</button>
 			</div>

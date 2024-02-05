@@ -9,26 +9,24 @@
 	box-sizing: border-box;
 	margin: 0;
 	padding: 0;
-	scrollbar-color: #242426 #fff;
-	scrollbar-width: thin;
 }
 
-/* @layer utilities {
-	*::-webkit-scrollbar {
-		width: 5px;
-		background: #cccccc;
-	}
+* {
+	scrollbar-width: thin;
+	scrollbar-color: #242426 #dedede;
+}
 
-	*::-webkit-scrollbar-thumb {
-		background: #898989;
-	}
-	* {
-		scrollbar-color: #898989 #cccccc;
-	}
-	*::-webkit-scrollbar-track {
-		background: #242426;
-	}
-} */
+*::-webkit-scrollbar {
+	width: 8px;
+}
+
+*::-webkit-scrollbar-track {
+	background: #242426;
+}
+
+*::-webkit-scrollbar-thumb {
+	background-color: #dedede;
+}
 
 html,
 body {

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { ICharacterGrade } from '../../../../../types/StatesTypes'
 import { ArrowSVG, ContentBackgroundSVG } from '../../../../../assets/svg'
 import clsx from 'clsx'
+import SelectBackground from '../../../../../assets/images/SkillBackground.png'
 
 const initialGrades: ICharacterGrade[] = [
 	'Бард',
@@ -32,9 +33,14 @@ export const CharacterGrade = () => {
 			<div className='w-full h-1/2 relative inset-y-10 text-center'>
 				<span className='text-lg font-bold block'>Класс</span>
 				<button
-					className='relative border-2 p-2 w-5/6 mt-4 mx-auto outline-none border-white rounded-md text-white bg-inherit'
+					className='relative w-5/6 mt-4 p-2 mx-auto outline-none border-none rounded-md text-white bg-inherit'
 					onClick={() => changeSelectorActive(prev => !prev)}
 				>
+					<img
+						src={SelectBackground}
+						alt='Задний фон'
+						className='pointer-events-none absolute w-[150px] h-[40px] inset-0'
+					/>
 					{selectedGrade}
 					<div
 						className={clsx(

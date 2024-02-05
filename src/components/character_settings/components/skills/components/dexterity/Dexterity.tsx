@@ -16,7 +16,7 @@ export const Dexterity = () => {
 					changeInputValue={changeGeneralInputValue}
 				/>
 			</div>
-			<div className='flex flex-col w-full h-min text-white mb-11'>
+			<div className='flex flex-col w-full h-min text-white'>
 				<Acrobatics />
 				<Legerdemain />
 				<Stealth />

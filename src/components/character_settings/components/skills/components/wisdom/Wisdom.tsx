@@ -18,7 +18,7 @@ export const Wisdom = () => {
 					changeInputValue={changeGeneralInputValue}
 				/>
 			</div>
-			<div className='flex flex-col pt-2 pl-2 w-full h-[180px] text-white overflow-y-auto'>
+			<div className='flex flex-col pt-2 pl-2 w-full h-fit text-white'>
 				<Perception />
 				<Survival />
 				<Medicine />
