@@ -1,7 +1,6 @@
 import { CharacterSVG } from '../../assets/svg'
 import { clsx } from 'clsx'
 import { useState } from 'react'
-import { ButtonSkeleton } from '../personal_account/components/ButtonSkeleton'
 import { useNavigate } from 'react-router-dom'
 
 export const Header = () => {
