@@ -4,10 +4,10 @@ import PaperBackground from '../../../../assets/images/PaperBackground.png'
 
 export const Notice = () => {
 	return (
-		<div className='w-fit flex flex-col'>
-			<div className='flex gap-x-12'>
-				<div className='flex flex-col gap-y-8'>
-					<ContentBackgroundSVG dimension='175'>
+		<div className='ml-10 w-full h-fit flex'>
+			<div className='flex gap-x-2'>
+				<div className='flex flex-col'>
+					<ContentBackgroundSVG dimension='175' marginTop='26.3'>
 						<div className='w-full h-1/2 relative inset-y-10 text-center'>
 							<span className='text-lg font-bold block'>Уровень</span>
 							<input
@@ -16,7 +16,7 @@ export const Notice = () => {
 							/>
 						</div>
 					</ContentBackgroundSVG>
-					<ContentBackgroundSVG dimension='175'>
+					<ContentBackgroundSVG dimension='175' marginTop='26.3'>
 						<div className='w-full h-1/2 relative inset-y-10 text-center'>
 							<span className='text-lg font-bold block'>Очки опыта</span>
 							<input
@@ -25,7 +25,7 @@ export const Notice = () => {
 							/>
 						</div>
 					</ContentBackgroundSVG>
-					<ContentBackgroundSVG dimension='175'>
+					<ContentBackgroundSVG dimension='175' marginTop='26.3'>
 						<div className='w-full h-1/2 relative inset-y-10 text-center'>
 							<span className='text-lg font-bold block'>Расса</span>
 							<input
@@ -35,9 +35,9 @@ export const Notice = () => {
 						</div>
 					</ContentBackgroundSVG>
 				</div>
-				<div>
-					<Character imageDimension='220' nameBlockWidth='400' gap='28' />
-					<div className='flex gap-x-12 mt-12'>
+				<div className='mt-[26.3px]'>
+					<Character imageDimension='220' nameBlockWidth='350' gap='28' />
+					<div className='flex gap-x-2 mt-[46px]'>
 						<ContentBackgroundSVG dimension='175'>
 							<div className='w-full h-1/2 relative inset-y-10 text-center'>
 								<span className='text-lg font-bold block'>Класс</span>
@@ -62,17 +62,18 @@ export const Notice = () => {
 					</div>
 				</div>
 			</div>
-			<div className='w-full h-full relative'>
+			<div className='ml-10 w-full relative'>
 				<img
 					src={PaperBackground}
 					className='absolute w-full h-full pointer-events-none'
 					alt='Фон в виде бумаги'
 				/>
-				<div className='w-full h-full flex flex-col items-center px-32 py-40'>
-					<span className='text-5xl font-bold text-white'>Заметки</span>
+				<div className='absolute w-fit inset-x-0 mx-auto top-32 bottom-28 flex flex-col items-center overflow-hidden'>
+					<span className='text-3xl font-bold text-white'>Заметки</span>
 					<textarea
-						className='w-full h-full mt-4 outline-none bg-inherit text-white'
+						className='w-[250px] min-h-full mt-4 outline-none bg-inherit text-white'
 						placeholder='Введите текст'
+						style={{ resize: 'none' }}
 					></textarea>
 				</div>
 			</div>

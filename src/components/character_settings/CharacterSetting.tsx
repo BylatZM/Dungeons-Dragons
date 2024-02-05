@@ -7,16 +7,16 @@ import { Skills } from './components/skills/Skills'
 export const CharacterSetting = () => {
 	return (
 		<>
-			<Cube />
-			<div className='w-full min-h-screen overflow-y-auto'>
-				<Header />
-				<GradientBackground>
-					<div className='flex justify-between'>
+			<GradientBackground>
+				<Cube />
+				<div className='w-full min-h-screen overflow-y-auto flex justify-center'>
+					<Header />
+					<div className='flex justify-between pt-20 m-auto overflow-hidden min-w-[1400px] max-w-[1400px]'>
 						<Skills />
 						<Notice />
 					</div>
-				</GradientBackground>
-			</div>
+				</div>
+			</GradientBackground>
 		</>
 	)
 }

@@ -61,7 +61,7 @@ export const Character: FC<IProps> = ({
 						ref={fileInputRef}
 						onChange={handleFileInputChange}
 					/>
-					<div className='absolute inset-0 rounded-full overflow-hidden pointer-events-none bg-gray-600 bg-opacity-20 backdrop-blur-md flex justify-center items-center image_load_curtain'>
+					<div className='absolute inset-0 rounded-full overflow-hidden pointer-events-none bg-black bg-opacity-40 backdrop-blur-md flex justify-center items-center image_load_curtain'>
 						<DownloadSVG />
 						<span className='font-bold text-white'>Загрузить</span>
 					</div>

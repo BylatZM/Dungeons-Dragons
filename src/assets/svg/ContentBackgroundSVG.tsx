@@ -3,15 +3,21 @@ import { FC } from 'react'
 interface IProps {
 	children: React.ReactNode
 	dimension: string
+	marginTop?: string
 }
 
-export const ContentBackgroundSVG: FC<IProps> = ({ children, dimension }) => {
+export const ContentBackgroundSVG: FC<IProps> = ({
+	children,
+	dimension,
+	marginTop
+}) => {
 	return (
 		<div
 			className='relative text-white'
 			style={{
 				width: `${dimension}px`,
-				height: `${dimension}px`
+				height: `${dimension}px`,
+				marginTop: `${!marginTop ? '0' : marginTop}px`
 			}}
 		>
 			<svg

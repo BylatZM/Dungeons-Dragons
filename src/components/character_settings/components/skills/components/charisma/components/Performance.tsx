@@ -1,43 +1,19 @@
 import { useState } from 'react'
-import { SwordSVG } from '../../../../../../../assets/svg'
-import clsx from 'clsx'
+import { Input } from '../../../ability/Input'
+import { CheckBox } from '../../../ability/CheckBox'
 
 export const Performance = () => {
-	const [clickCount, changeClickCount] = useState<0 | 1 | 2>(0)
+	const [inputValue, changeInputValue] = useState('0')
+
 	return (
-		<button
-			className='flex w-full outline-none border-none h-min items-center text-white'
-			onClick={() => {
-				changeClickCount(prev => {
-					if (prev === 0) return 1
-					if (prev === 1) return 2
-					else return 0
-				})
-			}}
-		>
-			<div className='relative mr-4 flex items-center justify-center w-[25px] h-[25px] border-solid border-white border-[1px] rotate-45'>
-				<SwordSVG needShow={clickCount !== 0} needRotate={false} />
-				<SwordSVG needShow={clickCount === 2} needRotate={true} />
-			</div>
-			<div className='mr-4 w-[25px] h-[25px] rounded-full border-white border-[1px] text-lg flex justify-center items-center'>
-				<span
-					className={clsx(
-						'transitionFast overflow-hidden',
-						clickCount === 1 ? 'w-[20px]' : 'w-0'
-					)}
-				>
-					+2
-				</span>
-				<span
-					className={clsx(
-						'transitionFast overflow-hidden',
-						clickCount === 2 ? 'w-[20px]' : 'w-0'
-					)}
-				>
-					+4
-				</span>
-			</div>
-			<span className='font-bold text-lg'>Выступление</span>
-		</button>
+		<div className='flex items-center w-full h-min'>
+			<CheckBox changeInputValue={changeInputValue} />
+			<Input inputValue={inputValue} changeInputValue={changeInputValue} />
+			<span className='font-bold text-left'>
+				Выступле-
+				<br />
+				ние
+			</span>
+		</div>
 	)
 }

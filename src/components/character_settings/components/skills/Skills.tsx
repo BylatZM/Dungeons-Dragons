@@ -7,13 +7,13 @@ import { Wisdom } from './components/wisdom/Wisdom'
 
 export const Skills = () => {
 	return (
-		<div className='flex flex-col gap-y-4'>
+		<div className='flex flex-wrap justify-between min-w-[410px] max-w-[410px] h-fit '>
 			<Power />
 			<BodyType />
-			<Dexterity />
+			<Charisma />
 			<Wisdom />
 			<Intelligence />
-			<Charisma />
+			<Dexterity />
 		</div>
 	)
 }

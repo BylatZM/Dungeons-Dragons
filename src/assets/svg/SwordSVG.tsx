@@ -1,19 +1,7 @@
-import { FC } from 'react'
-import { clsx } from 'clsx'
-
-interface IProps {
-	needRotate: boolean
-	needShow: boolean
-}
-
-export const SwordSVG: FC<IProps> = ({ needRotate, needShow }) => {
+export const SwordSVG = () => {
 	return (
 		<svg
-			className={clsx(
-				'transitionFast absolute w-[20px] h-[20px]',
-				needShow ? 'opacity-100' : 'opacity-0'
-			)}
-			style={{ rotate: needRotate ? '-90deg' : '0deg' }}
+			className='w-[18px] h-[18px]'
 			viewBox='0 0 12 12'
 			fill='none'
 			xmlns='http://www.w3.org/2000/svg'

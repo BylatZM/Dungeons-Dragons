@@ -49,7 +49,7 @@ export const Cube = () => {
 						className='min-w-[70px] h-[70px] text-xs outline-none bg-black rounded-full text-white font-bold border-none'
 						onClick={() => changeNeedShowCubes(true)}
 					>
-						Открыть
+						Бросок
 					</button>
 				)}
 				<CubeK6SVG

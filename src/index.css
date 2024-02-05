@@ -9,9 +9,11 @@
 	box-sizing: border-box;
 	margin: 0;
 	padding: 0;
+	scrollbar-color: #242426 #fff;
+	scrollbar-width: thin;
 }
 
-@layer utilities {
+/* @layer utilities {
 	*::-webkit-scrollbar {
 		width: 5px;
 		background: #cccccc;
@@ -26,12 +28,10 @@
 	*::-webkit-scrollbar-track {
 		background: #242426;
 	}
-}
+} */
 
 html,
 body {
-	scrollbar-color: #242426 #fff;
-	scrollbar-width: thin;
 	@apply overflow-x-hidden w-screen min-h-screen;
 }
 
@@ -49,6 +49,10 @@ body {
 
 .bg-main {
 	background: #242426;
+}
+
+.color-main {
+	color: #242426;
 }
 
 .bg-gradient-main {
@@ -71,4 +75,20 @@ body {
 .imageBlock:hover .image_load_curtain {
 	transition: all 0.5s ease-in-out;
 	opacity: 1;
+}
+
+::placeholder {
+	text-align: center;
+}
+
+:-ms-input-placeholder {
+	text-align: center;
+}
+
+input:-moz-placeholder {
+	text-align: center;
+}
+
+input {
+	text-align: center;
 }

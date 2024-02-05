@@ -9,33 +9,33 @@ export const Header = () => {
 	const [isMenuActive, changeIsMenuActive] = useState(false)
 	return (
 		<>
-			<div className='flex fixed inset-x-0 top-0 justify-between bg-main w-full px-20 py-5 z-[15] border-0 border-b-2 border-b-white'>
-				<span className='text-4xl text-white'>Character Forge</span>
-				<button
-					className='relative bg-none outline-none border-none button w-[40px] rounded-full overflow-hidden'
-					onClick={() => changeIsMenuActive(prev => !prev)}
-				>
-					<div className='absolute inset-0 w-full h-full'>
-						<CharacterSVG color='#3b82f6' dimension='40' />
-					</div>
-					<div className='transitionGeneral absolute  inset-0 w-full h-full passive'>
-						<CharacterSVG color='#dadada' dimension='40' />
-					</div>
-				</button>
+			<div className='fixed inset-x-0 top-0 bg-main w-full border-0 border-b-2 border-b-white flex justify-center z-[15]'>
+				<div className='flex justify-between min-w-[1400px] max-w-[1400px] py-3'>
+					<span className='text-4xl text-white'>Character Forge</span>
+					<button
+						className='relative bg-none outline-none border-none button w-[40px] rounded-full overflow-hidden'
+						onClick={() => changeIsMenuActive(prev => !prev)}
+					>
+						<div className='absolute inset-0 w-full h-full'>
+							<CharacterSVG color='#3b82f6' dimension='40' />
+						</div>
+						<div className='transitionGeneral absolute  inset-0 w-full h-full passive'>
+							<CharacterSVG color='#dadada' dimension='40' />
+						</div>
+					</button>
+				</div>
 			</div>
 			<div
 				className={clsx(
-					'transitionGeneral fixed right-20 top-20 w-min overflow-hidden z-10 backdrop-blur-md',
-					isMenuActive ? 'h-[40px]' : 'h-0'
+					'transitionFast fixed right-[67px] top-[66px] w-[210px] overflow-hidden z-10 bg-main text-white rounded-md flex flex-col items-center',
+					isMenuActive ? 'h-[80px] p-[10px]' : 'h-0 p-0'
 				)}
 			>
 				<button
-					className='relative bg-none border-none outline-none w-[180px] h-[40px]'
+					className='bg-inherit border-white border-2 rounded-md outline-none w-[180px] h-[40px]'
 					onClick={() => navigate('/')}
 				>
-					<div className='transitionGeneral absolute  inset-0 w-full h-full'>
-						<ButtonSkeleton text='Выйти' color='#fff' />
-					</div>
+					Выйти
 				</button>
 			</div>
 		</>

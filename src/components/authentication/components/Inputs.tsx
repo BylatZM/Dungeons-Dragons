@@ -32,7 +32,7 @@ export const Inputs: FC<InputsProps> = ({ IsAnimationActive }) => {
 				>
 					<InputBackgroundSVG />
 					<input
-						className='absolute inset-x-8 bottom-2 bg-transparent outline-none'
+						className='absolute input inset-x-8 bottom-2 bg-transparent outline-none'
 						placeholder='укажите почту...'
 						onChange={e => {
 							if (errors) AuthError(errors.filter(el => el.type !== 'login'))
@@ -64,7 +64,7 @@ export const Inputs: FC<InputsProps> = ({ IsAnimationActive }) => {
 				>
 					<InputBackgroundSVG />
 					<input
-						className='absolute inset-x-8 bottom-2 bg-transparent outline-none'
+						className='absolute input inset-x-8 bottom-2 bg-transparent outline-none'
 						placeholder='укажите пароль...'
 						onChange={e => {
 							if (errors) AuthError(errors.filter(el => el.type !== 'password'))

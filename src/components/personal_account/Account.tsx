@@ -22,9 +22,9 @@ export const Account = () => {
 				needToShow={needShowFrame}
 				changeNeedShowFrame={changeNeedShowFrame}
 			/>
-			<div>
-				<Header />
-				<GradientBackground>
+			<Header />
+			<GradientBackground>
+				<div className='min-w-[1400px] max-w-[1400px] pt-40 mx-auto'>
 					<div className='flex justify-between'>
 						<span className='text-4xl text-white'>Персонажи</span>
 						<button
@@ -104,8 +104,8 @@ export const Account = () => {
 							name='Трис'
 						/>
 					</div>
-				</GradientBackground>
-			</div>
+				</div>
+			</GradientBackground>
 		</>
 	)
 }
