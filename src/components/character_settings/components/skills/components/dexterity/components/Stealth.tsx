@@ -1,6 +1,4 @@
 import { useState } from 'react'
-import { SwordSVG } from '../../../../../../../assets/svg'
-import clsx from 'clsx'
 import { CheckBox } from '../../../ability/CheckBox'
 import { Input } from '../../../ability/Input'
 
