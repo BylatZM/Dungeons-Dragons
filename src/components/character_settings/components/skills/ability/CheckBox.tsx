@@ -10,22 +10,32 @@ export const CheckBox: FC<IProps> = ({ changeInputValue }) => {
 	const [state, setState] = useState<0 | 2 | 4>(0)
 	return (
 		<button
-			className='mr-4 relative min-w-[20px] max-w-[20px] min-h-[20px] max-h-[20px] overflow-hidden border-solid border-white border-[1px] rotate-45'
+			className='mr-4 relative min-w-[20px] max-w-[20px] min-h-[20px] max-h-[20px] overflow-hidden border-[1px] rotate-45'
+			style={{ borderColor: '#dedede', color: '#dedede' }}
 			onClick={() => {
 				if (state === 0) {
 					setState(2)
-					changeInputValue(prev => (parseInt(prev) + 2).toString())
+					changeInputValue(
+						prev =>
+							(parseInt(prev) + 2 > 0 ? '+' : '') +
+							(parseInt(prev) + 2).toString()
+					)
 				}
 				if (state === 2) {
 					setState(4)
-					changeInputValue(prev => (parseInt(prev) + 4).toString())
+					changeInputValue(
+						prev =>
+							(parseInt(prev) + 4 > 0 ? '+' : '') +
+							(parseInt(prev) + 4).toString()
+					)
 				}
 				if (state === 4) {
 					setState(0)
-					changeInputValue(prev => {
-						if (parseInt(prev) - 6 < 0) return '0'
-						else return (parseInt(prev) - 6).toString()
-					})
+					changeInputValue(
+						prev =>
+							(parseInt(prev) - 6 > 0 ? '+' : '') +
+							(parseInt(prev) - 6).toString()
+					)
 				}
 			}}
 		>

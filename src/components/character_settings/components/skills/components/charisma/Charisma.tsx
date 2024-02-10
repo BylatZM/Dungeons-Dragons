@@ -11,13 +11,16 @@ export const Charisma = () => {
 	return (
 		<SkillWrapper>
 			<div className='flex justify-between mt-4'>
-				<span className='text-lg font-bold text-white'>Харизма</span>
+				<span className='text-xl font-bold text-white'>Харизма</span>
 				<GeneralInput
 					inputValue={generalInputValue}
 					changeInputValue={changeGeneralInputValue}
 				/>
 			</div>
-			<div className='flex flex-col gap-y-2 pt-2 pl-2 w-full h-fit text-white'>
+			<div
+				className='flex flex-col gap-y-2 pt-2 pl-2 w-full h-fit'
+				style={{ color: '#dedede' }}
+			>
 				<Performance />
 				<Intimidation />
 				<Deception />

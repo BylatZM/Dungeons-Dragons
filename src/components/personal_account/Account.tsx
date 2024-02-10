@@ -39,7 +39,7 @@ export const Account = () => {
 							</div>
 						</button>
 					</div>
-					<div className='mt-12 w-fit flex flex-wrap gap-y-8 justify-around'>
+					<div className='mt-12 w-fit flex flex-wrap gap-y-8 justify-between'>
 						<CharacterCard
 							key={1}
 							image={Person1}

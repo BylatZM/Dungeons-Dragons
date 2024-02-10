@@ -40,8 +40,8 @@ export const Cube = () => {
 			<div
 				style={{ backgroundColor: '#0F1440' }}
 				className={clsx(
-					'transitionGeneral fixed flex gap-x-2 h-fit p-2 bottom-10 right-10 z-40 rounded-md overflow-hidden',
-					needShowCubes ? 'w-[710px]' : 'w-[85px]'
+					'transitionGeneral absolute flex h-fit bottom-0 right-0 p-2 gap-x-2 z-40 rounded-full overflow-hidden',
+					needShowCubes ? 'w-[710px]' : 'w-[86px]'
 				)}
 			>
 				{!needShowCubes && (

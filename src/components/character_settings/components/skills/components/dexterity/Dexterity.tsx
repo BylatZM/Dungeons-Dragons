@@ -10,13 +10,13 @@ export const Dexterity = () => {
 	return (
 		<SkillWrapper>
 			<div className='flex justify-between mt-4'>
-				<span className='text-lg font-bold text-white'>Ловкость</span>
+				<span className='text-xl font-bold text-white'>Ловкость</span>
 				<GeneralInput
 					inputValue={generalInputValue}
 					changeInputValue={changeGeneralInputValue}
 				/>
 			</div>
-			<div className='flex flex-col w-full h-min text-white'>
+			<div className='flex flex-col w-full h-min' style={{ color: '#dedede' }}>
 				<Acrobatics />
 				<Legerdemain />
 				<Stealth />

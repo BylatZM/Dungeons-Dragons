@@ -9,7 +9,7 @@ export const Notice = () => {
 				<div className='flex flex-col'>
 					<ContentBackgroundSVG dimension='175' marginTop='26.3'>
 						<div className='w-full h-1/2 relative inset-y-10 text-center'>
-							<span className='text-lg font-bold block'>Уровень</span>
+							<span className='text-xl font-bold block'>Уровень</span>
 							<input
 								placeholder='Класс'
 								className='mt-4 w-[45px] bg-inherit outline-none border-none'
@@ -17,19 +17,22 @@ export const Notice = () => {
 						</div>
 					</ContentBackgroundSVG>
 					<ContentBackgroundSVG dimension='175' marginTop='26.3'>
-						<div className='w-full h-1/2 relative inset-y-10 text-center'>
-							<span className='text-lg font-bold block'>Очки опыта</span>
-							<input
-								placeholder='Очки опыта'
-								className='mt-4 w-[90px] bg-inherit outline-none border-none'
-							/>
+						<div className='w-full h-1/2 relative inset-y-10 flex flex-col items-center'>
+							<span className='text-xl font-bold block'>Очки опыта</span>
+							<div className='flex gap-x-2 mt-4'>
+								<input
+									placeholder='Очки опыта'
+									className='w-[90px] bg-inherit outline-none border-none'
+								/>
+								<span className='text-white'>XP</span>
+							</div>
 						</div>
 					</ContentBackgroundSVG>
 					<ContentBackgroundSVG dimension='175' marginTop='26.3'>
 						<div className='w-full h-1/2 relative inset-y-10 text-center'>
-							<span className='text-lg font-bold block'>Расса</span>
+							<span className='text-xl font-bold block'>Раса</span>
 							<input
-								placeholder='Расса'
+								placeholder='Раса'
 								className='mt-4 w-[45px] bg-inherit outline-none border-none'
 							/>
 						</div>
@@ -40,7 +43,7 @@ export const Notice = () => {
 					<div className='flex gap-x-2 mt-[46px]'>
 						<ContentBackgroundSVG dimension='175'>
 							<div className='w-full h-1/2 relative inset-y-10 text-center'>
-								<span className='text-lg font-bold block'>Класс</span>
+								<span className='text-xl font-bold block'>Класс</span>
 								<input
 									placeholder='Класс'
 									className='mt-4 w-[45px] bg-inherit outline-none border-none'
@@ -49,29 +52,29 @@ export const Notice = () => {
 						</ContentBackgroundSVG>
 						<ContentBackgroundSVG dimension='175'>
 							<div className='w-full h-1/2 relative inset-y-10 flex flex-col items-center'>
-								<span className='text-lg font-bold block'>Здоровье</span>
+								<span className='text-xl font-bold block'>Здоровье</span>
 								<div className='flex gap-x-2 mt-4 '>
 									<input
 										placeholder='Здоровье'
 										className='w-[70px] bg-inherit outline-none border-none'
 									/>
-									<span className='text-white font-bold'>XP</span>
+									<span className='text-white'>HP</span>
 								</div>
 							</div>
 						</ContentBackgroundSVG>
 					</div>
 				</div>
 			</div>
-			<div className='ml-10 w-full relative'>
+			<div className='ml-10 relative min-w-[370px] max-w-[370px]'>
 				<img
 					src={PaperBackground}
 					className='absolute w-full h-full pointer-events-none'
 					alt='Фон в виде бумаги'
 				/>
-				<div className='absolute w-fit inset-x-0 mx-auto top-32 bottom-28 flex flex-col items-center overflow-hidden'>
+				<div className='w-full h-full flex flex-col items-center justify-center overflow-hidden'>
 					<span className='text-3xl font-bold text-white'>Заметки</span>
 					<textarea
-						className='w-[250px] min-h-full mt-4 outline-none bg-inherit text-white'
+						className='w-[250px] h-1/2 mt-4 outline-none bg-inherit text-white'
 						placeholder='Введите текст'
 						style={{ resize: 'none' }}
 					></textarea>

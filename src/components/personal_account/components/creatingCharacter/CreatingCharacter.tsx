@@ -49,17 +49,13 @@ export const CreatingCharacter: FC<IProps> = ({
 						<button className='relative bg-none border-none outline-none w-[180px] h-[40px] button'>
 							<div className='absolute inset-0 w-full h-full'>
 								<ButtonContent
-									text='Создать персонажа'
+									text='Создать'
 									color='#3b82f6'
 									isLoading={false}
 								/>
 							</div>
 							<div className='transitionGeneral absolute  inset-0 w-full h-full passive'>
-								<ButtonContent
-									text='Создать персонажа'
-									color='#fff'
-									isLoading={false}
-								/>
+								<ButtonContent text='Создать' color='#fff' isLoading={false} />
 							</div>
 						</button>
 					</div>

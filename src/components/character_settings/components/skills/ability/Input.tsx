@@ -9,18 +9,37 @@ export const Input: FC<IProps> = ({ inputValue, changeInputValue }) => {
 	return (
 		<input
 			type='text'
-			className='outline-none border-white border-[1px] rounded-full bg-inherit text-white w-[25px] h-[25px] mr-4 font-bold'
+			className='outline-none border-[1px] rounded-full bg-inherit w-[25px] h-[25px] mr-4 text-sm'
+			style={{ borderColor: '#dedede', color: '#dedede' }}
 			value={!inputValue ? '' : inputValue}
 			onBlur={e => {
-				if (!e.target.value) changeInputValue('0')
+				const value = parseInt(e.target.value)
+				if (isNaN(value)) changeInputValue('0')
+				else {
+					if (value > 0) changeInputValue(`+${value.toString()}`)
+					else changeInputValue(value.toString())
+				}
 			}}
 			onChange={e => {
-				if (/[^\d]/.test(e.target.value)) {
+				if (
+					e.target.value !== '' &&
+					e.target.value !== '+' &&
+					e.target.value !== '-' &&
+					(isNaN(parseInt(e.target.value)) || /[^\d+-]/.test(e.target.value))
+				) {
 					changeInputValue('0')
 					return
 				}
-				if (parseInt(e.target.value) > 30) {
-					changeInputValue('30')
+				if (parseInt(e.target.value) > 0 && !/\+/.test(e.target.value)) {
+					changeInputValue(`+${e.target.value}`)
+					return
+				}
+				if (parseInt(e.target.value) < -10) {
+					changeInputValue('-10')
+					return
+				}
+				if (parseInt(e.target.value) > 10) {
+					changeInputValue('+10')
 					return
 				}
 				changeInputValue(e.target.value)

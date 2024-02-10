@@ -10,26 +10,27 @@ export const GeneralInput: FC<IProps> = ({ inputValue, changeInputValue }) => {
 		<input
 			type='text'
 			value={inputValue}
+			className='outline-none bg-inherit border-[1px] rounded-full w-[30px] h-[30px] text-lg'
+			style={{ borderColor: '#dedede', color: '#dedede' }}
 			onBlur={e => {
-				if (!e.target.value) changeInputValue('0')
+				const value = parseInt(e.target.value.replaceAll(/[^\d]/gi, ''))
+				if (isNaN(value)) changeInputValue('0')
+				else changeInputValue(value.toString())
 			}}
 			onChange={e => {
 				if (
-					(/[^\d]/.test(e.target.value) ||
-						(e.target.value[0] === '0' && e.target.value.length > 1)) &&
-					e.target.value
+					e.target.value !== '' &&
+					(isNaN(parseInt(e.target.value)) || /[^\d]/.test(e.target.value))
 				) {
 					changeInputValue('0')
 					return
 				}
-				if (parseInt(e.target.value) > 30) {
-					changeInputValue('30')
+				if (parseInt(e.target.value) > 10) {
+					changeInputValue('10')
 					return
 				}
 				changeInputValue(e.target.value)
 			}}
-			maxLength={2}
-			className='border-white outline-none bg-inherit text-white border-[1px] rounded-full w-[30px] h-[30px] font-bold'
 		/>
 	)
 }

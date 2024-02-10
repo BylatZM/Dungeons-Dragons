@@ -17,7 +17,7 @@ export const CharacterCard: FC<IProps> = ({ image, grade, species, name }) => {
 				<div className='curtain'></div>
 				<div className='absolute inset-0 flex flex-col gap-y-4 justify-center items-center overflow-hidden'>
 					<span>Класс: {grade}</span>
-					<span>Расса: {species}</span>
+					<span>Раса: {species}</span>
 					<span>Имя: {name}</span>
 				</div>
 			</div>

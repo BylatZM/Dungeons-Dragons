@@ -12,13 +12,16 @@ export const Wisdom = () => {
 	return (
 		<SkillWrapper>
 			<div className='flex justify-between mt-4'>
-				<span className='text-lg font-bold text-white'>Мудрость</span>
+				<span className='text-xl font-bold text-white'>Мудрость</span>
 				<GeneralInput
 					inputValue={generalInputValue}
 					changeInputValue={changeGeneralInputValue}
 				/>
 			</div>
-			<div className='flex flex-col pt-2 pl-2 w-full h-fit text-white'>
+			<div
+				className='flex flex-col pt-2 pl-2 w-full h-fit'
+				style={{ color: '#dedede' }}
+			>
 				<Perception />
 				<Survival />
 				<Medicine />

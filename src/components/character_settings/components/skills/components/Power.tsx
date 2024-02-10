@@ -11,13 +11,13 @@ export const Power = () => {
 	return (
 		<SkillWrapper>
 			<div className='flex justify-between mt-4'>
-				<span className='font-bold text-lg text-white'>Сила</span>
+				<span className='font-bold text-xl text-white'>Сила</span>
 				<GeneralInput
 					inputValue={generalInputValue}
 					changeInputValue={changeGeneralInputValue}
 				/>
 			</div>
-			<div className='flex w-full h-min text-white'>
+			<div className='flex w-full h-min' style={{ color: '#dedede' }}>
 				<CheckBox changeInputValue={changeInputValue} />
 				<Input inputValue={inputValue} changeInputValue={changeInputValue} />
 				<span className='font-bold'>Атлетика</span>
