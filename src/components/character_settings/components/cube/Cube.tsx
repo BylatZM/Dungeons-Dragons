@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { ICube } from '../../../../types/StatesTypes'
+import { ICube } from '../../../../types'
 import {
 	CubeK100SVG,
 	CubeK10SVG,

@@ -1,52 +1,36 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
-import { IError, IAuthState, ILoadingForm } from '../../types/StatesTypes'
-
-const loadingInit: ILoadingForm = ''
+import { IAuthState, IAuthSuccessResponse, IServerMessage } from '../../types'
 
 const initialState: IAuthState = {
-	email: '',
-	access: '',
+	token: '',
+	id: 0,
+	username: '',
 	password: '',
-	errors: [],
-	loading: loadingInit
+	error: null
 }
 
 export const AuthSlice = createSlice({
 	name: 'AuthSlice',
 	initialState,
 	reducers: {
-		AuthLoading: (
+		AuthSaveApiResponse: (
 			state,
-			{ payload }: PayloadAction<ILoadingForm>
-		): IAuthState => {
-			return { ...state, loading: payload }
+			{ payload }: PayloadAction<IAuthSuccessResponse>
+		) => {
+			state.token = payload.token
+			state.id = payload.id
+			state.username = payload.username
+			state.error = null
 		},
-		AuthToken: (state, { payload }: PayloadAction<string>): IAuthState => {
-			return {
-				...state,
-				access: payload,
-				loading: loadingInit
-			}
+		AuthUpdateUsername: (state, { payload }: PayloadAction<string>) => {
+			state.username = payload
 		},
-		AuthEmail: (state, { payload }: PayloadAction<string>): IAuthState => {
-			return {
-				...state,
-				email: payload
-			}
+		AuthUpdatePassword: (state, { payload }: PayloadAction<string>) => {
+			state.password = payload
 		},
-		AuthPassword: (state, { payload }: PayloadAction<string>): IAuthState => {
-			return {
-				...state,
-				password: payload
-			}
-		},
-		AuthError: (state, { payload }: PayloadAction<IError[]>): IAuthState => {
-			return {
-				...state,
-				loading: loadingInit,
-				errors: payload
-			}
+		AuthUpdateError: (state, { payload }: PayloadAction<IServerMessage>) => {
+			state.error = payload
 		},
 		AuthClear: (state): IAuthState => {
 			return initialState

@@ -9,10 +9,10 @@ interface InputsProps {
 }
 
 export const Inputs: FC<InputsProps> = ({ IsAnimationActive }) => {
-	const { errors, email, password } = useTypedSelector(
+	const { error, password, username } = useTypedSelector(
 		state => state.AuthReducer
 	)
-	const { AuthEmail, AuthPassword, AuthError } = useActions()
+	const { AuthUpdateUsername, AuthUpdatePassword } = useActions()
 	return (
 		<>
 			<div className='mb-2'>
@@ -35,17 +35,12 @@ export const Inputs: FC<InputsProps> = ({ IsAnimationActive }) => {
 						className='absolute input inset-x-8 bottom-2 bg-transparent outline-none'
 						placeholder='укажите почту...'
 						onChange={e => {
-							if (errors) AuthError(errors.filter(el => el.type !== 'login'))
-							AuthEmail(e.target.value)
+							AuthUpdateUsername(e.target.value)
 						}}
-						value={email}
+						value={username}
 					/>
 				</div>
-				{errors.some(el => el.type === 'login') && (
-					<span className='errorText'>
-						{errors.filter(el => el.type === 'login')[0].error}
-					</span>
-				)}
+				{error && <span className='errorText'>{error.message}</span>}
 			</div>
 			<div>
 				<span
@@ -67,17 +62,12 @@ export const Inputs: FC<InputsProps> = ({ IsAnimationActive }) => {
 						className='absolute input inset-x-8 bottom-2 bg-transparent outline-none'
 						placeholder='укажите пароль...'
 						onChange={e => {
-							if (errors) AuthError(errors.filter(el => el.type !== 'password'))
-							AuthPassword(e.target.value)
+							AuthUpdatePassword(e.target.value)
 						}}
 						value={password}
 					/>
 				</div>
-				{errors.some(el => el.type === 'password') && (
-					<span className='errorText'>
-						{errors.filter(el => el.type === 'password')[0].error}
-					</span>
-				)}
+				{error && <span className='errorText'>{error.message}</span>}
 			</div>
 		</>
 	)

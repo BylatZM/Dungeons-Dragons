@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from 'react'
-import { ICube } from '../../../../types/StatesTypes'
+import { ICube } from '../../../../types'
 import { clsx } from 'clsx'
 import ParchmentBackground from '../../../../assets/images/ParchmentBackground.png'
 

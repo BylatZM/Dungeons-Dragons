@@ -1,18 +1,17 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit'
+import { configureStore } from '@reduxjs/toolkit'
 import logger from 'redux-logger'
 import { AuthSlice } from './slices/AuthSlice'
-import { StoreState } from '../types/StatesTypes'
-
-const reducers = combineReducers<StoreState>({
-	AuthReducer: AuthSlice.reducer
-})
+import { apiSlice } from './api/apiSlice'
 
 export const store = configureStore({
-	reducer: reducers,
+	reducer: {
+		AuthReducer: AuthSlice.reducer,
+		[apiSlice.reducerPath]: apiSlice.reducer
+	},
 	middleware: getDefaultMiddleware =>
-		getDefaultMiddleware().concat(
-			...(process.env.NODE_ENV !== 'production' ? [logger] : [])
-		),
+		getDefaultMiddleware()
+			.concat(...(process.env.NODE_ENV !== 'production' ? [logger] : []))
+			.concat(apiSlice.middleware),
 	devTools: true
 })
 

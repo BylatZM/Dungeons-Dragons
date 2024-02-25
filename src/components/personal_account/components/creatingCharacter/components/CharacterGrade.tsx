@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { ICharacterGrade } from '../../../../../types/StatesTypes'
+import { ICharacterGrade } from '../../../../../types'
 import { ArrowSVG, ContentBackgroundSVG } from '../../../../../assets/svg'
 import clsx from 'clsx'
 import SelectBackground from '../../../../../assets/images/SkillBackground.png'

@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { ICube } from '../../types/StatesTypes'
+import { ICube } from '../../types'
 import clsx from 'clsx'
 
 interface IProps {

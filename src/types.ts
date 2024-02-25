@@ -1,21 +1,29 @@
+export interface IAuthRequest {
+	username: string
+	password: string
+}
+
+export interface IAuthSuccessResponse {
+	token: string
+	id: number
+	username: string
+}
+
 export interface StoreState {
 	AuthReducer: IAuthState
 }
 
 export interface IAuthState {
-	email: string
+	token: string
+	id: number
+	username: string
 	password: string
-	access: string
-	loading: ILoadingForm
-	errors: IError[]
+	error: IServerMessage | null
 }
 
-export interface IError {
-	error: string
-	type: string
+export interface IServerMessage {
+	message: string
 }
-
-export type ILoadingForm = 'auth' | 'reg' | ''
 
 export interface ICube {
 	K6: number
