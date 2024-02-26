@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
-import { IAuthState, IAuthSuccessResponse, IServerMessage } from '../../types'
+import { IAuthState, IAuthSuccessResponse, IError } from '../../types'
 
 const initialState: IAuthState = {
 	token: '',
@@ -10,7 +10,7 @@ const initialState: IAuthState = {
 	error: null
 }
 
-export const AuthSlice = createSlice({
+export const AuthReducer = createSlice({
 	name: 'AuthSlice',
 	initialState,
 	reducers: {
@@ -29,7 +29,7 @@ export const AuthSlice = createSlice({
 		AuthUpdatePassword: (state, { payload }: PayloadAction<string>) => {
 			state.password = payload
 		},
-		AuthUpdateError: (state, { payload }: PayloadAction<IServerMessage>) => {
+		AuthUpdateError: (state, { payload }: PayloadAction<IError | null>) => {
 			state.error = payload
 		},
 		AuthClear: (state): IAuthState => {

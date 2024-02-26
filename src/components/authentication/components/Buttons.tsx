@@ -1,30 +1,47 @@
-import { useSigninMutation } from '../../../store/api/endpoints/authApiSlice'
-import { useSignupMutation } from '../../../store/api/endpoints/regApiSlice'
+import {
+	useSigninMutation,
+	useSignupMutation
+} from '../../../store/api/authSlice/authApiSlice'
 import { useTypedSelector } from '../../hooks/useTypedSelection'
 import { ButtonContent } from './ButtonContent'
+import { useActions } from '../../hooks/useActions'
+import { useNavigate } from 'react-router-dom'
 
 export const Buttons = () => {
+	const { AuthUpdateError, AuthSaveApiResponse } = useActions()
 	const { username, password } = useTypedSelector(state => state.AuthReducer)
-	const [signin, { isLoading: isAuthLoading, data: authSuccessResponse }] =
-		useSigninMutation()
-	const [
-		signup,
-		{
-			isLoading: isRegLoading,
-			error: regErrorResponse,
-			data: regSuccessResponse
-		}
-	] = useSignupMutation()
+	const navigate = useNavigate()
+	const [signin, { isLoading: isAuthLoading }] = useSigninMutation()
+	const [signup, { isLoading: isRegLoading }] = useSignupMutation()
 
 	const makeAuthRequest = async () => {
-		await signin({ username: username, password: password })
-		if (authSuccessResponse) console.log(authSuccessResponse)
+		AuthUpdateError(null)
+		try {
+			const response = await signin({
+				username: username,
+				password: password
+			}).unwrap()
+			if (response) {
+				localStorage.setItem('token', response.token)
+				AuthSaveApiResponse(response)
+				navigate('/loading')
+			}
+		} catch (e: any) {
+			AuthUpdateError({ error: 'the username or password is incorrect' })
+		}
 	}
 
 	const makeRegRequest = async () => {
-		await signup({ username: username, password: password })
-		if (regErrorResponse) console.log(regErrorResponse)
-		if (regSuccessResponse) console.log(regSuccessResponse)
+		AuthUpdateError(null)
+		try {
+			const response = await signup({
+				username: username,
+				password: password
+			}).unwrap()
+			if ('message' in response) alert(response.message)
+		} catch (e: any) {
+			if (e && e.data && 'error' in e.data) AuthUpdateError(e.data)
+		}
 	}
 
 	return (

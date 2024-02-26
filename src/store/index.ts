@@ -1,17 +1,17 @@
 import { configureStore } from '@reduxjs/toolkit'
 import logger from 'redux-logger'
-import { AuthSlice } from './slices/AuthSlice'
-import { apiSlice } from './api/apiSlice'
+import { AuthReducer } from './reducers/AuthReducer'
+import { authSlice } from './api/authSlice/authSlice'
 
 export const store = configureStore({
 	reducer: {
-		AuthReducer: AuthSlice.reducer,
-		[apiSlice.reducerPath]: apiSlice.reducer
+		AuthReducer: AuthReducer.reducer,
+		[authSlice.reducerPath]: authSlice.reducer
 	},
 	middleware: getDefaultMiddleware =>
 		getDefaultMiddleware()
 			.concat(...(process.env.NODE_ENV !== 'production' ? [logger] : []))
-			.concat(apiSlice.middleware),
+			.concat(authSlice.middleware),
 	devTools: true
 })
 

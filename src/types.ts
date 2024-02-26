@@ -18,10 +18,14 @@ export interface IAuthState {
 	id: number
 	username: string
 	password: string
-	error: IServerMessage | null
+	error: IError | null
 }
 
-export interface IServerMessage {
+export interface IError {
+	error: string
+}
+
+export interface IMessage {
 	message: string
 }
 

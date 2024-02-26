@@ -22,7 +22,7 @@ export const Inputs: FC<InputsProps> = ({ IsAnimationActive }) => {
 						IsAnimationActive ? 'opacity-100' : 'opacity-0'
 					)}
 				>
-					Почта
+					Имя пользователя
 				</span>
 				<div
 					className={clsx(
@@ -33,14 +33,14 @@ export const Inputs: FC<InputsProps> = ({ IsAnimationActive }) => {
 					<InputBackgroundSVG />
 					<input
 						className='absolute input inset-x-8 bottom-2 bg-transparent outline-none'
-						placeholder='укажите почту...'
+						placeholder='укажите имя пользователя...'
 						onChange={e => {
 							AuthUpdateUsername(e.target.value)
 						}}
 						value={username}
 					/>
 				</div>
-				{error && <span className='errorText'>{error.message}</span>}
+				{error && <span className='errorText'>{error.error}</span>}
 			</div>
 			<div>
 				<span
@@ -67,7 +67,9 @@ export const Inputs: FC<InputsProps> = ({ IsAnimationActive }) => {
 						value={password}
 					/>
 				</div>
-				{error && <span className='errorText'>{error.message}</span>}
+				{error && error.error.includes('password') && (
+					<span className='errorText'>{error.error}</span>
+				)}
 			</div>
 		</>
 	)

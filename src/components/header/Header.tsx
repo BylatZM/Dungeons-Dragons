@@ -1,11 +1,11 @@
 import { CharacterSVG } from '../../assets/svg'
 import { clsx } from 'clsx'
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import Background from '../../assets/images/SkillBackground.png'
+import { useLogout } from '../hooks/useLogout'
 
 export const Header = () => {
-	const navigate = useNavigate()
+	const logout = useLogout()
 	const [isMenuActive, changeIsMenuActive] = useState(false)
 	return (
 		<>
@@ -33,7 +33,7 @@ export const Header = () => {
 			>
 				<button
 					className='bg-inherit relative border-none outline-none w-[180px] h-[50px] overflow-hidden'
-					onClick={() => navigate('/')}
+					onClick={logout}
 				>
 					<img
 						alt=''
