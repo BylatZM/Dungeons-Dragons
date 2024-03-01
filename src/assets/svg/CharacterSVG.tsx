@@ -1,9 +1,12 @@
 import { FC } from 'react'
+import { ICharacterCreateForm } from '../../types'
 
-export const CharacterSVG: FC<{ color: string; dimension: string }> = ({
-	color,
-	dimension
-}) => {
+interface IProps {
+	color: string
+	dimension: string
+}
+
+export const CharacterSVG: FC<IProps> = ({ color, dimension }) => {
 	return (
 		<svg
 			className={`w-[${dimension}px] h-[${dimension}px]`}

@@ -3,16 +3,19 @@ import {
 	IAuthSuccessResponse,
 	IError,
 	IMessage
-} from '../../../types'
-import { authSlice } from './authSlice'
+} from '../../types'
+import { apiSlice } from './apiSlice'
 
-export const authApiSlice = authSlice.injectEndpoints({
+export const authApiSlice = apiSlice.injectEndpoints({
 	endpoints: builder => ({
 		signin: builder.mutation<IAuthSuccessResponse | void, IAuthRequest>({
 			query: credential => {
 				return {
-					url: 'signin',
+					url: 'auth/signin',
 					method: 'post',
+					headers: {
+						'Content-Type': 'application/json'
+					},
 					body: { ...credential }
 				}
 			}
@@ -20,8 +23,11 @@ export const authApiSlice = authSlice.injectEndpoints({
 		signup: builder.mutation<IError | IMessage, IAuthRequest>({
 			query: credential => {
 				return {
-					url: 'signup',
+					url: 'auth/signup',
 					method: 'post',
+					headers: {
+						'Content-Type': 'application/json'
+					},
 					body: { ...credential }
 				}
 			}

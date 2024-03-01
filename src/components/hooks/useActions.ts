@@ -1,10 +1,10 @@
 import { useDispatch } from 'react-redux'
 import { useMemo } from 'react'
 import { bindActionCreators } from '@reduxjs/toolkit'
-import { AuthReducer } from '../../store/reducers/AuthReducer'
+import { AuthSlice } from '../../store/reducers/AuthSlice'
 
 const rootActions = {
-	...AuthReducer.actions
+	...AuthSlice.actions
 }
 
 export const useActions = () => {

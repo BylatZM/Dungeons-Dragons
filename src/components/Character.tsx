@@ -1,20 +1,27 @@
 import { FC, useEffect, useRef, useState } from 'react'
 import { CharacterSVG, DownloadSVG, NameFrameSVG } from '../assets/svg'
+import { ICharacterCreateForm } from '../types'
 
 interface IProps {
 	imageDimension: string
 	nameBlockWidth: string
 	gap: string
+	changeFormData: React.Dispatch<React.SetStateAction<ICharacterCreateForm>>
+	formData: ICharacterCreateForm
+	setImageSrc: React.Dispatch<React.SetStateAction<string | null>>
+	imageSrc: string | null
 }
 
 export const Character: FC<IProps> = ({
 	imageDimension,
 	nameBlockWidth,
-	gap
+	gap,
+	changeFormData,
+	formData,
+	setImageSrc,
+	imageSrc
 }) => {
 	const fileInputRef = useRef<HTMLInputElement>(null)
-	const [imageSrc, setImageSrc] = useState<string | null>(null)
-
 	const onButtonClick = () => {
 		fileInputRef.current?.click()
 	}
@@ -22,10 +29,7 @@ export const Character: FC<IProps> = ({
 	const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const file = e.target.files && e.target.files[0]
 		if (!file) return
-
-		// const formData = new FormData()
-		// formData.append('image', file)
-		// console.log(formData.get('image'))
+		changeFormData(prev => ({ ...prev, image: file }))
 
 		if (file.type && file.type.startsWith('image/')) {
 			const reader = new FileReader()
@@ -36,10 +40,6 @@ export const Character: FC<IProps> = ({
 			reader.readAsDataURL(file)
 		}
 	}
-
-	useEffect(() => {
-		setImageSrc(null)
-	}, [])
 
 	return (
 		<div className='w-full flex flex-col'>
@@ -105,6 +105,10 @@ export const Character: FC<IProps> = ({
 				<input
 					className='outline-none border-none bg-inherit absolute inset-x-0 mx-auto text-lg inset-y-10 w-[145px] text-white p-1 z-10'
 					placeholder='Имя персонажа'
+					onChange={e =>
+						changeFormData(prev => ({ ...prev, name: e.target.value }))
+					}
+					value={formData.name}
 				/>
 			</NameFrameSVG>
 		</div>

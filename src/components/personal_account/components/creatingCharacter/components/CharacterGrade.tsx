@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
-import { ICharacterGrade } from '../../../../../types'
+import { FC, useEffect, useState } from 'react'
+import { ICharacterCreateForm, ICharacterGrade } from '../../../../../types'
 import { ArrowSVG, ContentBackgroundSVG } from '../../../../../assets/svg'
 import clsx from 'clsx'
 import SelectBackground from '../../../../../assets/images/SkillBackground.png'
@@ -19,8 +19,15 @@ const initialGrades: ICharacterGrade[] = [
 	'Волшебник'
 ]
 
-export const CharacterGrade = () => {
-	const [selectedGrade, changeSelectedGrade] = useState<ICharacterGrade>('Бард')
+interface IProps {
+	changeFormData: React.Dispatch<React.SetStateAction<ICharacterCreateForm>>
+	formData: ICharacterCreateForm
+}
+
+export const CharacterGrade: FC<IProps> = ({ changeFormData, formData }) => {
+	const [selectedGrade, changeSelectedGrade] = useState<ICharacterGrade>(
+		formData.class
+	)
 	const [grades, changeGrades] = useState<ICharacterGrade[]>([])
 	const [selectorActive, changeSelectorActive] = useState(false)
 
@@ -70,7 +77,10 @@ export const CharacterGrade = () => {
 										: 'bg-inherit border-white text-white'
 								)}
 								onClick={() => {
-									if (selectedGrade !== el) changeSelectedGrade(el)
+									if (selectedGrade !== el) {
+										changeFormData(prev => ({ ...prev, class: el }))
+										changeSelectedGrade(el)
+									}
 								}}
 							>
 								{el}

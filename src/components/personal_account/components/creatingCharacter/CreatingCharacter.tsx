@@ -2,19 +2,53 @@ import { ButtonContent } from '../../../authentication/components/ButtonContent'
 import { Character } from '../../../Character'
 import { ButtonSkeleton } from '../ButtonSkeleton'
 import clsx from 'clsx'
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import { CharacterGrade } from './components/CharacterGrade'
 import { CharacterRace } from './components/CharacterRace'
+import { ICharacterCreateForm } from '../../../../types'
+import { createCharacter } from '../../../../store/api/characterSlice'
+import { useLogout } from '../../../hooks/useLogout'
 
 interface IProps {
 	needToShow: boolean
 	changeNeedShowFrame: React.Dispatch<React.SetStateAction<boolean>>
 }
 
+const defaultFormData: ICharacterCreateForm = {
+	name: '',
+	class: 'Воин',
+	race: '',
+	image: null
+}
+
 export const CreatingCharacter: FC<IProps> = ({
 	needToShow,
 	changeNeedShowFrame
 }) => {
+	const [formData, changeFormData] =
+		useState<ICharacterCreateForm>(defaultFormData)
+	const [imageSrc, setImageSrc] = useState<string | null>(null)
+	const [isCharacterCreating, setIsCharacterCreating] = useState(false)
+
+	const makeRequest = async () => {
+		if (formData.image === null) return
+		setIsCharacterCreating(prev => true)
+		let data = new FormData()
+		data.append('name', formData.name)
+		data.append('class', formData.class)
+		data.append('race', formData.race)
+		data.append('image', formData.image)
+
+		const response = await createCharacter(data)
+
+		setIsCharacterCreating(prev => false)
+		if (response) {
+			setImageSrc(null)
+			changeFormData(defaultFormData)
+			changeNeedShowFrame(false)
+		}
+	}
+
 	return (
 		<div
 			className={clsx(
@@ -28,16 +62,34 @@ export const CreatingCharacter: FC<IProps> = ({
 				</div>
 				<div className='bg-gradient-main p-5 w-full h-full'>
 					<div className='flex justify-between gap-x-4'>
-						<Character imageDimension='165' nameBlockWidth='300' gap='20' />
+						<Character
+							formData={formData}
+							changeFormData={changeFormData}
+							imageDimension='165'
+							nameBlockWidth='300'
+							gap='20'
+							setImageSrc={setImageSrc}
+							imageSrc={imageSrc}
+						/>
 						<div>
-							<CharacterGrade />
-							<CharacterRace />
+							<CharacterGrade
+								changeFormData={changeFormData}
+								formData={formData}
+							/>
+							<CharacterRace
+								changeFormData={changeFormData}
+								formData={formData}
+							/>
 						</div>
 					</div>
 					<div className='text-center'>
 						<button
 							className='mr-2 relative bg-none border-none outline-none w-[180px] h-[40px] button'
-							onClick={() => changeNeedShowFrame(false)}
+							onClick={() => {
+								changeFormData(defaultFormData)
+								setImageSrc(null)
+								changeNeedShowFrame(false)
+							}}
 						>
 							<div className='absolute inset-0 w-full h-full'>
 								<ButtonSkeleton text='Закрыть' color='#3b82f6' />
@@ -46,16 +98,23 @@ export const CreatingCharacter: FC<IProps> = ({
 								<ButtonSkeleton text='Закрыть' color='#fff' />
 							</div>
 						</button>
-						<button className='relative bg-none border-none outline-none w-[180px] h-[40px] button'>
+						<button
+							className='relative bg-none border-none outline-none w-[180px] h-[40px] button'
+							onClick={makeRequest}
+						>
 							<div className='absolute inset-0 w-full h-full'>
 								<ButtonContent
 									text='Создать'
 									color='#3b82f6'
-									isLoading={false}
+									isLoading={isCharacterCreating}
 								/>
 							</div>
 							<div className='transitionGeneral absolute  inset-0 w-full h-full passive'>
-								<ButtonContent text='Создать' color='#fff' isLoading={false} />
+								<ButtonContent
+									text='Создать'
+									color='#fff'
+									isLoading={isCharacterCreating}
+								/>
 							</div>
 						</button>
 					</div>

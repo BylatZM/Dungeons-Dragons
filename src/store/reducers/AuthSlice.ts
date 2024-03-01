@@ -1,6 +1,8 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
 import { IAuthState, IAuthSuccessResponse, IError } from '../../types'
+import { useLogout } from '../../components/hooks/useLogout'
+import { useNavigate } from 'react-router-dom'
 
 const initialState: IAuthState = {
 	token: '',
@@ -10,8 +12,8 @@ const initialState: IAuthState = {
 	error: null
 }
 
-export const AuthReducer = createSlice({
-	name: 'AuthSlice',
+export const AuthSlice = createSlice({
+	name: 'Auth',
 	initialState,
 	reducers: {
 		AuthSaveApiResponse: (
@@ -23,6 +25,9 @@ export const AuthReducer = createSlice({
 			state.username = payload.username
 			state.error = null
 		},
+		AuthSaveToken: (state, { payload }: PayloadAction<string>) => {
+			state.token = payload
+		},
 		AuthUpdateUsername: (state, { payload }: PayloadAction<string>) => {
 			state.username = payload
 		},
@@ -33,7 +38,20 @@ export const AuthReducer = createSlice({
 			state.error = payload
 		},
 		AuthClear: (state): IAuthState => {
+			alert('Срок жизни сессии истек')
+			localStorage.clear()
 			return initialState
 		}
 	}
 })
+
+export const {
+	AuthClear,
+	AuthUpdateError,
+	AuthUpdatePassword,
+	AuthUpdateUsername,
+	AuthSaveApiResponse,
+	AuthSaveToken
+} = AuthSlice.actions
+
+export default AuthSlice.reducer

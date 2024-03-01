@@ -1,7 +1,7 @@
 import {
 	useSigninMutation,
 	useSignupMutation
-} from '../../../store/api/authSlice/authApiSlice'
+} from '../../../store/api/authApiSlice'
 import { useTypedSelector } from '../../hooks/useTypedSelection'
 import { ButtonContent } from './ButtonContent'
 import { useActions } from '../../hooks/useActions'
@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom'
 
 export const Buttons = () => {
 	const { AuthUpdateError, AuthSaveApiResponse } = useActions()
-	const { username, password } = useTypedSelector(state => state.AuthReducer)
+	const { username, password } = useTypedSelector(state => state.Auth)
 	const navigate = useNavigate()
 	const [signin, { isLoading: isAuthLoading }] = useSigninMutation()
 	const [signup, { isLoading: isRegLoading }] = useSignupMutation()
@@ -24,7 +24,7 @@ export const Buttons = () => {
 			if (response) {
 				localStorage.setItem('token', response.token)
 				AuthSaveApiResponse(response)
-				navigate('/loading')
+				navigate('/account')
 			}
 		} catch (e: any) {
 			AuthUpdateError({ error: 'the username or password is incorrect' })

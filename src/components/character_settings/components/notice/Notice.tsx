@@ -39,7 +39,7 @@ export const Notice = () => {
 					</ContentBackgroundSVG>
 				</div>
 				<div className='mt-[26.3px]'>
-					<Character imageDimension='220' nameBlockWidth='350' gap='28' />
+					{/* <Character imageDimension='220' nameBlockWidth='350' gap='28' /> */}
 					<div className='flex gap-x-2 mt-[46px]'>
 						<ContentBackgroundSVG dimension='175'>
 							<div className='w-full h-1/2 relative inset-y-10 text-center'>

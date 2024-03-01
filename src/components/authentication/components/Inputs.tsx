@@ -9,9 +9,7 @@ interface InputsProps {
 }
 
 export const Inputs: FC<InputsProps> = ({ IsAnimationActive }) => {
-	const { error, password, username } = useTypedSelector(
-		state => state.AuthReducer
-	)
+	const { error, password, username } = useTypedSelector(state => state.Auth)
 	const { AuthUpdateUsername, AuthUpdatePassword } = useActions()
 	return (
 		<>
