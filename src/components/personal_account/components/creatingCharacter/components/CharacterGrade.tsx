@@ -1,23 +1,9 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useState } from 'react'
 import { ICharacterCreateForm, ICharacterGrade } from '../../../../../types'
 import { ArrowSVG, ContentBackgroundSVG } from '../../../../../assets/svg'
 import clsx from 'clsx'
 import SelectBackground from '../../../../../assets/images/SkillBackground.png'
-
-const initialGrades: ICharacterGrade[] = [
-	'Бард',
-	'Жрец',
-	'Друид',
-	'Монах',
-	'Плут',
-	'Колдун',
-	'Варвар',
-	'Воин',
-	'Следопыт',
-	'Паладин',
-	'Чародей',
-	'Волшебник'
-]
+import { useTypedSelector } from '../../../../hooks/useTypedSelection'
 
 interface IProps {
 	changeFormData: React.Dispatch<React.SetStateAction<ICharacterCreateForm>>
@@ -28,12 +14,8 @@ export const CharacterGrade: FC<IProps> = ({ changeFormData, formData }) => {
 	const [selectedGrade, changeSelectedGrade] = useState<ICharacterGrade>(
 		formData.class
 	)
-	const [grades, changeGrades] = useState<ICharacterGrade[]>([])
 	const [selectorActive, changeSelectorActive] = useState(false)
-
-	useEffect(() => {
-		if (!grades.length) changeGrades(initialGrades)
-	}, [changeGrades, grades])
+	const { characterClasses } = useTypedSelector(state => state.Character)
 
 	return (
 		<ContentBackgroundSVG dimension='180'>
@@ -66,26 +48,25 @@ export const CharacterGrade: FC<IProps> = ({ changeFormData, formData }) => {
 							: 'h-0 overflow-hidden border-none'
 					)}
 				>
-					{grades &&
-						grades.map((el, key) => (
-							<button
-								key={key}
-								className={clsx(
-									'outline-none border-2 p-2 text-center font-bold',
-									selectedGrade === el
-										? 'border-none bg-white color-main'
-										: 'bg-inherit border-white text-white'
-								)}
-								onClick={() => {
-									if (selectedGrade !== el) {
-										changeFormData(prev => ({ ...prev, class: el }))
-										changeSelectedGrade(el)
-									}
-								}}
-							>
-								{el}
-							</button>
-						))}
+					{characterClasses.map((el, key) => (
+						<button
+							key={key}
+							className={clsx(
+								'outline-none border-2 p-2 text-center font-bold',
+								selectedGrade === el
+									? 'border-none bg-white color-main'
+									: 'bg-inherit border-white text-white'
+							)}
+							onClick={() => {
+								if (selectedGrade !== el) {
+									changeFormData(prev => ({ ...prev, class: el }))
+									changeSelectedGrade(el)
+								}
+							}}
+						>
+							{el}
+						</button>
+					))}
 				</div>
 			</div>
 		</ContentBackgroundSVG>

@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef, useState } from 'react'
+import { FC, useRef } from 'react'
 import { CharacterSVG, DownloadSVG, NameFrameSVG } from '../assets/svg'
 import { ICharacterCreateForm } from '../types'
 

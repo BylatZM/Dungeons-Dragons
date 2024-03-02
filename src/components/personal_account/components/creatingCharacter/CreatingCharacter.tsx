@@ -6,8 +6,7 @@ import { FC, useState } from 'react'
 import { CharacterGrade } from './components/CharacterGrade'
 import { CharacterRace } from './components/CharacterRace'
 import { ICharacterCreateForm } from '../../../../types'
-import { createCharacter } from '../../../../store/api/characterSlice'
-import { useLogout } from '../../../hooks/useLogout'
+import { createCharacter } from '../../../../store/api/characterApiSlice'
 
 interface IProps {
 	needToShow: boolean
@@ -31,13 +30,12 @@ export const CreatingCharacter: FC<IProps> = ({
 	const [isCharacterCreating, setIsCharacterCreating] = useState(false)
 
 	const makeRequest = async () => {
-		if (formData.image === null) return
 		setIsCharacterCreating(prev => true)
 		let data = new FormData()
 		data.append('name', formData.name)
 		data.append('class', formData.class)
 		data.append('race', formData.race)
-		data.append('image', formData.image)
+		if (formData.image) data.append('image', formData.image)
 
 		const response = await createCharacter(data)
 

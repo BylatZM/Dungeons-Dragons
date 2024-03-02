@@ -13,8 +13,8 @@ const apiQuery = fetchBaseQuery({
 	prepareHeaders: headers => {
 		const storage = localStorage.getItem('token')
 		if (storage) headers.set('Authorization', `Bearer ${storage}`)
-		headers.set('Accept', 'application/json')
-		headers.set('Content-Type', 'application/json')
+		headers.set('Accept', 'application/json; charset=utf-8')
+		headers.set('Content-Type', 'application/json; charset=utf-8')
 		return headers
 	}
 })
@@ -24,7 +24,7 @@ const baseQueryWrapper = async (
 	api: BaseQueryApi,
 	extraOptions: {}
 ) => {
-	let result = await apiQuery(args, api, {})
+	const result = await apiQuery(args, api, {})
 
 	if (result?.error?.status === 401) {
 		api.dispatch(AuthClear())

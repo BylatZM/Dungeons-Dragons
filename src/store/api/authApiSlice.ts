@@ -13,9 +13,6 @@ export const authApiSlice = apiSlice.injectEndpoints({
 				return {
 					url: 'auth/signin',
 					method: 'post',
-					headers: {
-						'Content-Type': 'application/json'
-					},
 					body: { ...credential }
 				}
 			}
@@ -25,9 +22,6 @@ export const authApiSlice = apiSlice.injectEndpoints({
 				return {
 					url: 'auth/signup',
 					method: 'post',
-					headers: {
-						'Content-Type': 'application/json'
-					},
 					body: { ...credential }
 				}
 			}

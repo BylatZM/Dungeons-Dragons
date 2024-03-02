@@ -9,6 +9,11 @@ export interface IAuthSuccessResponse {
 	username: string
 }
 
+export interface ICharacterState {
+	currentCharacterInfo: ICharacterInfo
+	characterClasses: ICharacterGrade[]
+}
+
 export interface StoreState {
 	AuthReducer: IAuthState
 }
@@ -111,6 +116,78 @@ export interface ICharacterCard {
 	characterClass: ICharacterGrade
 	race: string
 	name: string
-	imageLink: string
+	imageLink: string | null
 	characterLink: string
 }
+
+export interface ICharacterUpdate {
+	characterId: number
+	newValues: IUpdatingValues
+}
+
+export interface IUpdatingValues {
+	athletics?: number
+	acrobatics?: number
+	sleightOfHand?: number
+	stealth?: number
+	perception?: number
+	survival?: number
+	medicine?: number
+	insight?: number
+	animalCare?: number
+	analysis?: number
+	history?: number
+	magic?: number
+	nature?: number
+	religion?: number
+	performance?: number
+	intimidation?: number
+	fraud?: number
+	conviction?: number
+	name?: string
+	characterClass?: ICharacterGrade
+	race?: string
+	lvl?: number
+	experience?: number
+	health?: number
+	strength?: number
+	physique?: number
+	dexterity?: number
+	wisdom?: number
+	intelligence?: number
+	charisma?: number
+	notes?: string
+}
+
+export type IUpdatingFields =
+	| 'athletics'
+	| 'acrobatics'
+	| 'sleightOfHand'
+	| 'stealth'
+	| 'perception'
+	| 'survival'
+	| 'medicine'
+	| 'insight'
+	| 'animalCare'
+	| 'analysis'
+	| 'history'
+	| 'magic'
+	| 'nature'
+	| 'religion'
+	| 'performance'
+	| 'intimidation'
+	| 'fraud'
+	| 'conviction'
+	| 'name'
+	| 'characterClass'
+	| 'race'
+	| 'lvl'
+	| 'experience'
+	| 'health'
+	| 'strength'
+	| 'physique'
+	| 'dexterity'
+	| 'wisdom'
+	| 'intelligence'
+	| 'charisma'
+	| 'notes'

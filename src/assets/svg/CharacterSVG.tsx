@@ -1,5 +1,4 @@
 import { FC } from 'react'
-import { ICharacterCreateForm } from '../../types'
 
 interface IProps {
 	color: string

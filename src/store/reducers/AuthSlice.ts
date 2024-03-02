@@ -1,8 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
 import { IAuthState, IAuthSuccessResponse, IError } from '../../types'
-import { useLogout } from '../../components/hooks/useLogout'
-import { useNavigate } from 'react-router-dom'
 
 const initialState: IAuthState = {
 	token: '',
