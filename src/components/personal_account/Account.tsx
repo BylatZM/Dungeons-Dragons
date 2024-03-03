@@ -28,8 +28,8 @@ export const Account = () => {
 	}, [characterInfo])
 
 	useEffect(() => {
-		if (!needShowCreatingForm) refetch()
-	}, [needShowCreatingForm])
+		if (!needShowCreatingForm && !characterInfo) refetch()
+	}, [needShowCreatingForm, characterInfo])
 
 	useEffect(() => {
 		if (!token) {
