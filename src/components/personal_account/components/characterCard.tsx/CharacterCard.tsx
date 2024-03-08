@@ -1,9 +1,9 @@
-import { FC, useEffect, useState } from 'react'
+import { FC } from 'react'
 import './CharacterCard.css'
-import { ICharacterInfo } from '../../../../types'
-import { useGetCurrentCharacterQuery } from '../../../../store/api/characterApiSlice'
+import { getCurrentCharacter } from '../../../../store/api/characterApiSlice'
 import { useActions } from '../../../hooks/useActions'
 import defaultCharacterImage from '../../../../assets/images/DefaultCharacter.png'
+import { useLogout } from '../../../hooks/useLogout'
 
 interface IProps {
 	image: string | null
@@ -11,10 +11,6 @@ interface IProps {
 	race: string
 	name: string
 	character_id: string
-	characterInfo: ICharacterInfo | null
-	changeCharacterInfo: React.Dispatch<
-		React.SetStateAction<ICharacterInfo | null>
-	>
 }
 
 export const CharacterCard: FC<IProps> = ({
@@ -22,27 +18,16 @@ export const CharacterCard: FC<IProps> = ({
 	grade,
 	race,
 	name,
-	changeCharacterInfo,
-	characterInfo,
 	character_id
 }) => {
+	const logout = useLogout()
 	const { CharacterSaveApiResponse } = useActions()
-	const [NeedSkipRequest, setNeedSkipRequest] = useState(true)
-	const { data: getCharacterInfo } = useGetCurrentCharacterQuery(character_id, {
-		skip: NeedSkipRequest
-	})
 
 	const makeRequest = async () => {
-		setNeedSkipRequest(false)
+		const response = await getCurrentCharacter(character_id)
+		if (response) CharacterSaveApiResponse(response)
+		else logout()
 	}
-
-	useEffect(() => {
-		if (!characterInfo && getCharacterInfo && !NeedSkipRequest) {
-			setNeedSkipRequest(true)
-			changeCharacterInfo(getCharacterInfo)
-			CharacterSaveApiResponse(getCharacterInfo)
-		}
-	}, [getCharacterInfo, characterInfo, NeedSkipRequest])
 
 	return (
 		<button className='outline-none bg-none border-none' onClick={makeRequest}>

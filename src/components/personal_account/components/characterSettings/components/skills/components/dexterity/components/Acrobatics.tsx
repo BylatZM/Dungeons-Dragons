@@ -6,30 +6,44 @@ import { useTypedSelector } from '../../../../../../../../hooks/useTypedSelectio
 import { useActions } from '../../../../../../../../hooks/useActions'
 
 interface IProps {
-	makeUpdateRequest: (updatingField: IUpdatingFields) => Promise<void>
+	makeUpdateRequest: (
+		updatingField: IUpdatingFields,
+		new_value: number
+	) => Promise<void>
 }
 
 export const Acrobatics: FC<IProps> = ({ makeUpdateRequest }) => {
-	const { currentCharacterInfo } = useTypedSelector(state => state.Character)
-	const { CharacterSaveApiResponse } = useActions()
-	const [acrobatics, changeAcrobatics] = useState(
-		currentCharacterInfo.modifiers.acrobatics.toString()
+	const { currentCharacterInfo, isInitializedData } = useTypedSelector(
+		state => state.Character
 	)
+	const { CharacterSaveApiResponse } = useActions()
+	const [acrobatics, changeAcrobatics] = useState('0')
 
 	useEffect(() => {
-		if (acrobatics !== currentCharacterInfo.modifiers.acrobatics.toString())
-			CharacterSaveApiResponse({
-				...currentCharacterInfo,
-				modifiers: {
-					...currentCharacterInfo.modifiers,
-					acrobatics: isNaN(parseInt(acrobatics)) ? 0 : parseInt(acrobatics)
-				}
-			})
+		if (isInitializedData)
+			changeAcrobatics(currentCharacterInfo.modifiers.perception.toString())
+	}, [isInitializedData])
+
+	useEffect(() => {
+		if (isNaN(parseInt(acrobatics)) || !isInitializedData) return
+
+		CharacterSaveApiResponse({
+			...currentCharacterInfo,
+			modifiers: {
+				...currentCharacterInfo.modifiers,
+				acrobatics: parseInt(acrobatics)
+			}
+		})
 	}, [acrobatics])
 
 	return (
 		<div className='flex w-full h-min'>
-			<CheckBox changeInputValue={changeAcrobatics} />
+			<CheckBox
+				inputValue={acrobatics}
+				changeInputValue={changeAcrobatics}
+				updatingField={'acrobatics'}
+				makeUpdateRequest={makeUpdateRequest}
+			/>
 			<Input
 				inputValue={acrobatics}
 				changeInputValue={changeAcrobatics}

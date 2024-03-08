@@ -6,34 +6,46 @@ import { useActions } from '../../../../../../../../hooks/useActions'
 import { IUpdatingFields } from '../../../../../../../../../types'
 
 interface IProps {
-	makeUpdateRequest: (updatingField: IUpdatingFields) => Promise<void>
+	makeUpdateRequest: (
+		updatingField: IUpdatingFields,
+		new_value: number
+	) => Promise<void>
 }
 
 export const SleightOfHand: FC<IProps> = ({ makeUpdateRequest }) => {
-	const { currentCharacterInfo } = useTypedSelector(state => state.Character)
-	const { CharacterSaveApiResponse } = useActions()
-	const [sleightOfHand, changeSleightOfHand] = useState(
-		currentCharacterInfo.modifiers.sleightOfHand.toString()
+	const { currentCharacterInfo, isInitializedData } = useTypedSelector(
+		state => state.Character
 	)
+	const { CharacterSaveApiResponse } = useActions()
+	const [sleightOfHand, changeSleightOfHand] = useState('0')
 
 	useEffect(() => {
-		if (
-			sleightOfHand !== currentCharacterInfo.modifiers.sleightOfHand.toString()
-		)
-			CharacterSaveApiResponse({
-				...currentCharacterInfo,
-				modifiers: {
-					...currentCharacterInfo.modifiers,
-					sleightOfHand: isNaN(parseInt(sleightOfHand))
-						? 0
-						: parseInt(sleightOfHand)
-				}
-			})
+		if (isInitializedData)
+			changeSleightOfHand(
+				currentCharacterInfo.modifiers.sleightOfHand.toString()
+			)
+	}, [isInitializedData])
+
+	useEffect(() => {
+		if (isNaN(parseInt(sleightOfHand)) || !isInitializedData) return
+
+		CharacterSaveApiResponse({
+			...currentCharacterInfo,
+			modifiers: {
+				...currentCharacterInfo.modifiers,
+				sleightOfHand: parseInt(sleightOfHand)
+			}
+		})
 	}, [sleightOfHand])
 
 	return (
 		<div className='flex items-center w-full h-min'>
-			<CheckBox changeInputValue={changeSleightOfHand} />
+			<CheckBox
+				inputValue={sleightOfHand}
+				changeInputValue={changeSleightOfHand}
+				updatingField={'sleightOfHand'}
+				makeUpdateRequest={makeUpdateRequest}
+			/>
 			<Input
 				inputValue={sleightOfHand}
 				changeInputValue={changeSleightOfHand}

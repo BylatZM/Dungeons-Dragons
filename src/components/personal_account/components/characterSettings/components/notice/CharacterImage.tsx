@@ -2,13 +2,16 @@ import { FC } from 'react'
 import { CharacterSVG, NameFrameSVG } from '../../../../../../assets/svg'
 import { useTypedSelector } from '../../../../../hooks/useTypedSelection'
 import { useActions } from '../../../../../hooks/useActions'
-import { IUpdatingFields } from '../../../../../../types'
+import { ICharacterGrade, IUpdatingFields } from '../../../../../../types'
 
 interface IProps {
 	imageDimension: string
 	nameBlockWidth: string
 	gap: string
-	makeUpdateRequest: (updatingField: IUpdatingFields) => Promise<void>
+	makeUpdateRequest: (
+		updatingField: IUpdatingFields,
+		new_value: number | string | ICharacterGrade
+	) => Promise<void>
 }
 
 export const CharacterImage: FC<IProps> = ({
@@ -55,15 +58,16 @@ export const CharacterImage: FC<IProps> = ({
 					className='outline-none border-none bg-inherit absolute inset-x-0 mx-auto text-lg inset-y-10 w-[145px] text-white p-1 z-10'
 					placeholder='Имя персонажа'
 					value={currentCharacterInfo.name}
+					maxLength={50}
 					onChange={e => {
-						if (/^[А-Яа-я]*$/.test(e.target.value)) {
+						if (/^[А-Яа-я\s]*$/.test(e.target.value)) {
 							CharacterSaveApiResponse({
 								...currentCharacterInfo,
 								name: e.target.value
 							})
 						}
 					}}
-					onBlur={() => makeUpdateRequest('name')}
+					onBlur={e => makeUpdateRequest('name', e.target.value)}
 				/>
 			</NameFrameSVG>
 		</div>

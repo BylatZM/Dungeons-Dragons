@@ -59,7 +59,8 @@ const defaultCharacterInfo: ICharacterInfo = {
 
 const initialState: ICharacterState = {
 	currentCharacterInfo: defaultCharacterInfo,
-	characterClasses: initialGrades
+	characterClasses: initialGrades,
+	isInitializedData: false
 }
 
 export const CharacterSlice = createSlice({
@@ -71,6 +72,14 @@ export const CharacterSlice = createSlice({
 			{ payload }: PayloadAction<ICharacterInfo>
 		) => {
 			state.currentCharacterInfo = payload
+			state.isInitializedData = true
+		},
+		CharacterResetCurrentInfo: (state): ICharacterState => {
+			return {
+				...state,
+				currentCharacterInfo: defaultCharacterInfo,
+				isInitializedData: false
+			}
 		},
 		CharacterClear: (state): ICharacterState => {
 			return initialState
@@ -78,7 +87,10 @@ export const CharacterSlice = createSlice({
 	}
 })
 
-export const { CharacterSaveApiResponse, CharacterClear } =
-	CharacterSlice.actions
+export const {
+	CharacterSaveApiResponse,
+	CharacterClear,
+	CharacterResetCurrentInfo
+} = CharacterSlice.actions
 
 export default CharacterSlice.reducer

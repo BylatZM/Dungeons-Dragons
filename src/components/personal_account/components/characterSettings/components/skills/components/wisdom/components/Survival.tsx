@@ -6,30 +6,44 @@ import { useTypedSelector } from '../../../../../../../../hooks/useTypedSelectio
 import { IUpdatingFields } from '../../../../../../../../../types'
 
 interface IProps {
-	makeUpdateRequest: (updatingField: IUpdatingFields) => Promise<void>
+	makeUpdateRequest: (
+		updatingField: IUpdatingFields,
+		new_value: number
+	) => Promise<void>
 }
 
 export const Survival: FC<IProps> = ({ makeUpdateRequest }) => {
-	const { currentCharacterInfo } = useTypedSelector(state => state.Character)
-	const { CharacterSaveApiResponse } = useActions()
-	const [survival, changeSurvival] = useState(
-		currentCharacterInfo.modifiers.survival.toString()
+	const { currentCharacterInfo, isInitializedData } = useTypedSelector(
+		state => state.Character
 	)
+	const { CharacterSaveApiResponse } = useActions()
+	const [survival, changeSurvival] = useState('0')
 
 	useEffect(() => {
-		if (survival !== currentCharacterInfo.modifiers.survival.toString())
-			CharacterSaveApiResponse({
-				...currentCharacterInfo,
-				modifiers: {
-					...currentCharacterInfo.modifiers,
-					survival: isNaN(parseInt(survival)) ? 0 : parseInt(survival)
-				}
-			})
+		if (isInitializedData)
+			changeSurvival(currentCharacterInfo.modifiers.survival.toString())
+	}, [isInitializedData])
+
+	useEffect(() => {
+		if (isNaN(parseInt(survival)) || !isInitializedData) return
+
+		CharacterSaveApiResponse({
+			...currentCharacterInfo,
+			modifiers: {
+				...currentCharacterInfo.modifiers,
+				survival: parseInt(survival)
+			}
+		})
 	}, [survival])
 
 	return (
 		<div className='flex items-center w-full h-min'>
-			<CheckBox changeInputValue={changeSurvival} />
+			<CheckBox
+				inputValue={survival}
+				changeInputValue={changeSurvival}
+				updatingField={'survival'}
+				makeUpdateRequest={makeUpdateRequest}
+			/>
 			<Input
 				inputValue={survival}
 				changeInputValue={changeSurvival}

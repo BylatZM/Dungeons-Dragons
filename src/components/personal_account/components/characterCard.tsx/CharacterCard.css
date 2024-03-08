@@ -35,16 +35,16 @@ img {
 }
 
 .CardBlock span {
-	transition: transform 0.25s ease-in-out;
+	transition: opacity 0.25s ease-in-out;
 	color: #fff;
 	font-weight: bold;
-	transform: translateX(20vw);
+	opacity: 0;
 	z-index: 5;
 }
 
 .CardBlock:hover span {
-	transition: all 0.25s ease-in-out;
-	transform: translateX(0);
+	transition: opacity 0.25s ease-in-out;
+	opacity: 1;
 }
 
 .CardBlock:hover span:nth-child(1) {

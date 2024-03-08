@@ -30,6 +30,10 @@ export const CreatingCharacter: FC<IProps> = ({
 	const [isCharacterCreating, setIsCharacterCreating] = useState(false)
 
 	const makeRequest = async () => {
+		if (!formData.name || !formData.race) {
+			alert('Пожалуйста, заполните поля раса, имя персонажа')
+			return
+		}
 		setIsCharacterCreating(prev => true)
 		let data = new FormData()
 		data.append('name', formData.name)

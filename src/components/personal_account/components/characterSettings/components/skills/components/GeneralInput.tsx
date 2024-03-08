@@ -3,9 +3,12 @@ import { IUpdatingFields } from '../../../../../../../types'
 
 interface IProps {
 	inputValue: string
-	changeInputValue: React.Dispatch<React.SetStateAction<string>>
+	changeInputValue: (value: number) => void
 	updatingField: IUpdatingFields
-	makeUpdateRequest: (updatingField: IUpdatingFields) => Promise<void>
+	makeUpdateRequest: (
+		updatingField: IUpdatingFields,
+		new_value: number
+	) => Promise<void>
 }
 
 export const GeneralInput: FC<IProps> = ({
@@ -22,23 +25,26 @@ export const GeneralInput: FC<IProps> = ({
 			style={{ borderColor: '#dedede', color: '#dedede' }}
 			onBlur={e => {
 				const value = parseInt(e.target.value.replaceAll(/[^\d]/gi, ''))
-				if (isNaN(value)) changeInputValue('0')
-				else changeInputValue(value.toString())
-				makeUpdateRequest(updatingField)
+				if (isNaN(value)) changeInputValue(1)
+				else {
+					changeInputValue(value)
+					makeUpdateRequest(updatingField, value)
+				}
 			}}
 			onChange={e => {
 				if (
-					e.target.value !== '' &&
-					(isNaN(parseInt(e.target.value)) || /[^\d]/.test(e.target.value))
+					isNaN(parseInt(e.target.value)) ||
+					/[^\d]/.test(e.target.value) ||
+					parseInt(e.target.value) === 0
 				) {
-					changeInputValue('0')
+					changeInputValue(0)
 					return
 				}
-				if (parseInt(e.target.value) > 10) {
-					changeInputValue('10')
+				if (parseInt(e.target.value) > 30) {
+					changeInputValue(30)
 					return
 				}
-				changeInputValue(e.target.value)
+				changeInputValue(parseInt(e.target.value))
 			}}
 		/>
 	)

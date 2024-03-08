@@ -6,30 +6,44 @@ import { useTypedSelector } from '../../../../../../../../hooks/useTypedSelectio
 import { useActions } from '../../../../../../../../hooks/useActions'
 
 interface IProps {
-	makeUpdateRequest: (updatingField: IUpdatingFields) => Promise<void>
+	makeUpdateRequest: (
+		updatingField: IUpdatingFields,
+		new_value: number
+	) => Promise<void>
 }
 
 export const History: FC<IProps> = ({ makeUpdateRequest }) => {
-	const { currentCharacterInfo } = useTypedSelector(state => state.Character)
-	const { CharacterSaveApiResponse } = useActions()
-	const [history, changeHistory] = useState(
-		currentCharacterInfo.modifiers.history.toString()
+	const { currentCharacterInfo, isInitializedData } = useTypedSelector(
+		state => state.Character
 	)
+	const { CharacterSaveApiResponse } = useActions()
+	const [history, changeHistory] = useState('0')
 
 	useEffect(() => {
-		if (history !== currentCharacterInfo.modifiers.history.toString())
-			CharacterSaveApiResponse({
-				...currentCharacterInfo,
-				modifiers: {
-					...currentCharacterInfo.modifiers,
-					history: isNaN(parseInt(history)) ? 0 : parseInt(history)
-				}
-			})
+		if (isInitializedData)
+			changeHistory(currentCharacterInfo.modifiers.analysis.toString())
+	}, [isInitializedData])
+
+	useEffect(() => {
+		if (isNaN(parseInt(history)) || !isInitializedData) return
+
+		CharacterSaveApiResponse({
+			...currentCharacterInfo,
+			modifiers: {
+				...currentCharacterInfo.modifiers,
+				history: parseInt(history)
+			}
+		})
 	}, [history])
 
 	return (
 		<div className='flex w-full h-min'>
-			<CheckBox changeInputValue={changeHistory} />
+			<CheckBox
+				inputValue={history}
+				changeInputValue={changeHistory}
+				updatingField={'history'}
+				makeUpdateRequest={makeUpdateRequest}
+			/>
 			<Input
 				inputValue={history}
 				changeInputValue={changeHistory}

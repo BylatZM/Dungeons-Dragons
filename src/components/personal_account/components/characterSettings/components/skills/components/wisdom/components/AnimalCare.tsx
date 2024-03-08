@@ -6,30 +6,44 @@ import { useActions } from '../../../../../../../../hooks/useActions'
 import { IUpdatingFields } from '../../../../../../../../../types'
 
 interface IProps {
-	makeUpdateRequest: (updatingField: IUpdatingFields) => Promise<void>
+	makeUpdateRequest: (
+		updatingField: IUpdatingFields,
+		new_value: number
+	) => Promise<void>
 }
 
 export const AnimalCare: FC<IProps> = ({ makeUpdateRequest }) => {
-	const { currentCharacterInfo } = useTypedSelector(state => state.Character)
-	const { CharacterSaveApiResponse } = useActions()
-	const [animalCare, changeAnimalCare] = useState(
-		currentCharacterInfo.modifiers.animalCare.toString()
+	const { currentCharacterInfo, isInitializedData } = useTypedSelector(
+		state => state.Character
 	)
+	const { CharacterSaveApiResponse } = useActions()
+	const [animalCare, changeAnimalCare] = useState('0')
 
 	useEffect(() => {
-		if (animalCare !== currentCharacterInfo.modifiers.animalCare.toString())
-			CharacterSaveApiResponse({
-				...currentCharacterInfo,
-				modifiers: {
-					...currentCharacterInfo.modifiers,
-					animalCare: isNaN(parseInt(animalCare)) ? 0 : parseInt(animalCare)
-				}
-			})
+		if (isInitializedData)
+			changeAnimalCare(currentCharacterInfo.modifiers.animalCare.toString())
+	}, [isInitializedData])
+
+	useEffect(() => {
+		if (isNaN(parseInt(animalCare)) || !isInitializedData) return
+
+		CharacterSaveApiResponse({
+			...currentCharacterInfo,
+			modifiers: {
+				...currentCharacterInfo.modifiers,
+				animalCare: parseInt(animalCare)
+			}
+		})
 	}, [animalCare])
 
 	return (
 		<div className='flex items-center w-full h-min'>
-			<CheckBox changeInputValue={changeAnimalCare} />
+			<CheckBox
+				inputValue={animalCare}
+				changeInputValue={changeAnimalCare}
+				updatingField={'animalCare'}
+				makeUpdateRequest={makeUpdateRequest}
+			/>
 			<Input
 				inputValue={animalCare}
 				changeInputValue={changeAnimalCare}

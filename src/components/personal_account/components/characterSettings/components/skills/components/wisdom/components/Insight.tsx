@@ -6,30 +6,44 @@ import { useActions } from '../../../../../../../../hooks/useActions'
 import { IUpdatingFields } from '../../../../../../../../../types'
 
 interface IProps {
-	makeUpdateRequest: (updatingField: IUpdatingFields) => Promise<void>
+	makeUpdateRequest: (
+		updatingField: IUpdatingFields,
+		new_value: number
+	) => Promise<void>
 }
 
 export const Insight: FC<IProps> = ({ makeUpdateRequest }) => {
-	const { currentCharacterInfo } = useTypedSelector(state => state.Character)
-	const { CharacterSaveApiResponse } = useActions()
-	const [insight, changeInsight] = useState(
-		currentCharacterInfo.modifiers.insight.toString()
+	const { currentCharacterInfo, isInitializedData } = useTypedSelector(
+		state => state.Character
 	)
+	const { CharacterSaveApiResponse } = useActions()
+	const [insight, changeInsight] = useState('0')
 
 	useEffect(() => {
-		if (insight !== currentCharacterInfo.modifiers.insight.toString())
-			CharacterSaveApiResponse({
-				...currentCharacterInfo,
-				modifiers: {
-					...currentCharacterInfo.modifiers,
-					insight: isNaN(parseInt(insight)) ? 0 : parseInt(insight)
-				}
-			})
+		if (isInitializedData)
+			changeInsight(currentCharacterInfo.modifiers.insight.toString())
+	}, [isInitializedData])
+
+	useEffect(() => {
+		if (isNaN(parseInt(insight)) || !isInitializedData) return
+
+		CharacterSaveApiResponse({
+			...currentCharacterInfo,
+			modifiers: {
+				...currentCharacterInfo.modifiers,
+				insight: parseInt(insight)
+			}
+		})
 	}, [insight])
 
 	return (
 		<div className='flex items-center w-full h-min'>
-			<CheckBox changeInputValue={changeInsight} />
+			<CheckBox
+				inputValue={insight}
+				changeInputValue={changeInsight}
+				updatingField={'insight'}
+				makeUpdateRequest={makeUpdateRequest}
+			/>
 			<Input
 				inputValue={insight}
 				changeInputValue={changeInsight}

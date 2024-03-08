@@ -12,6 +12,11 @@ export const Authentication = () => {
 		if (!IsAnimationActive) changeIsAnimationActive(true)
 	}, [IsAnimationActive])
 
+	useEffect(() => {
+		document.documentElement.style.overflowX = 'hidden'
+		document.documentElement.style.overflowY = 'hidden'
+	}, [])
+
 	return (
 		<Background>
 			<div className='auth_main text-white z-20 p-4 flex items-center bg-gradient-main'>

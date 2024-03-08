@@ -6,30 +6,44 @@ import { useActions } from '../../../../../../../../hooks/useActions'
 import { IUpdatingFields } from '../../../../../../../../../types'
 
 interface IProps {
-	makeUpdateRequest: (updatingField: IUpdatingFields) => Promise<void>
+	makeUpdateRequest: (
+		updatingField: IUpdatingFields,
+		new_value: number
+	) => Promise<void>
 }
 
 export const Fraud: FC<IProps> = ({ makeUpdateRequest }) => {
-	const { currentCharacterInfo } = useTypedSelector(state => state.Character)
-	const { CharacterSaveApiResponse } = useActions()
-	const [fraud, changeFraud] = useState(
-		currentCharacterInfo.modifiers.fraud.toString()
+	const { currentCharacterInfo, isInitializedData } = useTypedSelector(
+		state => state.Character
 	)
+	const { CharacterSaveApiResponse } = useActions()
+	const [fraud, changeFraud] = useState('0')
 
 	useEffect(() => {
-		if (fraud !== currentCharacterInfo.modifiers.fraud.toString())
-			CharacterSaveApiResponse({
-				...currentCharacterInfo,
-				modifiers: {
-					...currentCharacterInfo.modifiers,
-					fraud: isNaN(parseInt(fraud)) ? 0 : parseInt(fraud)
-				}
-			})
+		if (isInitializedData)
+			changeFraud(currentCharacterInfo.modifiers.fraud.toString())
+	}, [isInitializedData])
+
+	useEffect(() => {
+		if (isNaN(parseInt(fraud)) || !isInitializedData) return
+
+		CharacterSaveApiResponse({
+			...currentCharacterInfo,
+			modifiers: {
+				...currentCharacterInfo.modifiers,
+				fraud: parseInt(fraud)
+			}
+		})
 	}, [fraud])
 
 	return (
 		<div className='flex w-full h-min'>
-			<CheckBox changeInputValue={changeFraud} />
+			<CheckBox
+				inputValue={fraud}
+				changeInputValue={changeFraud}
+				updatingField={'intimidation'}
+				makeUpdateRequest={makeUpdateRequest}
+			/>
 			<Input
 				inputValue={fraud}
 				changeInputValue={changeFraud}

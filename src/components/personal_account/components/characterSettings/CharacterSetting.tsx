@@ -1,28 +1,20 @@
-import { ICharacterInfo } from '../../../../types'
 import { GradientBackground } from '../../../background/GradientBackground'
+import { useActions } from '../../../hooks/useActions'
+import { useTypedSelector } from '../../../hooks/useTypedSelection'
 import { ButtonSkeleton } from '../ButtonSkeleton'
 import { Cube } from './components/cube/Cube'
 import { Notice } from './components/notice/Notice'
 import { Skills } from './components/skills/Skills'
 import clsx from 'clsx'
-import { FC } from 'react'
 
-interface IProps {
-	characterInfo: ICharacterInfo | null
-	changeCharacterInfo: React.Dispatch<
-		React.SetStateAction<ICharacterInfo | null>
-	>
-}
-
-export const CharacterSetting: FC<IProps> = ({
-	characterInfo,
-	changeCharacterInfo
-}) => {
+export const CharacterSetting = () => {
+	const { isInitializedData } = useTypedSelector(state => state.Character)
+	const { CharacterResetCurrentInfo } = useActions()
 	return (
 		<div
 			className={clsx(
 				'transitionGeneral fixed inset-0 overflow-hidden m-auto z-[9999]',
-				characterInfo ? 'w-full' : 'w-0'
+				isInitializedData ? 'w-full' : 'w-0'
 			)}
 		>
 			<GradientBackground>
@@ -32,7 +24,7 @@ export const CharacterSetting: FC<IProps> = ({
 							<span className='text-4xl text-white'>Character Forge</span>
 							<button
 								className='relative bg-none outline-none border-none button w-[180px] overflow-hidden'
-								onClick={() => changeCharacterInfo(null)}
+								onClick={() => CharacterResetCurrentInfo()}
 							>
 								<div className='absolute inset-0 w-full h-full'>
 									<ButtonSkeleton text='Закрыть' color='#3b82f6' />
@@ -46,8 +38,8 @@ export const CharacterSetting: FC<IProps> = ({
 
 					<div className='relative flex justify-between pt-20 m-auto overflow-hidden max-w-[1400px]'>
 						<Cube />
-						<Skills lastCharacterInfo={characterInfo} />
-						<Notice lastCharacterInfo={characterInfo} />
+						<Skills />
+						<Notice />
 					</div>
 				</div>
 			</GradientBackground>

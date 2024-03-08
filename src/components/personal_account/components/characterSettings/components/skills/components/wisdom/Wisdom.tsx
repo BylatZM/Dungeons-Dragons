@@ -4,10 +4,8 @@ import { Medicine } from './components/Medicine'
 import { Insight } from './components/Insight'
 import { AnimalCare } from './components/AnimalCare'
 import { GeneralInput } from '../GeneralInput'
-import { FC, useEffect, useState } from 'react'
 import { SkillWrapper } from '../SkillWrapper'
 import {
-	ICharacterInfo,
 	ICharacterUpdate,
 	IUpdatingFields
 } from '../../../../../../../../types'
@@ -15,98 +13,72 @@ import { useTypedSelector } from '../../../../../../../hooks/useTypedSelection'
 import { useActions } from '../../../../../../../hooks/useActions'
 import { useUpdateCharacterMutation } from '../../../../../../../../store/api/characterApiSlice'
 
-interface IProps {
-	lastCharacterInfo: ICharacterInfo | null
-}
-
-export const Wisdom: FC<IProps> = ({ lastCharacterInfo }) => {
+export const Wisdom = () => {
 	const { currentCharacterInfo } = useTypedSelector(state => state.Character)
 	const { CharacterSaveApiResponse } = useActions()
-	const [wisdom, changeWisdom] = useState(
-		currentCharacterInfo.wisdom.toString()
-	)
 	const [updateCharacter] = useUpdateCharacterMutation()
 
-	const makeUpdateRequest = async (updatingField: IUpdatingFields) => {
+	const updateWisdom = (value: number) => {
+		CharacterSaveApiResponse({
+			...currentCharacterInfo,
+			wisdom: value
+		})
+	}
+
+	const makeUpdateRequest = async (
+		updatingField: IUpdatingFields,
+		new_value: number
+	) => {
 		let updateData: ICharacterUpdate = {
 			characterId: currentCharacterInfo.id,
 			newValues: {}
 		}
-		if (
-			updatingField === 'wisdom' &&
-			lastCharacterInfo &&
-			lastCharacterInfo.wisdom !== currentCharacterInfo.wisdom
-		)
+		if (updatingField === 'wisdom')
 			updateData = {
 				...updateData,
 				newValues: {
 					...updateData.newValues,
-					wisdom: currentCharacterInfo.wisdom
+					wisdom: new_value
 				}
 			}
-		if (
-			updatingField === 'perception' &&
-			lastCharacterInfo &&
-			lastCharacterInfo.modifiers.perception !==
-				currentCharacterInfo.modifiers.perception
-		)
+		if (updatingField === 'perception')
 			updateData = {
 				...updateData,
 				newValues: {
 					...updateData.newValues,
-					perception: currentCharacterInfo.modifiers.perception
+					perception: new_value
 				}
 			}
-		if (
-			updatingField === 'survival' &&
-			lastCharacterInfo &&
-			lastCharacterInfo.modifiers.survival !==
-				currentCharacterInfo.modifiers.survival
-		)
+		if (updatingField === 'survival')
 			updateData = {
 				...updateData,
 				newValues: {
 					...updateData.newValues,
-					survival: currentCharacterInfo.modifiers.survival
+					survival: new_value
 				}
 			}
-		if (
-			updatingField === 'medicine' &&
-			lastCharacterInfo &&
-			lastCharacterInfo.modifiers.medicine !==
-				currentCharacterInfo.modifiers.medicine
-		)
+		if (updatingField === 'medicine')
 			updateData = {
 				...updateData,
 				newValues: {
 					...updateData.newValues,
-					medicine: currentCharacterInfo.modifiers.medicine
+					medicine: new_value
 				}
 			}
-		if (
-			updatingField === 'insight' &&
-			lastCharacterInfo &&
-			lastCharacterInfo.modifiers.insight !==
-				currentCharacterInfo.modifiers.insight
-		)
+		if (updatingField === 'insight')
 			updateData = {
 				...updateData,
 				newValues: {
 					...updateData.newValues,
-					insight: currentCharacterInfo.modifiers.insight
+					insight: new_value
 				}
 			}
-		if (
-			updatingField === 'animalCare' &&
-			lastCharacterInfo &&
-			lastCharacterInfo.modifiers.animalCare !==
-				currentCharacterInfo.modifiers.animalCare
-		)
+		if (updatingField === 'animalCare')
 			updateData = {
 				...updateData,
 				newValues: {
 					...updateData.newValues,
-					animalCare: currentCharacterInfo.modifiers.animalCare
+					animalCare: new_value
 				}
 			}
 		if (Object.keys(updateData.newValues).length !== 0) {
@@ -114,21 +86,13 @@ export const Wisdom: FC<IProps> = ({ lastCharacterInfo }) => {
 		}
 	}
 
-	useEffect(() => {
-		if (wisdom !== currentCharacterInfo.wisdom.toString())
-			CharacterSaveApiResponse({
-				...currentCharacterInfo,
-				wisdom: isNaN(parseInt(wisdom)) ? 0 : parseInt(wisdom)
-			})
-	}, [wisdom])
-
 	return (
 		<SkillWrapper>
 			<div className='flex justify-between mt-4'>
 				<span className='text-xl font-bold text-white'>Мудрость</span>
 				<GeneralInput
-					inputValue={wisdom}
-					changeInputValue={changeWisdom}
+					inputValue={currentCharacterInfo.wisdom.toString()}
+					changeInputValue={updateWisdom}
 					updatingField={'wisdom'}
 					makeUpdateRequest={makeUpdateRequest}
 				/>

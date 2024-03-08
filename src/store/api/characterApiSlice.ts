@@ -6,17 +6,12 @@ export const characterApiSlice = apiSlice.injectEndpoints({
 		getCharacters: builder.query<ICharacters, void>({
 			query: () => 'character/get'
 		}),
-		getCurrentCharacter: builder.query<ICharacterInfo, string>({
-			query: id => ({
-				url: 'character/' + id
-			})
-		}),
 		updateCharacter: builder.mutation<ICharacterInfo | void, ICharacterUpdate>({
 			query: credential => {
 				return {
 					url: 'character/update',
-					method: 'patch',
-					body: { ...credential }
+					method: 'PATCH',
+					body: credential
 				}
 			}
 		})
@@ -25,7 +20,6 @@ export const characterApiSlice = apiSlice.injectEndpoints({
 
 export const createCharacter = async (data: FormData) => {
 	if (!data.has('race') || !data.has('name') || !data.has('class')) {
-		alert('Пожалуйста, заполните поля раса, имя персонажа и выберите его класс')
 		return
 	}
 
@@ -50,8 +44,26 @@ export const createCharacter = async (data: FormData) => {
 	else alert('Ошибка создания персонажа')
 }
 
-export const {
-	useGetCharactersQuery,
-	useGetCurrentCharacterQuery,
-	useUpdateCharacterMutation
-} = characterApiSlice
+export const getCurrentCharacter = async (
+	character_id: string
+): Promise<ICharacterInfo | void> => {
+	const token = localStorage.getItem('token')
+	if (!token) return
+
+	const response = await fetch(
+		'http://95.214.11.83:8080/api/character/' + character_id,
+		{
+			headers: {
+				Accept: 'application/json; charset=utf-8',
+				Authorization: `Bearer ${token}`
+			},
+			method: 'GET'
+		}
+	).then(response => response.json())
+
+	if (response) return response
+	else alert('Ошибка получения характеристик персонажа')
+}
+
+export const { useGetCharactersQuery, useUpdateCharacterMutation } =
+	characterApiSlice

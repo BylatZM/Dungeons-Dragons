@@ -5,7 +5,10 @@ interface IProps {
 	inputValue: string
 	changeInputValue: React.Dispatch<React.SetStateAction<string>>
 	updatingField: IUpdatingFields
-	makeUpdateRequest: (updatingField: IUpdatingFields) => Promise<void>
+	makeUpdateRequest: (
+		updatingField: IUpdatingFields,
+		new_value: number
+	) => Promise<void>
 }
 
 export const Input: FC<IProps> = ({
@@ -23,11 +26,8 @@ export const Input: FC<IProps> = ({
 			onBlur={e => {
 				const value = parseInt(e.target.value)
 				if (isNaN(value)) changeInputValue('0')
-				else {
-					if (value > 0) changeInputValue(value.toString())
-					else changeInputValue(value.toString())
-				}
-				makeUpdateRequest(updatingField)
+				else changeInputValue(e.target.value)
+				makeUpdateRequest(updatingField, parseInt(e.target.value))
 			}}
 			onChange={e => {
 				if (
@@ -36,10 +36,6 @@ export const Input: FC<IProps> = ({
 					(isNaN(parseInt(e.target.value)) || /[^\d-]/.test(e.target.value))
 				) {
 					changeInputValue('0')
-					return
-				}
-				if (parseInt(e.target.value) > 0) {
-					changeInputValue(e.target.value)
 					return
 				}
 				if (parseInt(e.target.value) < -10) {

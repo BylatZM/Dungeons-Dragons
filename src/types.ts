@@ -12,6 +12,7 @@ export interface IAuthSuccessResponse {
 export interface ICharacterState {
 	currentCharacterInfo: ICharacterInfo
 	characterClasses: ICharacterGrade[]
+	isInitializedData: boolean
 }
 
 export interface StoreState {

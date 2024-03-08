@@ -6,30 +6,46 @@ import { useTypedSelector } from '../../../../../../../../hooks/useTypedSelectio
 import { useActions } from '../../../../../../../../hooks/useActions'
 
 interface IProps {
-	makeUpdateRequest: (updatingField: IUpdatingFields) => Promise<void>
+	makeUpdateRequest: (
+		updatingField: IUpdatingFields,
+		new_value: number
+	) => Promise<void>
 }
 
 export const Magic: FC<IProps> = ({ makeUpdateRequest }) => {
-	const { currentCharacterInfo } = useTypedSelector(state => state.Character)
+	const { currentCharacterInfo, isInitializedData } = useTypedSelector(
+		state => state.Character
+	)
 	const { CharacterSaveApiResponse } = useActions()
 	const [magic, changeMagic] = useState(
 		currentCharacterInfo.modifiers.magic.toString()
 	)
 
 	useEffect(() => {
-		if (magic !== currentCharacterInfo.modifiers.magic.toString())
-			CharacterSaveApiResponse({
-				...currentCharacterInfo,
-				modifiers: {
-					...currentCharacterInfo.modifiers,
-					magic: isNaN(parseInt(magic)) ? 0 : parseInt(magic)
-				}
-			})
+		if (isInitializedData)
+			changeMagic(currentCharacterInfo.modifiers.magic.toString())
+	}, [isInitializedData])
+
+	useEffect(() => {
+		if (isNaN(parseInt(magic)) || !isInitializedData) return
+
+		CharacterSaveApiResponse({
+			...currentCharacterInfo,
+			modifiers: {
+				...currentCharacterInfo.modifiers,
+				magic: parseInt(magic)
+			}
+		})
 	}, [magic])
 
 	return (
 		<div className='flex w-full h-min'>
-			<CheckBox changeInputValue={changeMagic} />
+			<CheckBox
+				inputValue={magic}
+				changeInputValue={changeMagic}
+				updatingField={'magic'}
+				makeUpdateRequest={makeUpdateRequest}
+			/>
 			<Input
 				inputValue={magic}
 				changeInputValue={changeMagic}

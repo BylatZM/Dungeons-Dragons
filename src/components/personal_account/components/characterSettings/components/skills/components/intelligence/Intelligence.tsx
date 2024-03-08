@@ -3,11 +3,9 @@ import { History } from './components/History'
 import { Magic } from './components/Magic'
 import { Nature } from './components/Nature'
 import { Religion } from './components/Religion'
-import { FC, useEffect, useState } from 'react'
 import { SkillWrapper } from '../SkillWrapper'
 import { GeneralInput } from '../GeneralInput'
 import {
-	ICharacterInfo,
 	ICharacterUpdate,
 	IUpdatingFields
 } from '../../../../../../../../types'
@@ -15,97 +13,72 @@ import { useTypedSelector } from '../../../../../../../hooks/useTypedSelection'
 import { useActions } from '../../../../../../../hooks/useActions'
 import { useUpdateCharacterMutation } from '../../../../../../../../store/api/characterApiSlice'
 
-interface IProps {
-	lastCharacterInfo: ICharacterInfo | null
-}
-
-export const Intelligence: FC<IProps> = ({ lastCharacterInfo }) => {
+export const Intelligence = () => {
 	const { currentCharacterInfo } = useTypedSelector(state => state.Character)
 	const { CharacterSaveApiResponse } = useActions()
-	const [intelligence, changeIntelligence] = useState(
-		currentCharacterInfo.intelligence.toString()
-	)
 	const [updateCharacter] = useUpdateCharacterMutation()
 
-	const makeUpdateRequest = async (updatingField: IUpdatingFields) => {
+	const updateCharisma = (value: number) => {
+		CharacterSaveApiResponse({
+			...currentCharacterInfo,
+			intelligence: value
+		})
+	}
+
+	const makeUpdateRequest = async (
+		updatingField: IUpdatingFields,
+		new_value: number
+	) => {
 		let updateData: ICharacterUpdate = {
 			characterId: currentCharacterInfo.id,
 			newValues: {}
 		}
-		if (
-			updatingField === 'intelligence' &&
-			lastCharacterInfo &&
-			lastCharacterInfo.intelligence !== currentCharacterInfo.intelligence
-		)
+		if (updatingField === 'intelligence')
 			updateData = {
 				...updateData,
 				newValues: {
 					...updateData.newValues,
-					intelligence: currentCharacterInfo.intelligence
+					intelligence: new_value
 				}
 			}
-		if (
-			updatingField === 'analysis' &&
-			lastCharacterInfo &&
-			lastCharacterInfo.modifiers.analysis !==
-				currentCharacterInfo.modifiers.analysis
-		)
+		if (updatingField === 'analysis')
 			updateData = {
 				...updateData,
 				newValues: {
 					...updateData.newValues,
-					analysis: currentCharacterInfo.modifiers.analysis
+					analysis: new_value
 				}
 			}
-		if (
-			updatingField === 'history' &&
-			lastCharacterInfo &&
-			lastCharacterInfo.modifiers.history !==
-				currentCharacterInfo.modifiers.history
-		)
+		if (updatingField === 'history')
 			updateData = {
 				...updateData,
 				newValues: {
 					...updateData.newValues,
-					history: currentCharacterInfo.modifiers.history
+					history: new_value
 				}
 			}
-		if (
-			updatingField === 'magic' &&
-			lastCharacterInfo &&
-			lastCharacterInfo.modifiers.magic !== currentCharacterInfo.modifiers.magic
-		)
+		if (updatingField === 'magic')
 			updateData = {
 				...updateData,
 				newValues: {
 					...updateData.newValues,
-					magic: currentCharacterInfo.modifiers.magic
+					magic: new_value
 				}
 			}
-		if (
-			updatingField === 'nature' &&
-			lastCharacterInfo &&
-			lastCharacterInfo.modifiers.nature !==
-				currentCharacterInfo.modifiers.nature
-		)
+		if (updatingField === 'nature')
 			updateData = {
 				...updateData,
 				newValues: {
 					...updateData.newValues,
-					nature: currentCharacterInfo.modifiers.nature
+					nature: new_value
 				}
 			}
-		if (
-			updatingField === 'religion' &&
-			lastCharacterInfo &&
-			lastCharacterInfo.modifiers.religion !==
-				currentCharacterInfo.modifiers.religion
-		)
+		if (updatingField === 'religion')
 			updateData = {
 				...updateData,
 				newValues: {
 					...updateData.newValues,
-					religion: currentCharacterInfo.modifiers.religion
+					religion: new_value
 				}
 			}
 		if (Object.keys(updateData.newValues).length !== 0) {
@@ -113,21 +86,13 @@ export const Intelligence: FC<IProps> = ({ lastCharacterInfo }) => {
 		}
 	}
 
-	useEffect(() => {
-		if (intelligence !== currentCharacterInfo.intelligence.toString())
-			CharacterSaveApiResponse({
-				...currentCharacterInfo,
-				intelligence: isNaN(parseInt(intelligence)) ? 0 : parseInt(intelligence)
-			})
-	}, [intelligence])
-
 	return (
 		<SkillWrapper>
 			<div className='flex justify-between mt-4'>
 				<span className='text-xl font-bold text-white'>Интеллект</span>
 				<GeneralInput
-					inputValue={intelligence}
-					changeInputValue={changeIntelligence}
+					inputValue={currentCharacterInfo.intelligence.toString()}
+					changeInputValue={updateCharisma}
 					updatingField={'intelligence'}
 					makeUpdateRequest={makeUpdateRequest}
 				/>

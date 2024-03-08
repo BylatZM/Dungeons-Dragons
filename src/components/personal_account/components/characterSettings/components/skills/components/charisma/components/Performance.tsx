@@ -6,30 +6,45 @@ import { useActions } from '../../../../../../../../hooks/useActions'
 import { IUpdatingFields } from '../../../../../../../../../types'
 
 interface IProps {
-	makeUpdateRequest: (updatingField: IUpdatingFields) => Promise<void>
+	makeUpdateRequest: (
+		updatingField: IUpdatingFields,
+		new_value: number
+	) => Promise<void>
 }
 
 export const Performance: FC<IProps> = ({ makeUpdateRequest }) => {
-	const { currentCharacterInfo } = useTypedSelector(state => state.Character)
-	const { CharacterSaveApiResponse } = useActions()
-	const [performance, changePerformance] = useState(
-		currentCharacterInfo.modifiers.performance.toString()
+	const { currentCharacterInfo, isInitializedData } = useTypedSelector(
+		state => state.Character
 	)
 
+	const { CharacterSaveApiResponse } = useActions()
+	const [performance, changePerformance] = useState('0')
+
 	useEffect(() => {
-		if (performance !== currentCharacterInfo.modifiers.performance.toString())
-			CharacterSaveApiResponse({
-				...currentCharacterInfo,
-				modifiers: {
-					...currentCharacterInfo.modifiers,
-					performance: isNaN(parseInt(performance)) ? 0 : parseInt(performance)
-				}
-			})
+		if (isInitializedData)
+			changePerformance(currentCharacterInfo.modifiers.athletics.toString())
+	}, [isInitializedData])
+
+	useEffect(() => {
+		if (isNaN(parseInt(performance)) || !isInitializedData) return
+
+		CharacterSaveApiResponse({
+			...currentCharacterInfo,
+			modifiers: {
+				...currentCharacterInfo.modifiers,
+				performance: parseInt(performance)
+			}
+		})
 	}, [performance])
 
 	return (
 		<div className='flex items-center w-full h-min'>
-			<CheckBox changeInputValue={changePerformance} />
+			<CheckBox
+				inputValue={performance}
+				changeInputValue={changePerformance}
+				updatingField={'performance'}
+				makeUpdateRequest={makeUpdateRequest}
+			/>
 			<Input
 				inputValue={performance}
 				changeInputValue={changePerformance}

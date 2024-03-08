@@ -6,30 +6,44 @@ import { useTypedSelector } from '../../../../../../../../hooks/useTypedSelectio
 import { useActions } from '../../../../../../../../hooks/useActions'
 
 interface IProps {
-	makeUpdateRequest: (updatingField: IUpdatingFields) => Promise<void>
+	makeUpdateRequest: (
+		updatingField: IUpdatingFields,
+		new_value: number
+	) => Promise<void>
 }
 
 export const Conviction: FC<IProps> = ({ makeUpdateRequest }) => {
-	const { currentCharacterInfo } = useTypedSelector(state => state.Character)
-	const { CharacterSaveApiResponse } = useActions()
-	const [conviction, changeConviction] = useState(
-		currentCharacterInfo.modifiers.conviction.toString()
+	const { currentCharacterInfo, isInitializedData } = useTypedSelector(
+		state => state.Character
 	)
+	const { CharacterSaveApiResponse } = useActions()
+	const [conviction, changeConviction] = useState('0')
 
 	useEffect(() => {
-		if (conviction !== currentCharacterInfo.modifiers.conviction.toString())
-			CharacterSaveApiResponse({
-				...currentCharacterInfo,
-				modifiers: {
-					...currentCharacterInfo.modifiers,
-					conviction: isNaN(parseInt(conviction)) ? 0 : parseInt(conviction)
-				}
-			})
+		if (isInitializedData)
+			changeConviction(currentCharacterInfo.modifiers.conviction.toString())
+	}, [isInitializedData])
+
+	useEffect(() => {
+		if (isNaN(parseInt(conviction)) || !isInitializedData) return
+
+		CharacterSaveApiResponse({
+			...currentCharacterInfo,
+			modifiers: {
+				...currentCharacterInfo.modifiers,
+				conviction: parseInt(conviction)
+			}
+		})
 	}, [conviction])
 
 	return (
 		<div className='flex w-full h-min'>
-			<CheckBox changeInputValue={changeConviction} />
+			<CheckBox
+				inputValue={conviction}
+				changeInputValue={changeConviction}
+				updatingField={'intimidation'}
+				makeUpdateRequest={makeUpdateRequest}
+			/>
 			<Input
 				inputValue={conviction}
 				changeInputValue={changeConviction}

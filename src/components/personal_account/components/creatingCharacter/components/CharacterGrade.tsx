@@ -60,6 +60,7 @@ export const CharacterGrade: FC<IProps> = ({ changeFormData, formData }) => {
 							onClick={() => {
 								if (selectedGrade !== el) {
 									changeFormData(prev => ({ ...prev, class: el }))
+									changeSelectorActive(false)
 									changeSelectedGrade(el)
 								}
 							}}

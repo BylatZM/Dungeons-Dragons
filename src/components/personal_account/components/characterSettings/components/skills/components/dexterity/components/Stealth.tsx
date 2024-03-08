@@ -6,30 +6,44 @@ import { useTypedSelector } from '../../../../../../../../hooks/useTypedSelectio
 import { useActions } from '../../../../../../../../hooks/useActions'
 
 interface IProps {
-	makeUpdateRequest: (updatingField: IUpdatingFields) => Promise<void>
+	makeUpdateRequest: (
+		updatingField: IUpdatingFields,
+		new_value: number
+	) => Promise<void>
 }
 
 export const Stealth: FC<IProps> = ({ makeUpdateRequest }) => {
-	const { currentCharacterInfo } = useTypedSelector(state => state.Character)
-	const { CharacterSaveApiResponse } = useActions()
-	const [stealth, changeStealth] = useState(
-		currentCharacterInfo.modifiers.stealth.toString()
+	const { currentCharacterInfo, isInitializedData } = useTypedSelector(
+		state => state.Character
 	)
+	const { CharacterSaveApiResponse } = useActions()
+	const [stealth, changeStealth] = useState('0')
 
 	useEffect(() => {
-		if (stealth !== currentCharacterInfo.modifiers.stealth.toString())
-			CharacterSaveApiResponse({
-				...currentCharacterInfo,
-				modifiers: {
-					...currentCharacterInfo.modifiers,
-					stealth: isNaN(parseInt(stealth)) ? 0 : parseInt(stealth)
-				}
-			})
+		if (isInitializedData)
+			changeStealth(currentCharacterInfo.modifiers.stealth.toString())
+	}, [isInitializedData])
+
+	useEffect(() => {
+		if (isNaN(parseInt(stealth)) || !isInitializedData) return
+
+		CharacterSaveApiResponse({
+			...currentCharacterInfo,
+			modifiers: {
+				...currentCharacterInfo.modifiers,
+				stealth: parseInt(stealth)
+			}
+		})
 	}, [stealth])
 
 	return (
 		<div className='flex items-center w-full h-min'>
-			<CheckBox changeInputValue={changeStealth} />
+			<CheckBox
+				inputValue={stealth}
+				changeInputValue={changeStealth}
+				updatingField={'stealth'}
+				makeUpdateRequest={makeUpdateRequest}
+			/>
 			<Input
 				inputValue={stealth}
 				changeInputValue={changeStealth}

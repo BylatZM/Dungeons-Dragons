@@ -1,23 +1,19 @@
 import { ArrowSVG, ContentBackgroundSVG } from '../../../../../../assets/svg'
 import { CharacterImage } from './CharacterImage'
 import PaperBackground from '../../../../../../assets/images/PaperBackground.png'
-import { FC, useState } from 'react'
+import { useState } from 'react'
 import { useTypedSelector } from '../../../../../hooks/useTypedSelection'
 import { useActions } from '../../../../../hooks/useActions'
 import clsx from 'clsx'
 import SelectBackground from '../../../../../../assets/images/SkillBackground.png'
 import {
-	ICharacterInfo,
+	ICharacterGrade,
 	ICharacterUpdate,
 	IUpdatingFields
 } from '../../../../../../types'
 import { useUpdateCharacterMutation } from '../../../../../../store/api/characterApiSlice'
 
-interface IProps {
-	lastCharacterInfo: ICharacterInfo | null
-}
-
-export const Notice: FC<IProps> = ({ lastCharacterInfo }) => {
+export const Notice = () => {
 	const { characterClasses, currentCharacterInfo } = useTypedSelector(
 		state => state.Character
 	)
@@ -25,93 +21,70 @@ export const Notice: FC<IProps> = ({ lastCharacterInfo }) => {
 	const [selectorActive, changeSelectorActive] = useState(false)
 	const [updateCharacter] = useUpdateCharacterMutation()
 
-	const makeUpdateRequest = async (updatingField: IUpdatingFields) => {
+	const makeUpdateRequest = async (
+		updatingField: IUpdatingFields,
+		new_value: string | number | ICharacterGrade
+	) => {
 		let updateData: ICharacterUpdate = {
 			characterId: currentCharacterInfo.id,
 			newValues: {}
 		}
-		if (
-			updatingField === 'characterClass' &&
-			lastCharacterInfo &&
-			lastCharacterInfo.characterClass !== currentCharacterInfo.characterClass
-		)
+		if (updatingField === 'characterClass' && typeof new_value !== 'number') {
+			const grade = characterClasses.filter(el => el === new_value)[0]
 			updateData = {
 				...updateData,
 				newValues: {
 					...updateData.newValues,
-					characterClass: currentCharacterInfo.characterClass
+					characterClass: grade
 				}
 			}
-		if (
-			updatingField === 'experience' &&
-			lastCharacterInfo &&
-			lastCharacterInfo.experience !== currentCharacterInfo.experience
-		)
+		}
+		if (updatingField === 'experience' && typeof new_value === 'number')
 			updateData = {
 				...updateData,
 				newValues: {
 					...updateData.newValues,
-					experience: currentCharacterInfo.experience
+					experience: new_value
 				}
 			}
-		if (
-			updatingField === 'health' &&
-			lastCharacterInfo &&
-			lastCharacterInfo.health !== currentCharacterInfo.health
-		)
+		if (updatingField === 'health' && typeof new_value === 'number')
 			updateData = {
 				...updateData,
 				newValues: {
 					...updateData.newValues,
-					health: currentCharacterInfo.health
+					health: new_value
 				}
 			}
-		if (
-			updatingField === 'lvl' &&
-			lastCharacterInfo &&
-			lastCharacterInfo.lvl !== currentCharacterInfo.lvl
-		)
+		if (updatingField === 'lvl' && typeof new_value === 'number')
 			updateData = {
 				...updateData,
 				newValues: {
 					...updateData.newValues,
-					lvl: currentCharacterInfo.lvl
+					lvl: new_value
 				}
 			}
-		if (
-			updatingField === 'name' &&
-			lastCharacterInfo &&
-			lastCharacterInfo.name !== currentCharacterInfo.name
-		)
+		if (updatingField === 'name' && typeof new_value === 'string')
 			updateData = {
 				...updateData,
 				newValues: {
 					...updateData.newValues,
-					name: currentCharacterInfo.name
+					name: new_value
 				}
 			}
-		if (
-			updatingField === 'notes' &&
-			lastCharacterInfo &&
-			lastCharacterInfo.notes !== currentCharacterInfo.notes
-		)
+		if (updatingField === 'notes' && typeof new_value === 'string')
 			updateData = {
 				...updateData,
 				newValues: {
 					...updateData.newValues,
-					notes: currentCharacterInfo.notes
+					notes: new_value
 				}
 			}
-		if (
-			updatingField === 'race' &&
-			lastCharacterInfo &&
-			lastCharacterInfo.race !== currentCharacterInfo.race
-		)
+		if (updatingField === 'race' && typeof new_value === 'string')
 			updateData = {
 				...updateData,
 				newValues: {
 					...updateData.newValues,
-					race: currentCharacterInfo.race
+					race: new_value
 				}
 			}
 		if (Object.keys(updateData.newValues).length !== 0) {
@@ -169,7 +142,7 @@ export const Notice: FC<IProps> = ({ lastCharacterInfo }) => {
 													...currentCharacterInfo,
 													characterClass: el
 												})
-												makeUpdateRequest('characterClass')
+												makeUpdateRequest('characterClass', el)
 											}
 										}}
 									>
@@ -194,7 +167,7 @@ export const Notice: FC<IProps> = ({ lastCharacterInfo }) => {
 										})
 									}
 								}}
-								onBlur={() => makeUpdateRequest('race')}
+								onBlur={e => makeUpdateRequest('race', e.target.value)}
 							/>
 						</div>
 					</ContentBackgroundSVG>
@@ -208,14 +181,14 @@ export const Notice: FC<IProps> = ({ lastCharacterInfo }) => {
 										CharacterSaveApiResponse({
 											...currentCharacterInfo,
 											lvl: isNaN(parseInt(e.target.value))
-												? 1
+												? 0
 												: parseInt(e.target.value)
 										})
 									}
 								}}
 								placeholder='Уровень'
 								className='mt-4 w-[45px] bg-inherit outline-none border-none'
-								onBlur={() => makeUpdateRequest('lvl')}
+								onBlur={e => makeUpdateRequest('lvl', parseInt(e.target.value))}
 							/>
 						</div>
 					</ContentBackgroundSVG>
@@ -231,10 +204,10 @@ export const Notice: FC<IProps> = ({ lastCharacterInfo }) => {
 						<ContentBackgroundSVG dimension='175'>
 							<div className='w-full h-1/2 relative inset-y-10 flex flex-col items-center'>
 								<span className='text-xl font-bold block'>Очки опыта</span>
-								<div className='flex gap-x-2 mt-4'>
+								<div className='flex gap-x-1 mt-4'>
 									<input
 										placeholder='Очки опыта'
-										className='w-[90px] bg-inherit outline-none border-none'
+										className='w-[50px] bg-inherit outline-none border-none'
 										value={currentCharacterInfo.experience}
 										onChange={e => {
 											if (/^[0-9]*$/.test(e.target.value)) {
@@ -246,7 +219,9 @@ export const Notice: FC<IProps> = ({ lastCharacterInfo }) => {
 												})
 											}
 										}}
-										onBlur={() => makeUpdateRequest('experience')}
+										onBlur={e =>
+											makeUpdateRequest('experience', parseInt(e.target.value))
+										}
 									/>
 									<span className='text-white'>XP</span>
 								</div>
@@ -255,22 +230,24 @@ export const Notice: FC<IProps> = ({ lastCharacterInfo }) => {
 						<ContentBackgroundSVG dimension='175'>
 							<div className='w-full h-1/2 relative inset-y-10 flex flex-col items-center'>
 								<span className='text-xl font-bold block'>Здоровье</span>
-								<div className='flex gap-x-2 mt-4 '>
+								<div className='flex gap-x-1 mt-4'>
 									<input
 										placeholder='Здоровье'
-										className='w-[70px] bg-inherit outline-none border-none'
+										className='w-[50px] bg-inherit outline-none border-none'
 										value={currentCharacterInfo.health}
 										onChange={e => {
 											if (/^[0-9]*$/.test(e.target.value)) {
 												CharacterSaveApiResponse({
 													...currentCharacterInfo,
 													health: isNaN(parseInt(e.target.value))
-														? 10
+														? 0
 														: parseInt(e.target.value)
 												})
 											}
 										}}
-										onBlur={() => makeUpdateRequest('health')}
+										onBlur={e =>
+											makeUpdateRequest('health', parseInt(e.target.value))
+										}
 									/>
 									<span className='text-white'>HP</span>
 								</div>
@@ -298,7 +275,7 @@ export const Notice: FC<IProps> = ({ lastCharacterInfo }) => {
 								notes: e.target.value
 							})
 						}}
-						onBlur={() => makeUpdateRequest('notes')}
+						onBlur={e => makeUpdateRequest('notes', e.target.value)}
 					></textarea>
 				</div>
 			</div>

@@ -3,10 +3,8 @@ import { Intimidation } from './components/Intimidation'
 import { Fraud } from './components/Fraud'
 import { Conviction } from './components/Conviction'
 import { GeneralInput } from '../GeneralInput'
-import { FC, useEffect, useState } from 'react'
 import { SkillWrapper } from '../SkillWrapper'
 import {
-	ICharacterInfo,
 	ICharacterUpdate,
 	IUpdatingFields
 } from '../../../../../../../../types'
@@ -14,94 +12,64 @@ import { useTypedSelector } from '../../../../../../../hooks/useTypedSelection'
 import { useActions } from '../../../../../../../hooks/useActions'
 import { useUpdateCharacterMutation } from '../../../../../../../../store/api/characterApiSlice'
 
-interface IProps {
-	lastCharacterInfo: ICharacterInfo | null
-}
-
-export const Charisma: FC<IProps> = ({ lastCharacterInfo }) => {
+export const Charisma = () => {
 	const { currentCharacterInfo } = useTypedSelector(state => state.Character)
 	const { CharacterSaveApiResponse } = useActions()
-	const [charisma, changeCharisma] = useState(
-		currentCharacterInfo.charisma.toString()
-	)
 	const [updateCharacter] = useUpdateCharacterMutation()
 
-	useEffect(() => {
-		if (charisma !== currentCharacterInfo.charisma.toString())
-			CharacterSaveApiResponse({
-				...currentCharacterInfo,
-				charisma: isNaN(parseInt(charisma)) ? 0 : parseInt(charisma)
-			})
-	}, [charisma])
+	const updateCharisma = (value: number) => {
+		CharacterSaveApiResponse({
+			...currentCharacterInfo,
+			charisma: value
+		})
+	}
 
-	const makeUpdateRequest = async (updatingField: IUpdatingFields) => {
+	const makeUpdateRequest = async (
+		updatingField: IUpdatingFields,
+		new_value: number
+	) => {
 		let updateData: ICharacterUpdate = {
 			characterId: currentCharacterInfo.id,
 			newValues: {}
 		}
-		if (
-			updatingField === 'performance' &&
-			lastCharacterInfo &&
-			lastCharacterInfo.modifiers.performance !==
-				currentCharacterInfo.modifiers.performance
-		)
+		if (updatingField === 'performance')
 			updateData = {
 				...updateData,
 				newValues: {
 					...updateData.newValues,
-					performance: currentCharacterInfo.modifiers.performance
+					performance: new_value
 				}
 			}
-		console.log(lastCharacterInfo ? lastCharacterInfo.charisma : '')
-		console.log(currentCharacterInfo.charisma)
-		if (
-			updatingField === 'charisma' &&
-			lastCharacterInfo &&
-			lastCharacterInfo.charisma !== currentCharacterInfo.charisma
-		)
+		if (updatingField === 'charisma')
 			updateData = {
 				...updateData,
 				newValues: {
 					...updateData.newValues,
-					charisma: currentCharacterInfo.charisma
+					charisma: new_value
 				}
 			}
-		if (
-			updatingField === 'intimidation' &&
-			lastCharacterInfo &&
-			lastCharacterInfo.modifiers.intimidation !==
-				currentCharacterInfo.modifiers.intimidation
-		)
+		if (updatingField === 'intimidation')
 			updateData = {
 				...updateData,
 				newValues: {
 					...updateData.newValues,
-					intimidation: currentCharacterInfo.modifiers.intimidation
+					intimidation: new_value
 				}
 			}
-		if (
-			updatingField === 'fraud' &&
-			lastCharacterInfo &&
-			lastCharacterInfo.modifiers.fraud !== currentCharacterInfo.modifiers.fraud
-		)
+		if (updatingField === 'fraud')
 			updateData = {
 				...updateData,
 				newValues: {
 					...updateData.newValues,
-					fraud: currentCharacterInfo.modifiers.fraud
+					fraud: new_value
 				}
 			}
-		if (
-			updatingField === 'conviction' &&
-			lastCharacterInfo &&
-			lastCharacterInfo.modifiers.conviction !==
-				currentCharacterInfo.modifiers.conviction
-		)
+		if (updatingField === 'conviction')
 			updateData = {
 				...updateData,
 				newValues: {
 					...updateData.newValues,
-					conviction: currentCharacterInfo.modifiers.conviction
+					conviction: new_value
 				}
 			}
 		if (Object.keys(updateData.newValues).length !== 0) {
@@ -114,8 +82,8 @@ export const Charisma: FC<IProps> = ({ lastCharacterInfo }) => {
 			<div className='flex justify-between mt-4'>
 				<span className='text-xl font-bold text-white'>Харизма</span>
 				<GeneralInput
-					inputValue={charisma}
-					changeInputValue={changeCharisma}
+					inputValue={currentCharacterInfo.charisma.toString()}
+					changeInputValue={updateCharisma}
 					updatingField={'charisma'}
 					makeUpdateRequest={makeUpdateRequest}
 				/>

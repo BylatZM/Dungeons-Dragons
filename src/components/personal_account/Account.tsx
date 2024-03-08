@@ -9,27 +9,24 @@ import { Loading } from '../loading/Loading'
 import { useLogout } from '../hooks/useLogout'
 import { useTypedSelector } from '../hooks/useTypedSelection'
 import { CharacterSetting } from './components/characterSettings/CharacterSetting'
-import { ICharacterInfo } from '../../types'
 
 export const Account = () => {
 	const logout = useLogout()
 	const { token } = useTypedSelector(state => state.Auth)
+	const { isInitializedData } = useTypedSelector(state => state.Character)
 	const [needShowCreatingForm, changeNeedShowCreatingForm] = useState(false)
 	const { isLoading, data: characters, refetch } = useGetCharactersQuery()
 	const [isInitialLoading, changeIsInitialLoading] = useState(true)
-	const [characterInfo, changeCharacterInfo] = useState<ICharacterInfo | null>(
-		null
-	)
 
 	useEffect(() => {
 		document.documentElement.style.overflowX = 'hidden'
-		if (characterInfo) document.documentElement.style.overflowY = 'hidden'
+		if (isInitializedData) document.documentElement.style.overflowY = 'hidden'
 		else document.documentElement.style.overflowY = 'auto'
-	}, [characterInfo])
+	}, [isInitializedData])
 
 	useEffect(() => {
-		if (!needShowCreatingForm && !characterInfo) refetch()
-	}, [needShowCreatingForm, characterInfo])
+		if (!needShowCreatingForm && !isInitializedData) refetch()
+	}, [needShowCreatingForm, isInitializedData])
 
 	useEffect(() => {
 		if (!token) {
@@ -50,10 +47,7 @@ export const Account = () => {
 				needToShow={needShowCreatingForm}
 				changeNeedShowFrame={changeNeedShowCreatingForm}
 			/>
-			<CharacterSetting
-				characterInfo={characterInfo}
-				changeCharacterInfo={changeCharacterInfo}
-			/>
+			<CharacterSetting />
 			<Header />
 			<GradientBackground>
 				<div className='min-w-[1400px] max-w-[1400px] pt-40 pb-40 mx-auto'>
@@ -95,8 +89,6 @@ export const Account = () => {
 											el.characterLink.split('/').length - 1
 										]
 									}
-									characterInfo={characterInfo}
-									changeCharacterInfo={changeCharacterInfo}
 								/>
 							))}
 					</div>
