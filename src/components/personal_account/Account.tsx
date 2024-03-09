@@ -1,6 +1,6 @@
 import { GradientBackground } from '../background/GradientBackground'
 import { ButtonSkeleton } from './components/ButtonSkeleton'
-import { CharacterCard } from './components/characterCard.tsx/CharacterCard'
+import { CharacterCard } from './components/characterCard/CharacterCard'
 import { Header } from '../header/Header'
 import { useEffect, useState } from 'react'
 import { CreatingCharacter } from './components/creatingCharacter/CreatingCharacter'

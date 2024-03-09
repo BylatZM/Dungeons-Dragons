@@ -18,7 +18,7 @@ export const Intelligence = () => {
 	const { CharacterSaveApiResponse } = useActions()
 	const [updateCharacter] = useUpdateCharacterMutation()
 
-	const updateCharisma = (value: number) => {
+	const updateIntelligence = (value: number) => {
 		CharacterSaveApiResponse({
 			...currentCharacterInfo,
 			intelligence: value
@@ -92,7 +92,7 @@ export const Intelligence = () => {
 				<span className='text-xl font-bold text-white'>Интеллект</span>
 				<GeneralInput
 					inputValue={currentCharacterInfo.intelligence.toString()}
-					changeInputValue={updateCharisma}
+					changeInputValue={updateIntelligence}
 					updatingField={'intelligence'}
 					makeUpdateRequest={makeUpdateRequest}
 				/>

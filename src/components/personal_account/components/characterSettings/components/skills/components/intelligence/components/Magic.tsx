@@ -17,9 +17,7 @@ export const Magic: FC<IProps> = ({ makeUpdateRequest }) => {
 		state => state.Character
 	)
 	const { CharacterSaveApiResponse } = useActions()
-	const [magic, changeMagic] = useState(
-		currentCharacterInfo.modifiers.magic.toString()
-	)
+	const [magic, changeMagic] = useState('0')
 
 	useEffect(() => {
 		if (isInitializedData)

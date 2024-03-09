@@ -41,7 +41,7 @@ export const Fraud: FC<IProps> = ({ makeUpdateRequest }) => {
 			<CheckBox
 				inputValue={fraud}
 				changeInputValue={changeFraud}
-				updatingField={'intimidation'}
+				updatingField={'fraud'}
 				makeUpdateRequest={makeUpdateRequest}
 			/>
 			<Input

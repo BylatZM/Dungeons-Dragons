@@ -21,7 +21,7 @@ export const History: FC<IProps> = ({ makeUpdateRequest }) => {
 
 	useEffect(() => {
 		if (isInitializedData)
-			changeHistory(currentCharacterInfo.modifiers.analysis.toString())
+			changeHistory(currentCharacterInfo.modifiers.history.toString())
 	}, [isInitializedData])
 
 	useEffect(() => {

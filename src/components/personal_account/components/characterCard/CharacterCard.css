@@ -24,6 +24,19 @@ img {
 	);
 }
 
+.loadingBlock {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border: solid 2px #fff;
+	overflow: hidden;
+	background: linear-gradient(
+		90deg,
+		rgba(0, 0, 0, 0.9) 0%,
+		rgba(55, 47, 47, 0.9) 81%
+	);
+}
+
 .CardBlock:hover .curtain {
 	transition: opacity 0.25s ease-in-out;
 	opacity: 100;
