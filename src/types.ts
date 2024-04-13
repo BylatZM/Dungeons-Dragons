@@ -25,6 +25,7 @@ export interface IAuthState {
 	username: string
 	password: string
 	error: IError | null
+	sessionStatus: 'expired' | null
 }
 
 export interface IError {
@@ -107,6 +108,29 @@ export interface ICharacterModifiers {
 	intimidation: number
 	fraud: number
 	conviction: number
+	bonuses: ICharacterBonuses
+}
+
+export interface ICharacterBonuses {
+	id: number
+	athleticsBonus: number
+	acrobaticsBonus: number
+	sleightOfHandBonus: number
+	stealthBonus: number
+	perceptionBonus: number
+	survivalBonus: number
+	medicineBonus: number
+	insightBonus: number
+	animalCareBonus: number
+	analysisBonus: number
+	historyBonus: number
+	magicBonus: number
+	natureBonus: number
+	religionBonus: number
+	performanceBonus: number
+	intimidationBonus: number
+	fraudBonus: number
+	convictionBonus: number
 }
 
 export interface ICharacters {
@@ -158,6 +182,24 @@ export interface IUpdatingValues {
 	intelligence?: number
 	charisma?: number
 	notes?: string
+	athleticsBonus?: number
+	acrobaticsBonus?: number
+	sleightOfHandBonus?: number
+	stealthBonus?: number
+	perceptionBonus?: number
+	survivalBonus?: number
+	medicineBonus?: number
+	insightBonus?: number
+	animalCareBonus?: number
+	analysisBonus?: number
+	historyBonus?: number
+	magicBonus?: number
+	natureBonus?: number
+	religionBonus?: number
+	performanceBonus?: number
+	intimidationBonus?: number
+	fraudBonus?: number
+	convictionBonus?: number
 }
 
 export type IUpdatingFields =
@@ -192,3 +234,21 @@ export type IUpdatingFields =
 	| 'intelligence'
 	| 'charisma'
 	| 'notes'
+	| 'athleticsBonus'
+	| 'acrobaticsBonus'
+	| 'sleightOfHandBonus'
+	| 'stealthBonus'
+	| 'perceptionBonus'
+	| 'survivalBonus'
+	| 'medicineBonus'
+	| 'insightBonus'
+	| 'animalCareBonus'
+	| 'analysisBonus'
+	| 'historyBonus'
+	| 'magicBonus'
+	| 'natureBonus'
+	| 'religionBonus'
+	| 'performanceBonus'
+	| 'intimidationBonus'
+	| 'fraudBonus'
+	| 'convictionBonus'

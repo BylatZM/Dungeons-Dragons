@@ -12,8 +12,18 @@ import {
 import { useTypedSelector } from '../../../../../../../hooks/useTypedSelection'
 import { useActions } from '../../../../../../../hooks/useActions'
 import { useUpdateCharacterMutation } from '../../../../../../../../store/api/characterApiSlice'
+import { FC } from 'react'
 
-export const Intelligence = () => {
+interface IProps {
+	calculateNewValueConsiderBonus: (
+		modifierValue: string,
+		bonusValue: number
+	) => string
+}
+
+export const Intelligence: FC<IProps> = ({
+	calculateNewValueConsiderBonus
+}) => {
 	const { currentCharacterInfo } = useTypedSelector(state => state.Character)
 	const { CharacterSaveApiResponse } = useActions()
 	const [updateCharacter] = useUpdateCharacterMutation()
@@ -41,46 +51,6 @@ export const Intelligence = () => {
 					intelligence: new_value
 				}
 			}
-		if (updatingField === 'analysis')
-			updateData = {
-				...updateData,
-				newValues: {
-					...updateData.newValues,
-					analysis: new_value
-				}
-			}
-		if (updatingField === 'history')
-			updateData = {
-				...updateData,
-				newValues: {
-					...updateData.newValues,
-					history: new_value
-				}
-			}
-		if (updatingField === 'magic')
-			updateData = {
-				...updateData,
-				newValues: {
-					...updateData.newValues,
-					magic: new_value
-				}
-			}
-		if (updatingField === 'nature')
-			updateData = {
-				...updateData,
-				newValues: {
-					...updateData.newValues,
-					nature: new_value
-				}
-			}
-		if (updatingField === 'religion')
-			updateData = {
-				...updateData,
-				newValues: {
-					...updateData.newValues,
-					religion: new_value
-				}
-			}
 		if (Object.keys(updateData.newValues).length !== 0) {
 			await updateCharacter(updateData).unwrap()
 		}
@@ -101,11 +71,21 @@ export const Intelligence = () => {
 				className='flex flex-col gap-y-2 w-full h-fit pl-2 pt-2'
 				style={{ color: '#dedede' }}
 			>
-				<Analysis makeUpdateRequest={makeUpdateRequest} />
-				<History makeUpdateRequest={makeUpdateRequest} />
-				<Magic makeUpdateRequest={makeUpdateRequest} />
-				<Nature makeUpdateRequest={makeUpdateRequest} />
-				<Religion makeUpdateRequest={makeUpdateRequest} />
+				<Analysis
+					calculateNewValueConsiderBonus={calculateNewValueConsiderBonus}
+				/>
+				<History
+					calculateNewValueConsiderBonus={calculateNewValueConsiderBonus}
+				/>
+				<Magic
+					calculateNewValueConsiderBonus={calculateNewValueConsiderBonus}
+				/>
+				<Nature
+					calculateNewValueConsiderBonus={calculateNewValueConsiderBonus}
+				/>
+				<Religion
+					calculateNewValueConsiderBonus={calculateNewValueConsiderBonus}
+				/>
 			</div>
 		</SkillWrapper>
 	)

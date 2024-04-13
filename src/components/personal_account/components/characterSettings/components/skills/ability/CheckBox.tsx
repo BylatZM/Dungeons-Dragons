@@ -5,8 +5,7 @@ import { IUpdatingFields } from '../../../../../../../types'
 import { useTypedSelector } from '../../../../../../hooks/useTypedSelection'
 
 interface IProps {
-	inputValue: string
-	changeInputValue: (value: string) => void
+	bonusValue: number
 	updatingField: IUpdatingFields
 	makeUpdateRequest: (
 		updatingField: IUpdatingFields,
@@ -15,21 +14,15 @@ interface IProps {
 }
 
 export const CheckBox: FC<IProps> = ({
-	inputValue,
-	changeInputValue,
+	bonusValue,
 	updatingField,
 	makeUpdateRequest
 }) => {
-	const [state, setState] = useState<0 | 2 | 4>(0)
+	const [state, setState] = useState<number>(0)
 	const { isInitializedData } = useTypedSelector(state => state.Character)
 
-	const InputValueCorrecter = (result: number): string => {
-		if (result > 10) return '10'
-		if (result < -10) return '-10'
-		return result.toString()
-	}
-
 	useEffect(() => {
+		if (isInitializedData) setState(bonusValue)
 		if (!isInitializedData) setState(0)
 	}, [isInitializedData])
 
@@ -38,30 +31,17 @@ export const CheckBox: FC<IProps> = ({
 			className='mr-4 relative min-w-[20px] max-w-[20px] min-h-[20px] max-h-[20px] overflow-hidden border-[1px] rotate-45'
 			style={{ borderColor: '#dedede', color: '#dedede' }}
 			onClick={() => {
-				const value = parseInt(inputValue)
-				if (state === 0 && !isNaN(value)) {
+				if (state === 0) {
 					setState(2)
-					changeInputValue(InputValueCorrecter(value + 2))
-					makeUpdateRequest(
-						updatingField,
-						parseInt(InputValueCorrecter(value + 2))
-					)
+					makeUpdateRequest(updatingField, 2)
 				}
-				if (state === 2 && !isNaN(value)) {
+				if (state === 2) {
 					setState(4)
-					changeInputValue(InputValueCorrecter(value + 2))
-					makeUpdateRequest(
-						updatingField,
-						parseInt(InputValueCorrecter(value + 2))
-					)
+					makeUpdateRequest(updatingField, 4)
 				}
-				if (state === 4 && !isNaN(value)) {
+				if (state === 4) {
 					setState(0)
-					changeInputValue(InputValueCorrecter(value - 6))
-					makeUpdateRequest(
-						updatingField,
-						parseInt(InputValueCorrecter(value - 6))
-					)
+					makeUpdateRequest(updatingField, 0)
 				}
 			}}
 		>

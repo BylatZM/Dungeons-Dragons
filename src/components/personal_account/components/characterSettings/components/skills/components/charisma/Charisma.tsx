@@ -11,8 +11,16 @@ import {
 import { useTypedSelector } from '../../../../../../../hooks/useTypedSelection'
 import { useActions } from '../../../../../../../hooks/useActions'
 import { useUpdateCharacterMutation } from '../../../../../../../../store/api/characterApiSlice'
+import { FC } from 'react'
 
-export const Charisma = () => {
+interface IProps {
+	calculateNewValueConsiderBonus: (
+		modifierValue: string,
+		bonusValue: number
+	) => string
+}
+
+export const Charisma: FC<IProps> = ({ calculateNewValueConsiderBonus }) => {
 	const { currentCharacterInfo } = useTypedSelector(state => state.Character)
 	const { CharacterSaveApiResponse } = useActions()
 	const [updateCharacter] = useUpdateCharacterMutation()
@@ -32,44 +40,12 @@ export const Charisma = () => {
 			characterId: currentCharacterInfo.id,
 			newValues: {}
 		}
-		if (updatingField === 'performance')
-			updateData = {
-				...updateData,
-				newValues: {
-					...updateData.newValues,
-					performance: new_value
-				}
-			}
 		if (updatingField === 'charisma')
 			updateData = {
 				...updateData,
 				newValues: {
 					...updateData.newValues,
 					charisma: new_value
-				}
-			}
-		if (updatingField === 'intimidation')
-			updateData = {
-				...updateData,
-				newValues: {
-					...updateData.newValues,
-					intimidation: new_value
-				}
-			}
-		if (updatingField === 'fraud')
-			updateData = {
-				...updateData,
-				newValues: {
-					...updateData.newValues,
-					fraud: new_value
-				}
-			}
-		if (updatingField === 'conviction')
-			updateData = {
-				...updateData,
-				newValues: {
-					...updateData.newValues,
-					conviction: new_value
 				}
 			}
 		if (Object.keys(updateData.newValues).length !== 0) {
@@ -92,10 +68,18 @@ export const Charisma = () => {
 				className='flex flex-col gap-y-2 pt-2 pl-2 w-full h-fit'
 				style={{ color: '#dedede' }}
 			>
-				<Performance makeUpdateRequest={makeUpdateRequest} />
-				<Intimidation makeUpdateRequest={makeUpdateRequest} />
-				<Fraud makeUpdateRequest={makeUpdateRequest} />
-				<Conviction makeUpdateRequest={makeUpdateRequest} />
+				<Performance
+					calculateNewValueConsiderBonus={calculateNewValueConsiderBonus}
+				/>
+				<Intimidation
+					calculateNewValueConsiderBonus={calculateNewValueConsiderBonus}
+				/>
+				<Fraud
+					calculateNewValueConsiderBonus={calculateNewValueConsiderBonus}
+				/>
+				<Conviction
+					calculateNewValueConsiderBonus={calculateNewValueConsiderBonus}
+				/>
 			</div>
 		</SkillWrapper>
 	)

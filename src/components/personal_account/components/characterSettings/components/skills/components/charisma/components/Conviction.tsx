@@ -1,21 +1,26 @@
 import { FC, useEffect, useState } from 'react'
 import { Input } from '../../../ability/Input'
 import { CheckBox } from '../../../ability/CheckBox'
-import { IUpdatingFields } from '../../../../../../../../../types'
+import {
+	ICharacterUpdate,
+	IUpdatingFields
+} from '../../../../../../../../../types'
 import { useTypedSelector } from '../../../../../../../../hooks/useTypedSelection'
 import { useActions } from '../../../../../../../../hooks/useActions'
+import { useUpdateCharacterMutation } from '../../../../../../../../../store/api/characterApiSlice'
 
 interface IProps {
-	makeUpdateRequest: (
-		updatingField: IUpdatingFields,
-		new_value: number
-	) => Promise<void>
+	calculateNewValueConsiderBonus: (
+		modifierValue: string,
+		bonusValue: number
+	) => string
 }
 
-export const Conviction: FC<IProps> = ({ makeUpdateRequest }) => {
+export const Conviction: FC<IProps> = ({ calculateNewValueConsiderBonus }) => {
 	const { currentCharacterInfo, isInitializedData } = useTypedSelector(
 		state => state.Character
 	)
+	const [updateCharacter] = useUpdateCharacterMutation()
 	const { CharacterSaveApiResponse } = useActions()
 	const [conviction, changeConviction] = useState('0')
 
@@ -36,12 +41,47 @@ export const Conviction: FC<IProps> = ({ makeUpdateRequest }) => {
 		})
 	}, [conviction])
 
+	const makeUpdateRequest = async (
+		updatingField: IUpdatingFields,
+		new_value: number
+	) => {
+		let updateData: ICharacterUpdate = {
+			characterId: currentCharacterInfo.id,
+			newValues: {}
+		}
+		if (updatingField === 'conviction')
+			updateData = {
+				...updateData,
+				newValues: {
+					...updateData.newValues,
+					conviction: new_value
+				}
+			}
+		if (updatingField === 'convictionBonus') {
+			const newConvictionValue = calculateNewValueConsiderBonus(
+				conviction,
+				new_value
+			)
+			changeConviction(newConvictionValue)
+			updateData = {
+				...updateData,
+				newValues: {
+					...updateData.newValues,
+					convictionBonus: new_value,
+					conviction: parseInt(newConvictionValue)
+				}
+			}
+		}
+		if (Object.keys(updateData.newValues).length !== 0) {
+			await updateCharacter(updateData).unwrap()
+		}
+	}
+
 	return (
 		<div className='flex w-full h-min'>
 			<CheckBox
-				inputValue={conviction}
-				changeInputValue={changeConviction}
-				updatingField={'conviction'}
+				bonusValue={currentCharacterInfo.modifiers.bonuses.convictionBonus}
+				updatingField={'convictionBonus'}
 				makeUpdateRequest={makeUpdateRequest}
 			/>
 			<Input

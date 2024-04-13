@@ -12,8 +12,16 @@ import {
 import { useTypedSelector } from '../../../../../../../hooks/useTypedSelection'
 import { useActions } from '../../../../../../../hooks/useActions'
 import { useUpdateCharacterMutation } from '../../../../../../../../store/api/characterApiSlice'
+import { FC } from 'react'
 
-export const Wisdom = () => {
+interface IProps {
+	calculateNewValueConsiderBonus: (
+		modifierValue: string,
+		bonusValue: number
+	) => string
+}
+
+export const Wisdom: FC<IProps> = ({ calculateNewValueConsiderBonus }) => {
 	const { currentCharacterInfo } = useTypedSelector(state => state.Character)
 	const { CharacterSaveApiResponse } = useActions()
 	const [updateCharacter] = useUpdateCharacterMutation()
@@ -41,46 +49,6 @@ export const Wisdom = () => {
 					wisdom: new_value
 				}
 			}
-		if (updatingField === 'perception')
-			updateData = {
-				...updateData,
-				newValues: {
-					...updateData.newValues,
-					perception: new_value
-				}
-			}
-		if (updatingField === 'survival')
-			updateData = {
-				...updateData,
-				newValues: {
-					...updateData.newValues,
-					survival: new_value
-				}
-			}
-		if (updatingField === 'medicine')
-			updateData = {
-				...updateData,
-				newValues: {
-					...updateData.newValues,
-					medicine: new_value
-				}
-			}
-		if (updatingField === 'insight')
-			updateData = {
-				...updateData,
-				newValues: {
-					...updateData.newValues,
-					insight: new_value
-				}
-			}
-		if (updatingField === 'animalCare')
-			updateData = {
-				...updateData,
-				newValues: {
-					...updateData.newValues,
-					animalCare: new_value
-				}
-			}
 		if (Object.keys(updateData.newValues).length !== 0) {
 			await updateCharacter(updateData).unwrap()
 		}
@@ -101,11 +69,21 @@ export const Wisdom = () => {
 				className='flex flex-col pt-2 pl-2 w-full h-fit'
 				style={{ color: '#dedede' }}
 			>
-				<Perception makeUpdateRequest={makeUpdateRequest} />
-				<Survival makeUpdateRequest={makeUpdateRequest} />
-				<Medicine makeUpdateRequest={makeUpdateRequest} />
-				<Insight makeUpdateRequest={makeUpdateRequest} />
-				<AnimalCare makeUpdateRequest={makeUpdateRequest} />
+				<Perception
+					calculateNewValueConsiderBonus={calculateNewValueConsiderBonus}
+				/>
+				<Survival
+					calculateNewValueConsiderBonus={calculateNewValueConsiderBonus}
+				/>
+				<Medicine
+					calculateNewValueConsiderBonus={calculateNewValueConsiderBonus}
+				/>
+				<Insight
+					calculateNewValueConsiderBonus={calculateNewValueConsiderBonus}
+				/>
+				<AnimalCare
+					calculateNewValueConsiderBonus={calculateNewValueConsiderBonus}
+				/>
 			</div>
 		</SkillWrapper>
 	)

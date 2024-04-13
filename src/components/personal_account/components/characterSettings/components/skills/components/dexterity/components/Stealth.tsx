@@ -1,21 +1,26 @@
 import { FC, useEffect, useState } from 'react'
 import { CheckBox } from '../../../ability/CheckBox'
 import { Input } from '../../../ability/Input'
-import { IUpdatingFields } from '../../../../../../../../../types'
+import {
+	ICharacterUpdate,
+	IUpdatingFields
+} from '../../../../../../../../../types'
 import { useTypedSelector } from '../../../../../../../../hooks/useTypedSelection'
 import { useActions } from '../../../../../../../../hooks/useActions'
+import { useUpdateCharacterMutation } from '../../../../../../../../../store/api/characterApiSlice'
 
 interface IProps {
-	makeUpdateRequest: (
-		updatingField: IUpdatingFields,
-		new_value: number
-	) => Promise<void>
+	calculateNewValueConsiderBonus: (
+		modifierValue: string,
+		bonusValue: number
+	) => string
 }
 
-export const Stealth: FC<IProps> = ({ makeUpdateRequest }) => {
+export const Stealth: FC<IProps> = ({ calculateNewValueConsiderBonus }) => {
 	const { currentCharacterInfo, isInitializedData } = useTypedSelector(
 		state => state.Character
 	)
+	const [updateCharacter] = useUpdateCharacterMutation()
 	const { CharacterSaveApiResponse } = useActions()
 	const [stealth, changeStealth] = useState('0')
 
@@ -36,12 +41,44 @@ export const Stealth: FC<IProps> = ({ makeUpdateRequest }) => {
 		})
 	}, [stealth])
 
+	const makeUpdateRequest = async (
+		updatingField: IUpdatingFields,
+		new_value: number
+	) => {
+		let updateData: ICharacterUpdate = {
+			characterId: currentCharacterInfo.id,
+			newValues: {}
+		}
+		if (updatingField === 'stealth')
+			updateData = {
+				...updateData,
+				newValues: {
+					...updateData.newValues,
+					stealth: new_value
+				}
+			}
+		if (updatingField === 'stealthBonus') {
+			const newStealthValue = calculateNewValueConsiderBonus(stealth, new_value)
+			changeStealth(newStealthValue)
+			updateData = {
+				...updateData,
+				newValues: {
+					...updateData.newValues,
+					stealthBonus: new_value,
+					stealth: parseInt(newStealthValue)
+				}
+			}
+		}
+		if (Object.keys(updateData.newValues).length !== 0) {
+			await updateCharacter(updateData).unwrap()
+		}
+	}
+
 	return (
 		<div className='flex items-center w-full h-min'>
 			<CheckBox
-				inputValue={stealth}
-				changeInputValue={changeStealth}
-				updatingField={'stealth'}
+				bonusValue={currentCharacterInfo.modifiers.bonuses.stealthBonus}
+				updatingField={'stealthBonus'}
 				makeUpdateRequest={makeUpdateRequest}
 			/>
 			<Input

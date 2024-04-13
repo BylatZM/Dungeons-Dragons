@@ -6,13 +6,10 @@ import { useEffect, useState } from 'react'
 import { CreatingCharacter } from './components/creatingCharacter/CreatingCharacter'
 import { useGetCharactersQuery } from '../../store/api/characterApiSlice'
 import { Loading } from '../loading/Loading'
-import { useLogout } from '../hooks/useLogout'
 import { useTypedSelector } from '../hooks/useTypedSelection'
 import { CharacterSetting } from './components/characterSettings/CharacterSetting'
 
 export const Account = () => {
-	const logout = useLogout()
-	const { token } = useTypedSelector(state => state.Auth)
 	const { isInitializedData } = useTypedSelector(state => state.Character)
 	const [needShowCreatingForm, changeNeedShowCreatingForm] = useState(false)
 	const { isLoading, data: characters, refetch } = useGetCharactersQuery()
@@ -27,13 +24,6 @@ export const Account = () => {
 	useEffect(() => {
 		if (!needShowCreatingForm && !isInitializedData) refetch()
 	}, [needShowCreatingForm, isInitializedData])
-
-	useEffect(() => {
-		if (!token) {
-			alert('Срок жизни сессии истек')
-			logout()
-		}
-	}, [token])
 
 	useEffect(() => {
 		if (characters) changeIsInitialLoading(false)
@@ -56,7 +46,10 @@ export const Account = () => {
 						{!isLoading && (
 							<button
 								className='relative bg-none border-none outline-none w-[180px] h-[40px] button'
-								onClick={() => changeNeedShowCreatingForm(true)}
+								onClick={() => {
+									changeNeedShowCreatingForm(true)
+									document.documentElement.style.overflowY = 'hidden'
+								}}
 							>
 								<div className='absolute inset-0 w-full h-full'>
 									<ButtonSkeleton text='Создать персонажа' color='#3b82f6' />

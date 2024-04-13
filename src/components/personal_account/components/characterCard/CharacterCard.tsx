@@ -3,7 +3,6 @@ import './CharacterCard.css'
 import { getCurrentCharacter } from '../../../../store/api/characterApiSlice'
 import { useActions } from '../../../hooks/useActions'
 import defaultCharacterImage from '../../../../assets/images/DefaultCharacter.png'
-import { useLogout } from '../../../hooks/useLogout'
 import { SpinnerSVG } from '../../../../assets/svg'
 import clsx from 'clsx'
 
@@ -23,8 +22,7 @@ export const CharacterCard: FC<IProps> = ({
 	character_id
 }) => {
 	const [imageLoaded, setImageLoaded] = useState(false)
-	const logout = useLogout()
-	const { CharacterSaveApiResponse } = useActions()
+	const { CharacterSaveApiResponse, AuthSessionStatus } = useActions()
 
 	const handleImageLoad = () => {
 		setImageLoaded(true)
@@ -33,7 +31,7 @@ export const CharacterCard: FC<IProps> = ({
 	const makeRequest = async () => {
 		const response = await getCurrentCharacter(character_id)
 		if (response) CharacterSaveApiResponse(response)
-		else logout()
+		else AuthSessionStatus('expired')
 	}
 
 	return (

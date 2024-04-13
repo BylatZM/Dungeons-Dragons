@@ -1,7 +1,7 @@
 import { Routes, Route, Navigate, useNavigate } from 'react-router-dom'
 import { Authentication } from './components/authentication/Authentication'
 import { Account } from './components/personal_account/Account'
-import RequireAuth from './store/api/RequireAuth'
+import RequireAuth from './components/RequireAuth'
 import { useEffect } from 'react'
 
 function App() {

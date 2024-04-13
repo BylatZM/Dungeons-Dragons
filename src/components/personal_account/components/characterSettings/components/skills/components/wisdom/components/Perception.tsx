@@ -2,20 +2,25 @@ import { FC, useEffect, useState } from 'react'
 import { CheckBox } from '../../../ability/CheckBox'
 import { Input } from '../../../ability/Input'
 import { useTypedSelector } from '../../../../../../../../hooks/useTypedSelection'
-import { IUpdatingFields } from '../../../../../../../../../types'
+import {
+	ICharacterUpdate,
+	IUpdatingFields
+} from '../../../../../../../../../types'
 import { useActions } from '../../../../../../../../hooks/useActions'
+import { useUpdateCharacterMutation } from '../../../../../../../../../store/api/characterApiSlice'
 
 interface IProps {
-	makeUpdateRequest: (
-		updatingField: IUpdatingFields,
-		new_value: number
-	) => Promise<void>
+	calculateNewValueConsiderBonus: (
+		modifierValue: string,
+		bonusValue: number
+	) => string
 }
 
-export const Perception: FC<IProps> = ({ makeUpdateRequest }) => {
+export const Perception: FC<IProps> = ({ calculateNewValueConsiderBonus }) => {
 	const { currentCharacterInfo, isInitializedData } = useTypedSelector(
 		state => state.Character
 	)
+	const [updateCharacter] = useUpdateCharacterMutation()
 	const { CharacterSaveApiResponse } = useActions()
 	const [perception, changePerception] = useState('0')
 
@@ -36,12 +41,47 @@ export const Perception: FC<IProps> = ({ makeUpdateRequest }) => {
 		})
 	}, [perception])
 
+	const makeUpdateRequest = async (
+		updatingField: IUpdatingFields,
+		new_value: number
+	) => {
+		let updateData: ICharacterUpdate = {
+			characterId: currentCharacterInfo.id,
+			newValues: {}
+		}
+		if (updatingField === 'perception')
+			updateData = {
+				...updateData,
+				newValues: {
+					...updateData.newValues,
+					perception: new_value
+				}
+			}
+		if (updatingField === 'perceptionBonus') {
+			const newPerceptionValue = calculateNewValueConsiderBonus(
+				perception,
+				new_value
+			)
+			changePerception(newPerceptionValue)
+			updateData = {
+				...updateData,
+				newValues: {
+					...updateData.newValues,
+					perceptionBonus: new_value,
+					perception: parseInt(newPerceptionValue)
+				}
+			}
+		}
+		if (Object.keys(updateData.newValues).length !== 0) {
+			await updateCharacter(updateData).unwrap()
+		}
+	}
+
 	return (
 		<div className='flex items-center w-full h-min'>
 			<CheckBox
-				inputValue={perception}
-				changeInputValue={changePerception}
-				updatingField={'perception'}
+				bonusValue={currentCharacterInfo.modifiers.bonuses.perceptionBonus}
+				updatingField={'perceptionBonus'}
 				makeUpdateRequest={makeUpdateRequest}
 			/>
 			<Input

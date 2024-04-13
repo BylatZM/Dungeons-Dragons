@@ -7,6 +7,7 @@ import { CharacterGrade } from './components/CharacterGrade'
 import { CharacterRace } from './components/CharacterRace'
 import { ICharacterCreateForm } from '../../../../types'
 import { createCharacter } from '../../../../store/api/characterApiSlice'
+import { useActions } from '../../../hooks/useActions'
 
 interface IProps {
 	needToShow: boolean
@@ -28,6 +29,7 @@ export const CreatingCharacter: FC<IProps> = ({
 		useState<ICharacterCreateForm>(defaultFormData)
 	const [imageSrc, setImageSrc] = useState<string | null>(null)
 	const [isCharacterCreating, setIsCharacterCreating] = useState(false)
+	const { AuthSessionStatus } = useActions()
 
 	const makeRequest = async () => {
 		if (!formData.name || !formData.race) {
@@ -48,7 +50,7 @@ export const CreatingCharacter: FC<IProps> = ({
 			setImageSrc(null)
 			changeFormData(defaultFormData)
 			changeNeedShowFrame(false)
-		}
+		} else AuthSessionStatus('expired')
 	}
 
 	return (
@@ -91,6 +93,7 @@ export const CreatingCharacter: FC<IProps> = ({
 								changeFormData(defaultFormData)
 								setImageSrc(null)
 								changeNeedShowFrame(false)
+								document.documentElement.style.overflowY = 'auto'
 							}}
 						>
 							<div className='absolute inset-0 w-full h-full'>

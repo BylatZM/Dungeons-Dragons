@@ -1,3 +1,4 @@
+import { FC } from 'react'
 import { useUpdateCharacterMutation } from '../../../../../../../../store/api/characterApiSlice'
 import {
 	ICharacterUpdate,
@@ -11,7 +12,14 @@ import { Acrobatics } from './components/Acrobatics'
 import { SleightOfHand } from './components/SleightOfHand'
 import { Stealth } from './components/Stealth'
 
-export const Dexterity = () => {
+interface IProps {
+	calculateNewValueConsiderBonus: (
+		modifierValue: string,
+		bonusValue: number
+	) => string
+}
+
+export const Dexterity: FC<IProps> = ({ calculateNewValueConsiderBonus }) => {
 	const { currentCharacterInfo } = useTypedSelector(state => state.Character)
 	const { CharacterSaveApiResponse } = useActions()
 	const [updateCharacter] = useUpdateCharacterMutation()
@@ -39,30 +47,6 @@ export const Dexterity = () => {
 					dexterity: new_value
 				}
 			}
-		if (updatingField === 'acrobatics')
-			updateData = {
-				...updateData,
-				newValues: {
-					...updateData.newValues,
-					acrobatics: new_value
-				}
-			}
-		if (updatingField === 'sleightOfHand')
-			updateData = {
-				...updateData,
-				newValues: {
-					...updateData.newValues,
-					sleightOfHand: new_value
-				}
-			}
-		if (updatingField === 'stealth')
-			updateData = {
-				...updateData,
-				newValues: {
-					...updateData.newValues,
-					stealth: new_value
-				}
-			}
 		if (Object.keys(updateData.newValues).length !== 0) {
 			await updateCharacter(updateData).unwrap()
 		}
@@ -80,9 +64,15 @@ export const Dexterity = () => {
 				/>
 			</div>
 			<div className='flex flex-col w-full h-min' style={{ color: '#dedede' }}>
-				<Acrobatics makeUpdateRequest={makeUpdateRequest} />
-				<SleightOfHand makeUpdateRequest={makeUpdateRequest} />
-				<Stealth makeUpdateRequest={makeUpdateRequest} />
+				<Acrobatics
+					calculateNewValueConsiderBonus={calculateNewValueConsiderBonus}
+				/>
+				<SleightOfHand
+					calculateNewValueConsiderBonus={calculateNewValueConsiderBonus}
+				/>
+				<Stealth
+					calculateNewValueConsiderBonus={calculateNewValueConsiderBonus}
+				/>
 			</div>
 		</SkillWrapper>
 	)

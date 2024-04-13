@@ -53,7 +53,28 @@ const defaultCharacterInfo: ICharacterInfo = {
 		performance: 0,
 		intimidation: 0,
 		fraud: 0,
-		conviction: 0
+		conviction: 0,
+		bonuses: {
+			id: 0,
+			athleticsBonus: 0,
+			acrobaticsBonus: 0,
+			sleightOfHandBonus: 0,
+			stealthBonus: 0,
+			perceptionBonus: 0,
+			survivalBonus: 0,
+			medicineBonus: 0,
+			insightBonus: 0,
+			animalCareBonus: 0,
+			analysisBonus: 0,
+			historyBonus: 0,
+			magicBonus: 0,
+			natureBonus: 0,
+			religionBonus: 0,
+			performanceBonus: 0,
+			intimidationBonus: 0,
+			fraudBonus: 0,
+			convictionBonus: 0
+		}
 	}
 }
 

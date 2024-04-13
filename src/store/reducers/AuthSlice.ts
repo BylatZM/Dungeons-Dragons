@@ -7,7 +7,8 @@ const initialState: IAuthState = {
 	id: 0,
 	username: '',
 	password: '',
-	error: null
+	error: null,
+	sessionStatus: null
 }
 
 export const AuthSlice = createSlice({
@@ -23,6 +24,12 @@ export const AuthSlice = createSlice({
 			state.username = payload.username
 			state.error = null
 		},
+		AuthSessionStatus: (
+			state,
+			{ payload }: PayloadAction<'expired' | null>
+		) => {
+			state.sessionStatus = payload
+		},
 		AuthSaveToken: (state, { payload }: PayloadAction<string>) => {
 			state.token = payload
 		},
@@ -36,8 +43,6 @@ export const AuthSlice = createSlice({
 			state.error = payload
 		},
 		AuthClear: (state): IAuthState => {
-			alert('Срок жизни сессии истек')
-			localStorage.clear()
 			return initialState
 		}
 	}
@@ -49,7 +54,8 @@ export const {
 	AuthUpdatePassword,
 	AuthUpdateUsername,
 	AuthSaveApiResponse,
-	AuthSaveToken
+	AuthSaveToken,
+	AuthSessionStatus
 } = AuthSlice.actions
 
 export default AuthSlice.reducer

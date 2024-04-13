@@ -27,7 +27,7 @@ export const Header = () => {
 			</div>
 			<div
 				className={clsx(
-					'transitionFast fixed right-[67px] top-[66px] w-[210px] overflow-hidden z-10 bg-main text-white rounded-md flex flex-col items-center',
+					'transitionFast fixed right-[40px] top-[66px] w-[210px] overflow-hidden z-10 bg-main text-white rounded-md flex flex-col items-center',
 					isMenuActive ? 'h-[80px] p-[10px]' : 'h-0 p-0'
 				)}
 			>

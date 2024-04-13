@@ -3,20 +3,25 @@ import { Input } from '../../../ability/Input'
 import { CheckBox } from '../../../ability/CheckBox'
 import { useTypedSelector } from '../../../../../../../../hooks/useTypedSelection'
 import { useActions } from '../../../../../../../../hooks/useActions'
-import { IUpdatingFields } from '../../../../../../../../../types'
+import {
+	ICharacterUpdate,
+	IUpdatingFields
+} from '../../../../../../../../../types'
+import { useUpdateCharacterMutation } from '../../../../../../../../../store/api/characterApiSlice'
 
 interface IProps {
-	makeUpdateRequest: (
-		updatingField: IUpdatingFields,
-		new_value: number
-	) => Promise<void>
+	calculateNewValueConsiderBonus: (
+		modifierValue: string,
+		bonusValue: number
+	) => string
 }
 
-export const Fraud: FC<IProps> = ({ makeUpdateRequest }) => {
+export const Fraud: FC<IProps> = ({ calculateNewValueConsiderBonus }) => {
 	const { currentCharacterInfo, isInitializedData } = useTypedSelector(
 		state => state.Character
 	)
 	const { CharacterSaveApiResponse } = useActions()
+	const [updateCharacter] = useUpdateCharacterMutation()
 	const [fraud, changeFraud] = useState('0')
 
 	useEffect(() => {
@@ -36,12 +41,44 @@ export const Fraud: FC<IProps> = ({ makeUpdateRequest }) => {
 		})
 	}, [fraud])
 
+	const makeUpdateRequest = async (
+		updatingField: IUpdatingFields,
+		new_value: number
+	) => {
+		let updateData: ICharacterUpdate = {
+			characterId: currentCharacterInfo.id,
+			newValues: {}
+		}
+		if (updatingField === 'fraud')
+			updateData = {
+				...updateData,
+				newValues: {
+					...updateData.newValues,
+					fraud: new_value
+				}
+			}
+		if (updatingField === 'fraudBonus') {
+			const newFraudValue = calculateNewValueConsiderBonus(fraud, new_value)
+			changeFraud(newFraudValue)
+			updateData = {
+				...updateData,
+				newValues: {
+					...updateData.newValues,
+					fraudBonus: new_value,
+					fraud: parseInt(newFraudValue)
+				}
+			}
+		}
+		if (Object.keys(updateData.newValues).length !== 0) {
+			await updateCharacter(updateData).unwrap()
+		}
+	}
+
 	return (
 		<div className='flex w-full h-min'>
 			<CheckBox
-				inputValue={fraud}
-				changeInputValue={changeFraud}
-				updatingField={'fraud'}
+				bonusValue={currentCharacterInfo.modifiers.bonuses.fraudBonus}
+				updatingField={'fraudBonus'}
 				makeUpdateRequest={makeUpdateRequest}
 			/>
 			<Input

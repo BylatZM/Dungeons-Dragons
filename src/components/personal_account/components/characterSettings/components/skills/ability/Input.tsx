@@ -25,9 +25,13 @@ export const Input: FC<IProps> = ({
 			value={!inputValue ? '' : inputValue}
 			onBlur={e => {
 				const value = parseInt(e.target.value)
-				if (isNaN(value)) changeInputValue('0')
-				else changeInputValue(e.target.value)
-				makeUpdateRequest(updatingField, parseInt(e.target.value))
+				if (isNaN(value)) {
+					changeInputValue('0')
+					makeUpdateRequest(updatingField, 0)
+				} else {
+					changeInputValue(e.target.value)
+					makeUpdateRequest(updatingField, parseInt(e.target.value))
+				}
 			}}
 			onChange={e => {
 				if (

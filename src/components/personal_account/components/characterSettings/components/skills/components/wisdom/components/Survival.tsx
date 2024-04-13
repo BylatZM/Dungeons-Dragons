@@ -3,19 +3,24 @@ import { CheckBox } from '../../../ability/CheckBox'
 import { Input } from '../../../ability/Input'
 import { useActions } from '../../../../../../../../hooks/useActions'
 import { useTypedSelector } from '../../../../../../../../hooks/useTypedSelection'
-import { IUpdatingFields } from '../../../../../../../../../types'
+import {
+	ICharacterUpdate,
+	IUpdatingFields
+} from '../../../../../../../../../types'
+import { useUpdateCharacterMutation } from '../../../../../../../../../store/api/characterApiSlice'
 
 interface IProps {
-	makeUpdateRequest: (
-		updatingField: IUpdatingFields,
-		new_value: number
-	) => Promise<void>
+	calculateNewValueConsiderBonus: (
+		modifierValue: string,
+		bonusValue: number
+	) => string
 }
 
-export const Survival: FC<IProps> = ({ makeUpdateRequest }) => {
+export const Survival: FC<IProps> = ({ calculateNewValueConsiderBonus }) => {
 	const { currentCharacterInfo, isInitializedData } = useTypedSelector(
 		state => state.Character
 	)
+	const [updateCharacter] = useUpdateCharacterMutation()
 	const { CharacterSaveApiResponse } = useActions()
 	const [survival, changeSurvival] = useState('0')
 
@@ -36,12 +41,47 @@ export const Survival: FC<IProps> = ({ makeUpdateRequest }) => {
 		})
 	}, [survival])
 
+	const makeUpdateRequest = async (
+		updatingField: IUpdatingFields,
+		new_value: number
+	) => {
+		let updateData: ICharacterUpdate = {
+			characterId: currentCharacterInfo.id,
+			newValues: {}
+		}
+		if (updatingField === 'survival')
+			updateData = {
+				...updateData,
+				newValues: {
+					...updateData.newValues,
+					survival: new_value
+				}
+			}
+		if (updatingField === 'survivalBonus') {
+			const newSurvivalValue = calculateNewValueConsiderBonus(
+				survival,
+				new_value
+			)
+			changeSurvival(newSurvivalValue)
+			updateData = {
+				...updateData,
+				newValues: {
+					...updateData.newValues,
+					survivalBonus: new_value,
+					survival: parseInt(newSurvivalValue)
+				}
+			}
+		}
+		if (Object.keys(updateData.newValues).length !== 0) {
+			await updateCharacter(updateData).unwrap()
+		}
+	}
+
 	return (
 		<div className='flex items-center w-full h-min'>
 			<CheckBox
-				inputValue={survival}
-				changeInputValue={changeSurvival}
-				updatingField={'survival'}
+				bonusValue={currentCharacterInfo.modifiers.bonuses.survivalBonus}
+				updatingField={'survivalBonus'}
 				makeUpdateRequest={makeUpdateRequest}
 			/>
 			<Input

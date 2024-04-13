@@ -3,19 +3,24 @@ import { CheckBox } from '../../../ability/CheckBox'
 import { Input } from '../../../ability/Input'
 import { useTypedSelector } from '../../../../../../../../hooks/useTypedSelection'
 import { useActions } from '../../../../../../../../hooks/useActions'
-import { IUpdatingFields } from '../../../../../../../../../types'
+import {
+	ICharacterUpdate,
+	IUpdatingFields
+} from '../../../../../../../../../types'
+import { useUpdateCharacterMutation } from '../../../../../../../../../store/api/characterApiSlice'
 
 interface IProps {
-	makeUpdateRequest: (
-		updatingField: IUpdatingFields,
-		new_value: number
-	) => Promise<void>
+	calculateNewValueConsiderBonus: (
+		modifierValue: string,
+		bonusValue: number
+	) => string
 }
 
-export const AnimalCare: FC<IProps> = ({ makeUpdateRequest }) => {
+export const AnimalCare: FC<IProps> = ({ calculateNewValueConsiderBonus }) => {
 	const { currentCharacterInfo, isInitializedData } = useTypedSelector(
 		state => state.Character
 	)
+	const [updateCharacter] = useUpdateCharacterMutation()
 	const { CharacterSaveApiResponse } = useActions()
 	const [animalCare, changeAnimalCare] = useState('0')
 
@@ -36,12 +41,47 @@ export const AnimalCare: FC<IProps> = ({ makeUpdateRequest }) => {
 		})
 	}, [animalCare])
 
+	const makeUpdateRequest = async (
+		updatingField: IUpdatingFields,
+		new_value: number
+	) => {
+		let updateData: ICharacterUpdate = {
+			characterId: currentCharacterInfo.id,
+			newValues: {}
+		}
+		if (updatingField === 'animalCare')
+			updateData = {
+				...updateData,
+				newValues: {
+					...updateData.newValues,
+					animalCare: new_value
+				}
+			}
+		if (updatingField === 'animalCareBonus') {
+			const newAnimalCareValue = calculateNewValueConsiderBonus(
+				animalCare,
+				new_value
+			)
+			changeAnimalCare(newAnimalCareValue)
+			updateData = {
+				...updateData,
+				newValues: {
+					...updateData.newValues,
+					animalCareBonus: new_value,
+					animalCare: parseInt(newAnimalCareValue)
+				}
+			}
+		}
+		if (Object.keys(updateData.newValues).length !== 0) {
+			await updateCharacter(updateData).unwrap()
+		}
+	}
+
 	return (
 		<div className='flex items-center w-full h-min'>
 			<CheckBox
-				inputValue={animalCare}
-				changeInputValue={changeAnimalCare}
-				updatingField={'animalCare'}
+				bonusValue={currentCharacterInfo.modifiers.bonuses.animalCareBonus}
+				updatingField={'animalCareBonus'}
 				makeUpdateRequest={makeUpdateRequest}
 			/>
 			<Input

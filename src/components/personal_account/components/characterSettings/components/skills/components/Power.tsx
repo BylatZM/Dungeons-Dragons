@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { CheckBox } from '../ability/CheckBox'
 import { Input } from '../ability/Input'
 import { GeneralInput } from './GeneralInput'
@@ -8,10 +8,18 @@ import { useTypedSelector } from '../../../../../../hooks/useTypedSelection'
 import { useActions } from '../../../../../../hooks/useActions'
 import { useUpdateCharacterMutation } from '../../../../../../../store/api/characterApiSlice'
 
-export const Power = () => {
+interface IProps {
+	calculateNewValueConsiderBonus: (
+		modifierValue: string,
+		bonusValue: number
+	) => string
+}
+
+export const Power: FC<IProps> = ({ calculateNewValueConsiderBonus }) => {
 	const { currentCharacterInfo, isInitializedData } = useTypedSelector(
 		state => state.Character
 	)
+
 	const { CharacterSaveApiResponse } = useActions()
 	const [updateCharacter] = useUpdateCharacterMutation()
 	const [athletics, changeAthletics] = useState('0')
@@ -48,6 +56,21 @@ export const Power = () => {
 			characterId: currentCharacterInfo.id,
 			newValues: {}
 		}
+		if (updatingField === 'athleticsBonus') {
+			const newAthleticsValue = calculateNewValueConsiderBonus(
+				athletics,
+				new_value
+			)
+			changeAthletics(newAthleticsValue)
+			updateData = {
+				...updateData,
+				newValues: {
+					...updateData.newValues,
+					athleticsBonus: new_value,
+					athletics: parseInt(newAthleticsValue)
+				}
+			}
+		}
 		if (updatingField === 'strength')
 			updateData = {
 				...updateData,
@@ -82,9 +105,8 @@ export const Power = () => {
 			</div>
 			<div className='flex w-full h-min' style={{ color: '#dedede' }}>
 				<CheckBox
-					inputValue={athletics}
-					changeInputValue={changeAthletics}
-					updatingField={'athletics'}
+					bonusValue={currentCharacterInfo.modifiers.bonuses.athleticsBonus}
+					updatingField={'athleticsBonus'}
 					makeUpdateRequest={makeUpdateRequest}
 				/>
 				<Input
