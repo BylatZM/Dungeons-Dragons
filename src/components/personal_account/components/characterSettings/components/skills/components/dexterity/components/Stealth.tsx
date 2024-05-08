@@ -75,7 +75,7 @@ export const Stealth: FC<IProps> = ({ calculateNewValueConsiderBonus }) => {
 	}
 
 	return (
-		<div className='flex items-center w-full h-min'>
+		<div className='flex items-center w-full h-[50px]'>
 			<CheckBox
 				bonusValue={currentCharacterInfo.modifiers.bonuses.stealthBonus}
 				updatingField={'stealthBonus'}
@@ -87,7 +87,7 @@ export const Stealth: FC<IProps> = ({ calculateNewValueConsiderBonus }) => {
 				updatingField={'stealth'}
 				makeUpdateRequest={makeUpdateRequest}
 			/>
-			<span className='font-bold'>Скрытность рук</span>
+			<span className='font-bold'>Скрытность</span>
 		</div>
 	)
 }

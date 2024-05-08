@@ -109,7 +109,7 @@ export const Parchment: FC<IProps> = ({
 	return (
 		<button
 			className={clsx(
-				'transitionGeneral outline-none border-none fixed inset-0 min-h-screen bg-gray-300 bg-opacity-60 backdrop-blur-3xl z-[60] overflow-hidden flex justify-start items-end',
+				'transitionGeneral outline-none border-none fixed inset-0 min-h-screen bg-black bg-opacity-60 z-[60] overflow-hidden flex justify-start items-end',
 				needShow ? 'w-full' : 'w-0'
 			)}
 			onClick={() => {

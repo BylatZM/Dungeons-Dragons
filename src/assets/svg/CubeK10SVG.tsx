@@ -39,7 +39,7 @@ export const CubeK10SVG: FC<IProps> = ({
 						stroke='white'
 					/>
 				</svg>
-				<span className='text-xs text-white'>K8</span>
+				<span className='text-xs text-white'>K10</span>
 			</div>
 		</button>
 	)

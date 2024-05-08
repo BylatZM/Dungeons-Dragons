@@ -16,7 +16,7 @@ export const CharacterSetting = () => {
 				isInitializedData ? ' h-full' : 'h-0'
 			)}
 		>
-			<div className='w-full min-h-screen overflow-y-auto flex justify-center relative overflow-hidden backdrop-blur-lg bg-opacity-30'>
+			<div className='w-full min-h-screen overflow-y-auto flex justify-center relative overflow-hidden bg-black backdrop-blur-2xl bg-opacity-50'>
 				<div className='absolute inset-x-0 top-0 bg-main w-full border-0 border-b-2 border-b-white flex justify-center z-[15]'>
 					<div className='flex justify-between min-w-[1400px] max-w-[1400px] py-3'>
 						<span className='text-4xl text-white'>Character Forge</span>
